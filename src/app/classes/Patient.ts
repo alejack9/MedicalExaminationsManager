@@ -3,5 +3,5 @@ export class Patient{
     name: string;
     surname: string;
     examType: string;
-    date: number;
+    date: string;
 }

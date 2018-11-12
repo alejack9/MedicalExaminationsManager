@@ -1,7 +1,7 @@
-<h1>Visualizza Lista Pazienti</h1>
+<h1>View Patient List</h1>
 <div>
-  <input type = "date" id = "data"><br><br>
-  <button type="submit" (click) = 'onSelect(data.value)'>Invia</button>
+  <input #data (keyup.enter) = "search(data.value)" (blur)="search(data.value); data.value='' "
+   type = "date" id="str"><br><br>
+  <button (click) = 'onSelect(data.value)'>Invia</button><br><br>
+  <ul><li *ngFor="let patient of patients">{{patient.name}} {{patient.surname}} {{patient.examType}}</li></ul>
 </div>
-
-<app-patient-list  [patient]="selectedPatient"></app-patient-list>
