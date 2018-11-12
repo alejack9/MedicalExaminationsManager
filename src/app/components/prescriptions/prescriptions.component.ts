@@ -9,8 +9,9 @@ import { PrescriptionFormComponent } from 'src/app/components/prescription-form/
   styleUrls: ['./prescriptions.component.css']
 })
 export class PrescriptionsComponent implements OnInit {
-
+  idscelto: string;
   timeToAdd = 0;
+  timeToBook = 0;
   prescriptions: Prescription[];
 
   constructor(private prescriptionService: PrescriptionService) { }
@@ -20,11 +21,17 @@ export class PrescriptionsComponent implements OnInit {
   }
 
   getPrescriptions(): void{
-    this.prescriptionService.getPrescriptions().subscribe(prescriptions => this.prescriptions = prescriptions)
+    this.prescriptionService.getPrescriptions().subscribe(prescriptions => this.prescriptions = prescriptions);
   }
 
   itsTimeToAdd() : void {
     this.timeToAdd = 1 ;
+  }
+
+  enableBooking(id: string):void {
+    this.timeToBook = 1;
+    this.idscelto = id;
+
   }
 
 }

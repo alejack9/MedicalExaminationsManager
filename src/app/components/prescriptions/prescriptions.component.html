@@ -1,8 +1,8 @@
 <h2>
 Lista Ricette  
 </h2>
-<ul>
-  <li *ngFor="let pr of prescriptions">
+<ul class="prescriptions">
+  <li *ngFor="let pr of prescriptions" (click)= 'enableBooking(pr.ID)'>
   {{pr.ID}} 
   </li>
 </ul>
@@ -10,5 +10,12 @@ Lista Ricette
 <div *ngIf = "timeToAdd">
     <br>
     <app-prescription-form></app-prescription-form>
+    <br>
+</div>
+<div *ngIf = "timeToBook">
+    <br>
+    <button class="btn btn-success"> prenota </button> con {{idscelto}}
+
+   
     <br>
 </div>

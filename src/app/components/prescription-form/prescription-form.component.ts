@@ -12,4 +12,9 @@ export class PrescriptionFormComponent implements OnInit {
   ngOnInit() {
   }
 
+  submitted = false;
+
+  onSubmit(): void { 
+    this.submitted = true;
+  }
 }
