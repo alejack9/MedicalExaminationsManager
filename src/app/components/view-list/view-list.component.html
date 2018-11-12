@@ -1,0 +1,7 @@
+<h1>Visualizza Lista Pazienti</h1>
+<div>
+  <input type = "date" id = "data"><br><br>
+  <button type="submit" (click) = 'onSelect(data.value)'>Invia</button>
+</div>
+
+<app-patient-list  [patient]="selectedPatient"></app-patient-list>
