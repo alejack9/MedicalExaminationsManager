@@ -1,0 +1,33 @@
+
+<h2>My Visits</h2>
+<!-- <ul class="patients">
+  <li *ngFor="let patient of patients"
+    [class.selected]="patient === selectedPatient"
+    (click)="onSelect(patient)">
+    <span class="badge">{{patient.id}}</span> {{patient.nome}}
+  </li>
+</ul> -->
+
+<div class="dropdown">
+  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Seleziona Visita
+  <span class="caret"></span></button>
+  <ul class="dropdown-menu">
+    <li><a href="#" (click)=" effettuate = true "> effettuate</a></li>
+    <li><a href="#" (click)=" effettuate = false "> da fare</a></li>
+  </ul>
+</div>
+
+
+  <div *ngFor="let visit of filter()" >
+    {{visit.luogo}}
+  </div>
+
+
+
+
+<!-- <ul class="visits">
+  <li *ngFor="let visit of visits">
+    <span>Visita: </span>{{visit.tipo}} , {{visit.luogo}}, {{visit.Data.toString()  }}
+  </li>
+</ul> -->
+
