@@ -1,9 +1,17 @@
-<div class="container">
+<div class="input-group mb-3">
+    <input type="text" class="form-control" placeholder="Codice ricetta" aria-describedby="basic-addon2" id="codPrescription" required>
+    <div class="input-group-append">
+      <button class="btn btn-outline-secondary" type="button" (click)="checkCode(codPrescription)"> Invia </button>
+    </div>
+  </div>
+
+<!--<div class="container">
 <form>
       <div class= "form-group" >
         <label for="codPrescription"> Inserisci codice ricetta  </label>
-        <input type="text"  class="form-control" id="codPrescription" required>
+        <input type="text"  class="btn btn-outline-primary" id="codPrescription" required>
       </div>
       <button type="submit" class="btn btn-success">Submit</button>
     </form>
 </div>
+-->
