@@ -13,9 +13,9 @@ export class PrescriptionService {
   getPrescriptions(): Observable<Prescription[]> {
   return of(LISTPRESCRIPTIONS);
   }
-
+// code length must be 14
   checkPrescription(cod:string):boolean {
-    if (cod === "111") return false;
+    if (cod.length != 14 )  return false;
     return true;
   }
 

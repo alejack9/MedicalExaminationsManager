@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container float-left" >
     <h2>
     Lista Ricette  
     </h2>
@@ -12,25 +12,15 @@
 
 <div *ngIf = "timeToAdd">
     <br>
-    <form class="input-group mb-3">
-        <input #codeP type="text" class="form-control" placeholder="Codice ricetta" aria-describedby="basic-addon2" id="codPrescription" required>
-        <div class="input-group-append">
-          <button class="btn btn-outline-secondary" type="button" (click)="checkCode(codeP.value)"> Invia </button>
-        </div>
-    </form>
-    <div *ngIf= "OKcode == false" class="alert alert-primary" role="alert">
-        {{errormessage}}
-    </div>
-    <div *ngIf= "OKcode == true" class="alert alert-success" role="alert">
-        Codice ricetta aggiunto!
-    </div>
-   <!-- <app-prescription-form></app-prescription-form> -->
-    <br>
+    <app-add-prescription></app-add-prescription>
 </div>
 
 <div *ngIf = "timeToBook">
     <br>
-    <button class="btn btn-outline-primary"> prenota </button> utilizzando la ricetta con codice {{idscelto}}
+    <a routerLink = "/booking" >
+        <button class="btn btn-outline-primary"> prenota </button> 
+    </a >
+    utilizzando la ricetta con codice {{idscelto}}
     <br>
 </div>
 </div>
