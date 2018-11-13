@@ -14,7 +14,9 @@ import { BookingComponent } from './components/booking/booking.component';
     PrescriptionsComponent,
     AddPrescriptionComponent,
     BookingComponent,
-    ViewListComponent
+    ViewListComponent,
+    LoginViewComponent,
+    PasswordDirective
   ],
   imports: [
     BrowserModule,
