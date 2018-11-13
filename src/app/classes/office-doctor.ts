@@ -1,6 +1,7 @@
 import { User } from './user';
 import { Role } from './role';
-export class Patient implements Role {
+
+export class OfficeDoctor implements Role {
 
   constructor(private _id: number, private _password: string, private _user: User) { }
 
@@ -8,5 +9,5 @@ export class Patient implements Role {
   getPassword(): string { return this._password; }
   getUser(): User { return this._user; }
   getRole(): Role { return this; }
-  toString(): string { return 'Paziente'; }
+  toString(): string { return 'Dottore d\'Ufficio'; }
 }

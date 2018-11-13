@@ -1,0 +1,26 @@
+<div class="container float-left" >
+    <h2>
+    Lista Ricette  
+    </h2>
+    <div class="list-group">
+        <button *ngFor="let pr of prescriptions" (click)= 'enableBooking(pr.ID)' type="button" class="list-group-item list-group-item-action">
+          {{pr.ID}}
+        </button>
+      </div>
+<br>
+<button (click) = itsTimeToAdd() class="btn btn-outline-primary" > Aggiungi ricetta </button>
+
+<div *ngIf = "timeToAdd">
+    <br>
+    <app-add-prescription></app-add-prescription>
+</div>
+
+<div *ngIf = "timeToBook">
+    <br>
+    <a routerLink = "/booking" >
+        <button class="btn btn-outline-primary"> prenota </button> 
+    </a >
+    utilizzando la ricetta con codice {{idscelto}}
+    <br>
+</div>
+</div>
