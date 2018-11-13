@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PATIENTS } from 'src/app/components/patient-list';
-import { Patient } from 'src/app/classes/Patient';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { PatientControllerService } from 'src/app/services/patient-controller.service';
 
 @Component({
   selector: 'app-view-list',
@@ -10,26 +8,22 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 })
 export class ViewListComponent implements OnInit {
 
-  i: number;
+  x: number;
+  p: PatientControllerService;
+  patients = [];
+  error: boolean;
 
-  constructor() { }
+  constructor(private patientController: PatientControllerService) { }
 
   ngOnInit() {
   }
-
-  patients = [];
-  error: string;
   
-  search(date: any) 
+  onSelect(date: any): void
   {
-    this.patients = [];
+    this.error = false;
+    this.patientController.search(date).subscribe(patients => this.patients = patients);
 
-    for(this.i = 0; this.i < PATIENTS.length; this.i++)
-    {
-      if(PATIENTS[this.i].date == date)
-        this.patients.push(PATIENTS[this.i]);
-      else if(this.patients.length == 0 && this.i == PATIENTS.length)
-        this.patients.push("Nobody patient for the chosen day");
-    }
+    if(this.patients.length == 0)
+      this.error = true;
   }
 }
