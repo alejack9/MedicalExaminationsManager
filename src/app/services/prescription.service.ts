@@ -13,4 +13,13 @@ export class PrescriptionService {
   getPrescriptions(): Observable<Prescription[]> {
   return of(LISTPRESCRIPTIONS);
   }
+
+  checkPrescription(cod:string):boolean {
+    if (cod === "111") return false;
+    return true;
+  }
+
+  addPrescription(cod:string):void{
+    LISTPRESCRIPTIONS.push({ID: cod});
+  }
 }
