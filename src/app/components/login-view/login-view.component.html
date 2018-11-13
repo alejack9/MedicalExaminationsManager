@@ -1,27 +1,64 @@
+<div class="alert alert-success myalert" [class.hidden]="isBannerHidden === true">
+    <button type="button" class="close" data-dismiss="alert" (click)="isBannerHidden=true">&times;</button>
+    <strong>Successo!</strong><br />
+    Ora sei loggato.
+</div>
+<!-- Fine alert -->
+<!-- Template card -->
 <div class="card mx-auto mt-5" style="width: 30%;">
   <div class="card-header bg-secondary text-light">
-    Login</div>
+    <ng-container *ngIf="isLogged(); then loggedHeader; else unloggedHeader"></ng-container>
+  </div>
   <div class="card-body bg-light">
-    <form (submit)="checkCredentials(id.value, password.value)" class="card-text w-75 mx-auto">
-      <div class="form-group">
-        <label for="id">ID</label><span class="text-danger" *ngIf="id.touched && !id.valid"> *</span>
-        <input
-          type="text"
-          ngModel name="id" #id="ngModel" id="id"
-          required
-          class="form-control" />
-      </div>
-      <div class="form-group mb-0">
-        <label for="password">Password</label><span class="text-danger" *ngIf="password.touched && !password.valid"> *</span>
-        <input
-          type="password"
-          ngModel name="password" #password="ngModel"
-          required
-          class="form-control"
-          id="password"
-          appPassword />
-      </div>
-      <input type="submit" class="btn btn-secondary" [disabled]="!(id.valid && password.valid)" [class.disabled]="!(id.valid && password.valid)" value="Accedi" />
-    </form>
+    <ng-container *ngIf="isLogged(); then loggedBody; else unloggedBody"></ng-container>
   </div>
 </div>
+<!-- Fine template card -->
+<!-- unlogged body template -->
+<ng-template #unloggedBody>
+  <form (submit)="checkCredentials(id.value, password.value)" class="card-text w-75 mx-auto">
+    <div class="form-group">
+      <label for="id">ID</label><span class="text-danger" *ngIf="id.touched && !id.valid"> *</span>
+      <input type="text"
+        ngModel name="id" #id="ngModel" id="id"
+        required pattern="^[0-9]*$" minlength="4"
+        class="form-control"
+      />
+      <div class="alert alert-danger"
+        *ngIf="id.touched && !id.valid && !id.errors.required">
+        <div *ngIf="id.errors.minlength"> Gli ID hanno almeno 4 cifre. </div>
+        <div *ngIf="id.errors.pattern">   Sono accettati solo i numeri.  </div>
+      </div>
+    </div>
+    <div class="form-group mb-0">
+      <label for="password">Password</label><span class="text-danger" *ngIf="password.touched && !password.valid"> *</span>
+      <input type="password"
+        ngModel name="password" #password="ngModel"
+        required
+        class="form-control"
+        id="password"
+        appPassword
+      />
+    </div>
+    <div class="form-group">
+      <input type="submit"
+        class="btn btn-secondary" [class.disabled]="!(id.valid && password.valid)"
+        [disabled]="!(id.valid && password.valid)"
+        value="Accedi"
+      />
+      <span class="alert text-danger" *ngIf="this.role === null">Nome utente o password errati.</span>
+    </div>
+  </form>
+</ng-template>
+<!-- Fine unlogged body template -->
+<!-- logged body template -->
+<ng-template #loggedBody>
+  ID: {{ role.getId() }}<br />
+  Nome Completo: {{ role.getUser().surname + ' ' + role.getUser().name }}<br />
+  Data di nascita: {{ role.getUser().birthDay | date }}<br />
+  Ruolo: {{ role.getRole().toString() }}<br />
+
+</ng-template>
+<!-- Fine logged body template -->
+<ng-template #unloggedHeader>Login</ng-template>
+<ng-template #loggedHeader>Scheda utente {{ role.getUser().name + ' ' + role.getUser().surname + ' (' + role.getId() + ')' | uppercase }}</ng-template>
