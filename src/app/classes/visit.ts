@@ -2,13 +2,12 @@ import { Patient } from './patient';
 
 export class Visit {
 
-  constructor(private _patient: Patient, private _tipo: string, private _luogo: string, private _data: Date, private _id: number) {
-    this._patient = _patient;
-    this._tipo = _tipo;
-    this._luogo = _luogo;
-    this._data = new Date(_data);
-    this._id =  _id;
-  }
+  constructor(
+    private _tipo: string,
+    private _luogo: string,
+    private _data: Date,
+    private _id: number,
+    private _effettuata: boolean) { }
 
   get tipo(): string {
     return this._tipo;
@@ -18,6 +17,14 @@ export class Visit {
   }
   get Data(): Date {
     return this._data;
+  }
+
+  get effettuata(): boolean {
+    return this._effettuata;
+  }
+
+  set effettuata(valore: boolean) {
+      this._effettuata = valore;
   }
 
   // public toString() {

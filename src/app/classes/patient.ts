@@ -1,19 +1,39 @@
+import { Visit } from './visit';
+
 export class Patient {
 
+
   // field
-  nome: string;
-  cognome: string;
-  id: number;
+
 
   // constructor
-  constructor(nome: string, cognome: string, id: number ) {
-    this.nome = nome;
-    this.cognome = cognome;
-    this.id = id;
+  constructor(private _nome: string, private  _cognome: string, private  _id: number , private  _visit?: Visit) {
+    this._nome = _nome;
+    this._cognome = _cognome;
+    this._id = _id;
+    this._visit = _visit;
   }
+
+
+  get nome(): string {
+    return this._nome;
+  }
+  get cognome(): string {
+    return this._cognome;
+  }
+  get id(): number {
+    return this._id;
+  }
+  get visit(): Visit {
+    return this._visit;
+  }
+
+
+
+
 
   // function
   Print(): void {
-    console.log(this.nome + ' ' + this.cognome + ' ' + this.id);
+    console.log(this._nome + ' ' + this._cognome + ' ' + this._id);
   }
 }
