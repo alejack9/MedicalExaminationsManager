@@ -23,10 +23,6 @@ export class Visit {
     return this._effettuata;
   }
 
-  set effettuata(valore: boolean) {
-      this._effettuata = valore;
-  }
-
   // public toString() {
   //   return this._luogo + ' ' + this._tipo + ' ' + this._data;
   // }

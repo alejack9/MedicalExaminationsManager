@@ -17,13 +17,13 @@ export class ViewListComponent implements OnInit {
 
   ngOnInit() {
   }
-  
-  onSelect(date: any): void
-  {
+
+  onSelect(date: Date): void {
     this.error = false;
     this.patientController.search(date).subscribe(patients => this.patients = patients);
 
-    if(this.patients.length == 0)
+    // tslint:disable-next-line:curly
+    if (this.patients.length === 0)
       this.error = true;
   }
 }

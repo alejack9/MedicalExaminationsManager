@@ -9,7 +9,7 @@ import { DataService } from 'src/app/services/data.service';
   styleUrls: ['./prescriptions.component.css']
 })
 export class PrescriptionsComponent implements OnInit {
-  
+
   idscelto: string;
   timeToAdd = 0;
   timeToBook = 0;
@@ -24,15 +24,15 @@ export class PrescriptionsComponent implements OnInit {
     this.getPrescriptions();
   }
 
-  getPrescriptions(): void{
+  getPrescriptions(): void {
     this.prescriptionService.getPrescriptions().subscribe(prescriptions => this.prescriptions = prescriptions);
   }
 
-  itsTimeToAdd() : void {
+  itsTimeToAdd(): void {
     this.timeToAdd = 1 ;
   }
 
-  enableBooking(id: string):void {
+  enableBooking(id: string): void {
     this.timeToBook = 1;
     this.idscelto = id;
     this.data.saveID(this.idscelto);

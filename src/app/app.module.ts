@@ -1,3 +1,5 @@
+import { PasswordDirective } from './directives/password.directive';
+import { LoginViewComponent } from './components/login-view/login-view.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';

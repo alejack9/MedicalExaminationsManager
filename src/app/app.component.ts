@@ -7,5 +7,5 @@ import { Patient } from './classes/patient';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  pazienteCorrente = new Patient('Manuel', 'Cretone', 2);
+  // pazienteCorrente = new Patient('Manuel', 'Cretone', 2);
 }
