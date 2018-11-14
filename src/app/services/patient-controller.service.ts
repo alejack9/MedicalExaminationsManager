@@ -14,13 +14,12 @@ export class PatientControllerService {
 
   constructor() { }
 
-  search(date: any): Observable<any[]>
-  {
+  search(date: Date): Observable<any[]> {
     this.arrayPatients = [];
-
-    for(this.i = 0; this.i < PATIENTS.length; this.i++)
-    {
-      if(PATIENTS[this.i].date == date)
+    for (this.i = 0; this.i < PATIENTS.length; this.i++) {
+      console.log(PATIENTS[this.i].getVisits()[0].Data.toDateString() , new Date(date).toDateString());
+      // tslint:disable-next-line:curly
+      if (PATIENTS[this.i].getVisits()[0].Data.toDateString() === new Date(date).toDateString())
         this.arrayPatients.push(PATIENTS[this.i]);
     }
 

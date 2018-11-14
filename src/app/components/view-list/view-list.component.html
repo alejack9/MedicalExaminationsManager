@@ -4,8 +4,8 @@
     <div class="card-text mx-auto">
       <h6 class="card-text text-center">Enter the date of the day on which you want to view the patient list</h6>
         <form class="form-group mx-auto">
-          <div class="input-group mb-3 mx-auto " style="width: 35%;"> 
-            <input #date class="form-control" style="width: auto;" type = "date" id="str"/>
+          <div class="input-group mb-3 mx-auto " style="width: 35%;">
+            <input #date class="form-control" style="width: auto;" type="date" id="str" />
 
             <div class="input-group-append">
                 <input type="submit" class="btn btn-outline-primary" style="width: auto;" (click) = 'onSelect(date.value)' value="Invia"/>
@@ -30,16 +30,16 @@
               </div>
               <div class="row" *ngFor="let patient of patients">
                 <div class="col border-bottom">
-                  {{patient.id}}
+                  {{ patient.getId() }}
                 </div>
                 <div class="col border-bottom">
-                  {{patient.name}}
+                  {{ patient.getUser().name }}
                 </div>
                 <div class="col border-bottom">
-                  {{patient.surname}}
+                  {{ patient.getUser().surname }}
                 </div>
                 <div class="col border-bottom">
-                    {{patient.examType}}
+                    {{ patient.getVisits()[0].tipo }}
                  </div>
                 </div>
     </div>
@@ -54,7 +54,7 @@
 
 
 
-<!-- 
+<!--
 <h1 class="text-center">View Patient List</h1>
 <div class="border">
   <input class="form-control mt-4 mx-auto" style="width: auto;" placeholder="Date" aria-label="Date" aria-describedby="input-date"
