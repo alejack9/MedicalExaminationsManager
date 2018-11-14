@@ -1,5 +1,5 @@
 <form class="input-group mb-3">
-    <input #codeP type="text" class="form-control" placeholder="Codice ricetta" aria-describedby="basic-addon2" id="codPrescription" required>
+    <input #codeP type="text" class="form-control" minlength="14" maxlength="14" placeholder="Codice ricetta" aria-describedby="basic-addon2" id="codPrescription" required>
     <div class="input-group-append">
       <button class="btn btn-outline-secondary" type="button" (click)="checkCode(codeP.value)"> Invia </button>
     </div>

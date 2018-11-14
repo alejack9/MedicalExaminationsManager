@@ -4,7 +4,7 @@ import { PrescriptionsComponent } from './components/prescriptions/prescriptions
 import { BookingComponent } from './components/booking/booking.component';
 
 const routes: Routes = [
-{path : 'prescriptions', component: PrescriptionsComponent },
+// {path : 'prescriptions', component: PrescriptionsComponent },
 {path : 'booking', component: BookingComponent }
 ];
 
