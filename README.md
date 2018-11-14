@@ -15,6 +15,9 @@ Medical Examinations Manager for Software Engineering Project
             *   prenotaVisita
             *   ottineListaVisita
             *   visualizzaListaPaziente
+    *   Incontro 3: (13/11) 10:00 - 13:00
+        *   Integrazione classi
+        *   Merge del progetto github
 
 ---
 
