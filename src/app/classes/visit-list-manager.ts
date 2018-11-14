@@ -1,12 +1,12 @@
 
 import { Patient } from './patient';
-import { Visit } from './visit';
+import { Examination } from './examination';
 export class VisitListManager {
 
 // field
  // patient: Patient;
  // visite = new Collections.Set<Visit>();
-visite: Visit[];        // declaration
+visite: Examination[];        // declaration
 
 // constructor
 constructor(visite ) {

@@ -1,6 +1,6 @@
 import { Patient } from './patient';
 
-export class Visit {
+export class Examination {
 
   constructor(
     private _tipo: string,

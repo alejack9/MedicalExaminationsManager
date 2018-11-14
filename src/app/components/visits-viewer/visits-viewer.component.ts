@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Visit } from 'src/app/classes/visit';
+import { Examination } from 'src/app/classes/examination';
 import { ViewerGetterService } from 'src/app/services/viewer-getter.service';
 import { Patient } from 'src/app/classes/patient';
 
@@ -13,7 +13,7 @@ export class VisitsViewerComponent {
   // onSelect(patient: Patient): void {
   //   this.selectedPatient = patient;
   // }
-  visits: Visit[];
+  visits: Examination[];
   effettuate: boolean;
 
   constructor(private viewerGetter: ViewerGetterService) {
@@ -24,7 +24,7 @@ export class VisitsViewerComponent {
 
   @Input() selectedPatient: Patient;
 
-filter(): Visit[] {
+filter(): Examination[] {
   if ( this.effettuate === undefined ) {
     return null;
   }

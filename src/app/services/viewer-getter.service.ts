@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Visit } from '../classes/visit';
+import { Examination } from '../classes/examination';
 import { Patient } from '../classes/patient';
 
 @Injectable({
@@ -13,13 +13,13 @@ export class ViewerGetterService {
   getVisits(patient: Patient ) {
     // QUERY ENORME SU DB
     return [
-      new Visit( 'neurologia', 'Ospedale Teramo', new Date(), 1, true),
-      new Visit( 'occhi', 'Ospedale Ascoli Piceno', new Date(), 1, false),
-      new Visit( 'spazio', 'Ospedale Ancona', new Date(), 1, true)
+      new Examination( 'neurologia', 'Ospedale Teramo', new Date(), 1, true),
+      new Examination( 'occhi', 'Ospedale Ascoli Piceno', new Date(), 1, false),
+      new Examination( 'spazio', 'Ospedale Ancona', new Date(), 1, true)
     ];
   }
 
-  getEffettuata(visit: Visit) {
+  getEffettuata(visit: Examination) {
     return visit.effettuata === true;
   }
 

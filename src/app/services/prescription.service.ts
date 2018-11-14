@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { Prescription } from '../classes/prescription';
-import { LISTPRESCRIPTIONS } from '../fake_prescriptions';
+import { LISTPRESCRIPTIONS } from '../prescriptionsDB';
 
 @Injectable({
   providedIn: 'root'
@@ -14,12 +14,13 @@ export class PrescriptionService {
   return of(LISTPRESCRIPTIONS);
   }
 // code length must be 14
-  checkPrescription(cod:string):boolean {
-    if (cod.length != 14 )  return false;
+  checkPrescription(cod: string): boolean {
+    // tslint:disable-next-line:curly
+    if (cod.length !== 14 )  return false;
     return true;
   }
 
-  addPrescription(cod:string):void{
-    LISTPRESCRIPTIONS.push({ID: cod});
+  addPrescription(cod: string): void {
+    LISTPRESCRIPTIONS.push(new Prescription(cod, '', 999999));
   }
 }
