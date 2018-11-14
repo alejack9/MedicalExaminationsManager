@@ -1,3 +1,10 @@
+/**
+ * @author Michele Celozzi
+ * @email michele.celozzi@studenti.unicam.it
+ * @create date 2018-11-14 10:40:29
+ * @modify date 2018-11-14 10:40:29
+ * @desc [description]
+*/
 import { Component, OnInit } from '@angular/core';
 import { PatientControllerService } from 'src/app/services/patient-controller.service';
 

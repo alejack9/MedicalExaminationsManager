@@ -1,3 +1,10 @@
+/**
+ * @author Michele Celozzi
+ * @email michele.celozzi@studenti.unicam.it
+ * @create date 2018-11-14 10:42:14
+ * @modify date 2018-11-14 10:42:14
+ * @desc [description]
+*/
 import { Injectable } from '@angular/core';
 import { PATIENTS } from 'src/app/components/patient-list';
 import { Observable, of } from 'rxjs';

@@ -1,3 +1,10 @@
+/**
+ * @author Michele Celozzi
+ * @email michele.celozzi@studenti.unicam.it
+ * @create date 2018-11-14 10:41:55
+ * @modify date 2018-11-14 10:41:55
+ * @desc [description]
+*/
 import { Patient } from 'src/app/classes/patient';
 import { User } from '../classes/user';
 import { Examination } from '../classes/examination';
