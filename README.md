@@ -26,7 +26,7 @@ Medical Examinations Manager for Software Engineering Project
     *   Incontro 6: (26/11) 14:30 - 17:00
         *   Sistemati errori Sequence diagram
 *   Iterazione 2: 27/11/'18 - 12/12/'18
-    *   Incontro 1: (27/11) 15:00 - 16:30
+    *   Incontro 1: (27/11) 15:00 - 17:00
         *   Identificazione attori
         *   Identificazione casi d'uso
         *   Casi d'uso descritti nell'iterazione:
