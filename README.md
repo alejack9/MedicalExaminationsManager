@@ -19,7 +19,21 @@ Medical Examinations Manager for Software Engineering Project
         *   identificazione classi
     *   Incontro 4: (13/11) 10:00 - 13:00
         *   Integrazione classi
+        *   Diagrammi di sequenza
         *   Merge del progetto github
+    *   Incontro 5: (21/11) 16:00 - 18:00
+        *   Sistemato errori Diagramma dei casi d'uso
+    *   Incontro 6: (26/11) 14:30 - 17:00
+        *   Sistemati errori Sequence diagram
+*   Iterazione 2: 27/11/'18 - 12/12/'18
+    *   Incontro 1: (27/11) 15:00 - 16:30
+        *   Identificazione attori
+        *   Identificazione casi d'uso
+        *   Casi d'uso descritti nell'iterazione:
+            *   comunica assenza
+            *   carica referto
+            *   annulla visita
+            *   carica ricetta
 
 ---
 
