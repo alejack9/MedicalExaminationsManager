@@ -34,6 +34,8 @@ Medical Examinations Manager for Software Engineering Project
             *   carica referto
             *   annulla visita
             *   carica ricetta
+    *   Incontro 2: (28/11) 16:45 - 18:00
+        *   Descrizione dei casi d'uso
 
 ---
 
