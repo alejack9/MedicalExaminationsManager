@@ -42,6 +42,9 @@ Medical Examinations Manager for Software Engineering Project
         *   Descrizione dei casi d'uso
             *   annulla visita
             *   carica ricetta
+    *   Incontro 4: (4/12) 11:15 - 12:50
+        *   CD e SD del caso d'uso
+            * carica ricetta
 
 ---
 
