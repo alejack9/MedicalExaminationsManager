@@ -44,8 +44,13 @@ Medical Examinations Manager for Software Engineering Project
             *   carica ricetta
     *   Incontro 4: (4/12) 11:15 - 12:50
         *   CD e SD del caso d'uso
-            * carica ricetta
-
+            *   carica ricetta
+    *   Incontro 5: (6/12) 16:30 - 18:30
+        *   CD e SD del caso d'uso
+            *   annulla visita
+        *   analisi CD del caso d'uso
+            *   comunica assenza
+        *   identificazione nuovo caso d'uso "cerca date"
 ---
 
 ## Descrizione Progetto
