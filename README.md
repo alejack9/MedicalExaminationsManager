@@ -51,6 +51,10 @@ Medical Examinations Manager for Software Engineering Project
         *   analisi CD del caso d'uso
             *   comunica assenza
         *   identificazione nuovo caso d'uso "cerca date"
+            *   carica ricetta
+    *   Incontro 6: (11/12) 15:30 - 18:30
+        *   CD e SD del caso d'uso
+            *   comunica assenza
 ---
 
 ## Descrizione Progetto
