@@ -55,6 +55,9 @@ Medical Examinations Manager for Software Engineering Project
     *   Incontro 6: (11/12) 15:30 - 18:30
         *   CD e SD del caso d'uso
             *   comunica assenza
+    *   Incontro 7: (12/12) 10:30 - 12:30
+        *   CD e SD del caso d'uso
+            *   carica ricetta
 ---
 
 ## Descrizione Progetto
