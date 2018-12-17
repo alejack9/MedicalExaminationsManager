@@ -58,6 +58,10 @@ Medical Examinations Manager for Software Engineering Project
     *   Incontro 7: (12/12) 10:30 - 12:30
         *   CD e SD del caso d'uso
             *   carica ricetta
+    *   Incontro 8: (17/12) 15:45 - 18:15
+        *   Descrizione dei caso d'uso
+            *   risponde a modifica data
+            *   associa prenotazione annullata
 ---
 
 ## Descrizione Progetto
