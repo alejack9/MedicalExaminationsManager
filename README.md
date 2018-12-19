@@ -26,42 +26,57 @@ Medical Examinations Manager for Software Engineering Project
     *   Incontro 6: (26/11) 14:30 - 17:00
         *   Sistemati errori Sequence diagram
 *   Iterazione 2: 27/11/'18 - 12/12/'18
-    *   Incontro 1: (27/11) 15:00 - 17:00
+    *   Incontro 1:  (27/11) 15:00 - 17:00
         *   Identificazione attori
         *   Identificazione casi d'uso
         *   Casi d'uso descritti nell'iterazione:
+            *   risponde a modifica data
+            *   associa prenotazione annullata
             *   comunica assenza
             *   carica referto
             *   annulla visita
             *   carica ricetta
-    *   Incontro 2: (28/11) 16:45 - 18:00
+    *   Incontro 2:  (28/11) 16:45 - 18:00
         *   Descrizione dei casi d'uso
             *   comunica assenza
             *   carica referto
-    *   Incontro 3: (29/11) 14:30 - 16:40
+    *   Incontro 3:  (29/11) 14:30 - 16:40
         *   Descrizione dei casi d'uso
             *   annulla visita
             *   carica ricetta
-    *   Incontro 4: (4/12) 11:15 - 12:50
+    *   Incontro 4:  (4/12) 11:15 - 12:50
         *   CD e SD del caso d'uso
             *   carica ricetta
-    *   Incontro 5: (6/12) 16:30 - 18:30
+    *   Incontro 5:  (6/12) 16:30 - 18:30
         *   CD e SD del caso d'uso
             *   annulla visita
         *   analisi CD del caso d'uso
             *   comunica assenza
         *   identificazione nuovo caso d'uso "cerca date"
             *   carica ricetta
-    *   Incontro 6: (11/12) 15:30 - 18:30
+    *   Incontro 6:  (11/12) 15:30 - 18:30
         *   CD e SD del caso d'uso
             *   comunica assenza
-    *   Incontro 7: (12/12) 10:30 - 12:30
+    *   Incontro 7:  (12/12) 10:30 - 12:30
         *   CD e SD del caso d'uso
             *   carica ricetta
-    *   Incontro 8: (17/12) 15:45 - 18:15
+    *   Incontro 8:  (17/12) 15:45 - 18:15
         *   Descrizione dei caso d'uso
             *   risponde a modifica data
             *   associa prenotazione annullata
+    *   Incontro 9:  (19/12) 10:30 - 13:15
+        *   CD e SD dei casi d'uso
+            *   associa prenotazione annullata
+            *   risponde a modifica data
+    *   Incontro 10: (19/12) 15:15 = 16:30
+        *   Divisione in sottogruppi per implementazione prototipi UCs
+            *   Sottogruppo Celozzi - Cretone
+                *   carica ricetta
+                *   comunica assenza
+                *   carica referto
+            *   Sottogruppo Boccuto - Giacchè
+                *   risponde a modifica data
+                *   annulla visita
 ---
 
 ## Descrizione Progetto
