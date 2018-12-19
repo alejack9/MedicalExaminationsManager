@@ -1,0 +1,14 @@
+reimposta password
+ottiene report
+sel. strut.
+reg. struct. ref.
+agg. personale
+vis. visite paziente
+ottiene lista prenotazioni
+ottiene pazienti in coda
+ottiene strutture
+carica ricetta
+comunica assenza
+carica referto
+risponde a modifica data
+annulla prenotazione
