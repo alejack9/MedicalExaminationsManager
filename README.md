@@ -77,6 +77,7 @@ Medical Examinations Manager for Software Engineering Project
             *   Sottogruppo Boccuto - Giacchè
                 *   risponde a modifica data
                 *   annulla visita
+                *   associa prenotazione annullata
 ---
 
 ## Descrizione Progetto
