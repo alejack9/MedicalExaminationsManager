@@ -1,0 +1,11 @@
+{
+  "name": "medical-examinations-manager",
+  "version": "1.0.0",
+  "description": "Medical Examinations Manager backend for school project",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "DONT'T PANIC",
+  "license": "ISC"
+}
