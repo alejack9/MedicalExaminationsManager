@@ -41,3 +41,6 @@
 # System Files
 **/.DS_Store
 **/Thumbs.db
+
+# Envirnomnets Files
+**/*.env
