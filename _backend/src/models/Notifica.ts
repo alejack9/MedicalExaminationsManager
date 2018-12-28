@@ -6,4 +6,5 @@ export class Notifica {
     private tipo: string,
     private nuovaData: Date
   ) {}
+  
 }
