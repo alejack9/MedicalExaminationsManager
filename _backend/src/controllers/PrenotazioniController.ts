@@ -1,23 +1,35 @@
 import { Patient } from "../models/Patient";
 import { Visita } from "../models/Visita";
 import { PatientController } from "./PatientController";
-import { VisitaGetter } from "./VisitaGetter";
-import { VisitaManager } from "./VisitaManager";
 
 export class PrenotazioniController {
-    public static annullaPrenotazione(prenotazione: string): boolean {
-        let visitaDaAnnullare: Visita;
-        visitaDaAnnullare = JSON.parse(prenotazione);
-        // cerco la visita ?
+  public static annullaPrenotazione(prenotazione: string): number | undefined {
+    try {
+      const descrizionePrenotazione = JSON.parse(prenotazione);
+      const rp: number = descrizionePrenotazione._paziente._reputazione;
+      const visitaDaAnnullare = new Visita(
+        descrizionePrenotazione._tipoVisita,
+        descrizionePrenotazione._effettuata,
+        descrizionePrenotazione._priorita,
+        descrizionePrenotazione._pagata,
+        descrizionePrenotazione._data,
+        new Patient(rp)
+      );
 
-        PatientController.abbassaReputazione(visitaDaAnnullare.paziente, visitaDaAnnullare.data);
+      const rep: number = PatientController.abbassaReputazione(
+        visitaDaAnnullare.paziente,
+        visitaDaAnnullare.data
+      );
 
-        // VisitaManager.Associa(x)
-
-        return true;
+      return rep;
+    } catch (e) {
+      console.log("problem here");
     }
 
-    // private cercaPrenotazione(prenotazione: string): boolean {
+    // VisitaManager.Associa(x)
 
-  //  }
+    // return visitaDaAnnullare.paziente.reputazione;
+    // return JSON.stringify(visitaDaAnnullare);
+    // elimina paziente dalla prenotazione
+  }
 }

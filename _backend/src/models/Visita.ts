@@ -2,8 +2,6 @@ import { Patient } from "./Patient";
 import { Referto } from "./Referto";
 
 export class Visita {
-  [key: string]: any;
-
   constructor(
     private _tipoVisita: string,
     private _effettuata: boolean,
@@ -18,25 +16,25 @@ export class Visita {
     }
   }
 
-  get tipoVisita() {
+  public get tipoVisita() {
     return this._tipoVisita;
   }
-  get effettuata() {
+  public get effettuata() {
     return this._effettuata;
   }
-  get priorita() {
+  public get priorita() {
     return this._priorita;
   }
-  get pagata() {
+  public get pagata() {
     return this._pagata;
   }
-  get data() {
+  public get data() {
     return this._data;
   }
-  get paziente() {
+  public get paziente() {
     return this._paziente;
   }
-  get referto() {
+  public get referto() {
     return this._referto;
   }
 
