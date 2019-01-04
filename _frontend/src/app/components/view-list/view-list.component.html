@@ -1,0 +1,89 @@
+<div class="card w-50 mx-auto mt-2 rounded ">
+  <h1 class="card-header text-center p-3 mb-2 bg-dark text-white">View Patient List</h1>
+  <div class="card-body">
+    <div class="card-text mx-auto">
+      <h6 class="card-text text-center">Enter the date of the day on which you want to view the patient list</h6>
+        <form class="form-group mx-auto">
+          <div class="input-group mb-3 mx-auto " style="width: 35%;">
+            <input #date class="form-control" style="width: auto;" type="date" id="str" />
+
+            <div class="input-group-append">
+                <input type="submit" class="btn btn-outline-primary" style="width: auto;" (click) = 'onSelect(date.value)' value="Invia"/>
+            </div>
+        </div>
+        </form>
+
+        <div class="container mx-auto">
+            <div class="row border rounded">
+                <div class="col font-weight-bold">
+                  Id
+                </div>
+                <div class="col border-left font-weight-bold">
+                  Name
+                </div>
+                <div class="col border-left font-weight-bold">
+                  Surname
+                </div>
+                <div class="col border-left font-weight-bold">
+                  Exam Type
+                </div>
+              </div>
+              <div class="row" *ngFor="let patient of patients">
+                <div class="col border-bottom">
+                  {{ patient.getId() }}
+                </div>
+                <div class="col border-bottom">
+                  {{ patient.getUser().name }}
+                </div>
+                <div class="col border-bottom">
+                  {{ patient.getUser().surname }}
+                </div>
+                <div class="col border-bottom">
+                    {{ patient.getVisits()[0].tipo }}
+                 </div>
+                </div>
+    </div>
+    <div class="card-text text-center" *ngIf="error">
+      Nobody patient to the chosen day
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+<!--
+<h1 class="text-center">View Patient List</h1>
+<div class="border">
+  <input class="form-control mt-4 mx-auto" style="width: auto;" placeholder="Date" aria-label="Date" aria-describedby="input-date"
+         #data (keyup.enter) = "onSelect(data.value)" (blur)="onSelect(data.value); data.value='' " type = "date" id="str">
+
+  <br>
+
+  <button type="button" class="btn btn-outline-primary" (select) = 'onSelect(data.value)'>Invia</button><br><br>
+
+  <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Name</th>
+          <th scope="col">Surname</th>
+          <th scope="col">Exam Type</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr *ngFor="let patient of patients">
+              <th scope="row" (click) = 'onClick(patient)'>{{patient.id}}</th>
+              <td>{{patient.name}}</td>
+              <td>{{patient.surname}}</td>
+              <td>{{patient.examType}}</td>
+          </tr>
+    </tbody>
+  </table>
+
+  <p *ngIf="error" class="text-center">Nobody patient to the chosen day</p>
+
+  <br>
+</div> -->
