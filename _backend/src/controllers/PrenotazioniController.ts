@@ -12,10 +12,9 @@ export class PrenotazioniController {
         descrizionePrenotazione._effettuata,
         descrizionePrenotazione._priorita,
         descrizionePrenotazione._pagata,
-        descrizionePrenotazione._data,
+        new Date(descrizionePrenotazione._data),
         new Patient(rp)
       );
-
       const rep: number = PatientController.abbassaReputazione(
         visitaDaAnnullare.paziente,
         visitaDaAnnullare.data
@@ -23,13 +22,11 @@ export class PrenotazioniController {
 
       return rep;
     } catch (e) {
-      console.log("problem here");
+      console.log(e.message);
     }
 
     // VisitaManager.Associa(x)
 
-    // return visitaDaAnnullare.paziente.reputazione;
-    // return JSON.stringify(visitaDaAnnullare);
     // elimina paziente dalla prenotazione
   }
 }

@@ -5,14 +5,15 @@ export class PatientController {
     let newrep: number;
     newrep = PatientController.calcolaReputazione(paziente.reputazione, data);
     paziente.reputazione = newrep;
+
     console.log(paziente.reputazione);
 
-    return newrep;
+    return paziente.reputazione;
   }
   private static calcolaReputazione(reputazione: number, data: Date): number {
-    // const today = new Date();
-    // const diff: number = data.getDate() - today.getDate();
-    // console.log(data.getDate());
-    return 2;
+    const diff = data.valueOf() - new Date(Date.now()).valueOf();
+    const days = Math.ceil(diff / (1000 * 3600 * 24));
+    const rep = reputazione - 200 / days;
+    return rep;
   }
 }
