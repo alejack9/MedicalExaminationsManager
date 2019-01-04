@@ -44,11 +44,11 @@ export class Visita {
     if (obj === null) {
       return false;
     }
-    if (obj instanceof Visita) {
-      return false;
-    }
     if (obj === this) {
       return true;
+    }
+    if (!(obj instanceof Visita)) {
+      return false;
     }
     const visita = obj as Visita;
     if (
