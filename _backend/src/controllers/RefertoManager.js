@@ -1,6 +1,6 @@
-let Referto = require("./Referto");
+let Referto = require("../models/Referto");
 let ControllerVisite = require("./ControllerVisite");
-let Notificator = require("./Notificator");
+let Notificator = require("../models/Notificator");
 let notifica;
 
 class RefertoManager {
@@ -13,7 +13,7 @@ class RefertoManager {
     const cv = new ControllerVisite();
     caricato = cv.addReferto(visita, referto);
 
-    if (caricato == 1) {
+    if (caricato === 1) {
       const n = new Notificator();
       notifica = n.creaNotifica("Referto Caricato", visita, "refertoCaricato");
     }
