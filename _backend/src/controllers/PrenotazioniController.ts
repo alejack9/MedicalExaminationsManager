@@ -2,7 +2,7 @@ import Patient from "../models/Patient";
 import Visita from "../models/Visita";
 import PatientController from "./PatientController";
 
-export class PrenotazioniController {
+export default class PrenotazioniController {
   public static annullaPrenotazione(prenotazione: string): number | undefined {
     try {
       const descrizionePrenotazione = JSON.parse(prenotazione);
