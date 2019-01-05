@@ -2,8 +2,6 @@ import Patient from "./Patient";
 import Referto from "./Referto";
 
 export default class Visita {
-  [key: string]: any;
-
   constructor(
     private _tipoVisita: string,
     private _effettuata: boolean,

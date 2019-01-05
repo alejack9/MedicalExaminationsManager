@@ -6,6 +6,8 @@ import * as express from "express";
 import * as helmet from "helmet";
 import * as morgan from "morgan";
 import * as giaccheRouter from "./routes/giacche";
+import * as buruRouter from "./routes/buru";
+
 
 // general configuration
 const port = config.get("port");
@@ -29,6 +31,7 @@ app.use(express.static(path.join(__dirname, "..", "public")));
 logger(`Public folder in ${path.join(__dirname, "..", "public")}...`);
 
 // routers loading
+app.use("/buru", buruRouter);
 app.use("/giacche", giaccheRouter);
 
 // server starting

@@ -12,7 +12,7 @@ export default class Patient implements IRuolo {
     return this._reputazione;
   }
 
-  public set reputazione(value) {
+  public set reputazione(value: number) {
     this._reputazione = value;
   }
 
