@@ -21,7 +21,14 @@ router.post("/annullaVisita", (req, res) => {
 
 logger(
   JSON.stringify(
-    new Visita("aaa", false, 2, false, new Date(2019, 5, 6), new Patient(8))
+    new Visita(
+      "OCULISTICA",
+      false,
+      2,
+      false,
+      new Date(2019, 5, 6),
+      new Patient(8)
+    )
   )
 );
 export = router;

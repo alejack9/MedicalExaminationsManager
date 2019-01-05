@@ -14,6 +14,6 @@ export class PatientController {
     const diff = data.valueOf() - new Date(Date.now()).valueOf();
     const days = Math.ceil(diff / (1000 * 3600 * 24));
     const rep = reputazione - 200 / days;
-    return rep;
+    return +(rep.toFixed(3));
   }
 }
