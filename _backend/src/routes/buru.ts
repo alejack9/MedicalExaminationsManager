@@ -1,6 +1,6 @@
 import * as debug from "debug";
 import * as express from "express";
-import { PrenotazioniController } from "../controllers/PrenotazioniController";
+import PrenotazioniController from "../controllers/PrenotazioniController";
 import Patient from "../models/Patient";
 import Visita from "../models/Visita";
 
