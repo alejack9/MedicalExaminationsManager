@@ -1,5 +1,5 @@
-import { Notifica } from "../models/Notifica";
-import { Visita } from "../models/Visita";
+import Notifica from "../models/Notifica";
+import Visita from "../models/Visita";
 
 export default abstract class Notificator {
   public static creaNotifica(visita: Visita, nuovaData: Date) {

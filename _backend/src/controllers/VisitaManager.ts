@@ -1,6 +1,6 @@
 import * as _ from "underscore";
 import Tools from "../asset/tools";
-import { Visita } from "../models/Visita";
+import Visita from "../models/Visita";
 import Notificator from "./Notificator";
 import VisitaGetter from "./VisitaGetter";
 

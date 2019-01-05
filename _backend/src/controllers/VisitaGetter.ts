@@ -1,5 +1,5 @@
 import visite from "../data/visite";
-import { Visita } from "../models/Visita";
+import Visita from "../models/Visita";
 
 export default abstract class VisitaGetter {
   public static ottieniListaPrenotazioni(

@@ -1,8 +1,8 @@
 import * as debug from "debug";
 import * as express from "express";
 import { PrenotazioniController } from "../controllers/PrenotazioniController";
-import { Patient } from "../models/Patient";
-import { Visita } from "../models/Visita";
+import Patient from "../models/Patient";
+import Visita from "../models/Visita";
 
 const logger = debug("app:startup");
 const router = express.Router();

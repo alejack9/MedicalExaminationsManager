@@ -5,9 +5,8 @@ const path = Tools.Instance.path;
 import * as express from "express";
 import * as helmet from "helmet";
 import * as morgan from "morgan";
-import * as giaccheRouter from "./routes/giacche";
 import * as buruRouter from "./routes/buru";
-
+import * as giaccheRouter from "./routes/giacche";
 
 // general configuration
 const port = config.get("port");
