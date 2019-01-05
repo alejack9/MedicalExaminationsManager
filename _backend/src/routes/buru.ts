@@ -1,22 +1,19 @@
-import * as debug from "debug";
 import * as express from "express";
+import Tools from "../asset/tools";
 import PrenotazioniController from "../controllers/PrenotazioniController";
 import Patient from "../models/Patient";
+import User from "../models/User";
 import Visita from "../models/Visita";
 
-const logger = debug("app:startup");
 const router = express.Router();
+const logger = Tools.Instance.getLogger("app:visite");
+
 router.use(express.json());
 router.get("/", (req, res) => res.send("Buru world"));
 
 router.post("/annullaVisita", (req, res) => {
-  let newRep: number | undefined;
-  newRep = PrenotazioniController.annullaPrenotazione(JSON.stringify(req.body));
-  if (newRep !== undefined) {
-    res.send(newRep.toString());
-  } else {
-    res.send("broken");
-  }
+  PrenotazioniController.annullaPrenotazione(JSON.stringify(req.body));
+  res.send("a");
 });
 
 logger(
@@ -27,7 +24,9 @@ logger(
       2,
       false,
       new Date(2019, 5, 6),
-      new Patient(8)
+      new Patient(
+        new User("Miguel", "Cerozzi", "via Dante", new Date("13/3/1997"))
+      )
     )
   )
 );
