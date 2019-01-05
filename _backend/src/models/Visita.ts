@@ -1,3 +1,4 @@
+import { OfficeDoctor } from "./OfficeDoctor";
 import { Referto } from "./Referto";
 
 export class Visita {
@@ -6,6 +7,7 @@ export class Visita {
     private _effettuata: boolean,
     private _pagata: boolean,
     private _data: Date,
+    private _officeDoctor: OfficeDoctor,
     private _referto: Referto
   ) {}
 
@@ -45,5 +47,13 @@ export class Visita {
 
   public set referto(rf: Referto) {
     this._referto = rf;
+  }
+
+  public get officeDoctor() {
+    return this._officeDoctor;
+  }
+
+  public set officeDoctor(od: OfficeDoctor) {
+    this._officeDoctor = od;
   }
 }
