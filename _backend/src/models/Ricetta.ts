@@ -1,9 +1,9 @@
-class Ricetta {
-  constructor(codiceRicetta, tipoVisita, regione) {
-    this.codiceRicetta = codiceRicetta;
-    this.tipoVisita = tipoVisita;
-    this.regione = regione;
-  }
+export class Ricetta {
+  constructor(
+    private codiceRicetta: string,
+    private tipoVisita: string,
+    private regione: string
+  ) {}
 
   //   get codiceRicetta() {
   //     return this.codiceRicetta;
@@ -17,5 +17,3 @@ class Ricetta {
   //     return this.regione;
   //   }
 }
-
-module.exports = Ricetta;
