@@ -3,11 +3,13 @@ import * as path from "path";
 dotenv.config({
   path: path.join(__dirname, "..", "config", "environments", "process.env")
 });
+
 import * as config from "config";
 import * as debug from "debug";
 import * as express from "express";
 import * as helmet from "helmet";
 import * as morgan from "morgan";
+import * as buruRouter from "./routes/buru";
 
 const port = config.get("port");
 const logger = debug("app:startup");
@@ -26,4 +28,8 @@ if (config.get("helmet.enabled")) {
 app.use(express.static(path.join(__dirname, "..", "public")));
 logger(`Public folder in ${path.join(__dirname, "..", "public")}...`);
 
-app.listen(port, () => logger(`Listening on port ${port}...`));
+app.use("/buru", buruRouter);
+
+app.listen(port, () => {
+  logger(`Listening on port ${port}...`);
+});
