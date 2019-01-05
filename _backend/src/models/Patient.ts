@@ -1,7 +1,7 @@
-import { IRuolo } from "./Ruolo";
-import { User } from "./User";
+import IRuolo from "./Ruolo";
+import User from "./User";
 
-export class Patient implements IRuolo {
+export default class Patient implements IRuolo {
   private _reputazione: number;
 
   constructor(private _user: User) {

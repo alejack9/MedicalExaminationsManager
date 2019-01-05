@@ -1,4 +1,4 @@
-export class Allegato {
+export default class Allegato {
   constructor(private _nome: string, private _path: string) {}
   public get nome() {
     return this._nome;

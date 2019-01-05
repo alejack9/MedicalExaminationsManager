@@ -1,7 +1,7 @@
 import * as _ from "underscore";
-import { Allegato } from "./Allegato";
+import Allegato from "./Allegato";
 
-export class Referto {
+export default class Referto {
   constructor(
     private _nome: string,
     private _path: string,

@@ -1,6 +1,6 @@
-import { IRuolo } from "./Ruolo";
+import IRuolo from "./Ruolo";
 
-export class User {
+export default class User {
   constructor(
     private _name: string,
     private _surname: string,

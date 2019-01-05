@@ -1,6 +1,6 @@
-import { User } from "./User";
+import User from "./User";
 
-export interface IRuolo {
+export default interface IRuolo {
   equals(obj: object): boolean;
   getUser(): User;
 }
