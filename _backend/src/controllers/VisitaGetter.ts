@@ -1,18 +1,18 @@
-import { Patient } from "../models/Patient";
-import { Visita } from "../models/Visita";
+import visite from "../data/visite";
+import Visita from "../models/Visita";
 
-const visite = [
-  new Visita("", true, 1, true, new Date(Date.now()), new Patient(1)),
-  new Visita("", true, 1, true, new Date(Date.now()), new Patient(1)),
-  new Visita("", true, 1, true, new Date(Date.now()), new Patient(1)),
-  new Visita("", true, 1, true, new Date(Date.now()), new Patient(1))
-];
-
-export class VisitaGetter {
+export default abstract class VisitaGetter {
   public static ottieniListaPrenotazioni(
     visita: Visita,
     dataInizio: Date
   ): Visita[] {
-    return visite.filter((v) => !v.equals(visita) && v.data >= dataInizio);
+    return visite.filter(
+      (v) =>
+        v.pagata === false &&
+        v.effettuata === false &&
+        v.tipoVisita === visita.tipoVisita &&
+        v.data >= dataInizio &&
+        !v.equals(visita)
+    );
   }
 }

@@ -1,6 +1,6 @@
-import { Patient } from "../models/Patient";
+import Patient from "../models/Patient";
 
-export class PatientController {
+export default class PatientController {
   public static abbassaReputazione(paziente: Patient, data: Date): number {
     let newrep: number;
     newrep = PatientController.calcolaReputazione(paziente.reputazione, data);
