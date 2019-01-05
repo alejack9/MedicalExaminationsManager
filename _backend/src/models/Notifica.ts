@@ -2,9 +2,10 @@ import { Visita } from "./Visita";
 
 export class Notifica {
   constructor(
-    private _testo: string,
-    private _visita: Visita,
-    private _tipo: string
+    protected _testo: string,
+    protected _visita: Visita,
+    protected _tipo: string,
+    protected _data: Date
   ) {}
 
   public get testo() {
@@ -29,5 +30,13 @@ export class Notifica {
 
   public set tipo(type: string) {
     this._tipo = type;
+  }
+
+  public get data() {
+    return this._data;
+  }
+
+  public set data(dt: Date) {
+    this._data = dt;
   }
 }
