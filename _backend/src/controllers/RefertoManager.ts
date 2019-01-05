@@ -23,7 +23,7 @@ export class RefertoManager {
       notifica = notificator.creaNotifica(
         "Referto Caricato",
         visita,
-        "refertoCaricato"
+        "Notifica Referto"
       );
     }
 
