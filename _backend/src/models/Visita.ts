@@ -1,7 +1,7 @@
-import { Patient } from "./Patient";
-import { Referto } from "./Referto";
+import Patient from "./Patient";
+import Referto from "./Referto";
 
-export class Visita {
+export default class Visita {
   constructor(
     private _tipoVisita: string,
     private _effettuata: boolean,
@@ -42,11 +42,11 @@ export class Visita {
     if (obj === null) {
       return false;
     }
-    if (obj instanceof Visita) {
-      return false;
-    }
     if (obj === this) {
       return true;
+    }
+    if (!(obj instanceof Visita)) {
+      return false;
     }
     const visita = obj as Visita;
     if (

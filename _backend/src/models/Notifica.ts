@@ -1,6 +1,6 @@
-import { Visita } from "./Visita";
+import Visita from "./Visita";
 
-export class Notifica {
+export default class Notifica {
   constructor(
     private visita: Visita,
     private tipo: string,
