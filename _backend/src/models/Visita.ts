@@ -12,7 +12,7 @@ export default class Visita {
     private _pagata: boolean,
     private _struttura: string,
     private _paziente: User,
-    private _ricetta: Ricetta,
+    private _ricetta: Ricetta |,
     private _referto?: Referto | undefined
   ) {
     if (_priorita < 0) {
@@ -40,6 +40,9 @@ export default class Visita {
   }
   public get ricetta() {
     return this._ricetta;
+  } 
+  public set ricetta(value: Ricetta) {
+    this._ricetta = value;
   }
   public get paziente() {
     return this._paziente;
@@ -49,6 +52,19 @@ export default class Visita {
   }
   public get struttura() {
     return this._struttura;
+  }
+
+  public destroy(mantieniRicetta: boolean): Ricetta | null {
+    if (mantieniRicetta === false) {
+      this.eliminaRicetta();
+      return null;
+    } else {
+      return this.ricetta;
+    }
+  }
+  public eliminaRicetta(): void {
+    delete this.ricetta;
+    //throw new Error("not implemented method");
   }
 
   public equals(obj: object): boolean {

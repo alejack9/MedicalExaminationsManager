@@ -15,7 +15,7 @@ export default class Prenotazione {
     return this._data;
   }
   public cancellaVisita(mantieniRicetta: boolean): Ricetta | null {
-    return null;
+    return this.visita.destroy(mantieniRicetta);
   }
   public annulla(): boolean {
     return this._annullata ? !this._annullata : (this._annullata = true);

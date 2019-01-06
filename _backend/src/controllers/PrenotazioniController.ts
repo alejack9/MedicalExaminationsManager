@@ -1,5 +1,6 @@
 import * as _ from "underscore";
 import Tools from "../asset/tools";
+import prenotazioni from "../data/prenotazioni";
 import Patient from "../models/Patient";
 import Prenotazione from "../models/Prenotazione";
 import Ricetta from "../models/Ricetta";
@@ -68,7 +69,20 @@ export default abstract class PrenotazioniController {
     );
   }
 
-  private static prenotazioni: Prenotazione[] = [];
+  public static scambiaDate(p1: Prenotazione, p2: Prenotazione): void {
+    const dateApp: Date = p1.data;
+    p1.data = p2.data;
+    p2.data = p1.data;
+  }
+
+  public static cancellaVisita(
+    prenotazione: Prenotazione,
+    mantieniRicetta: boolean
+  ): void {
+    prenotazione.cancellaVisita(mantieniRicetta);
+  }
+
+  private static prenotazioni: Prenotazione[] = prenotazioni;
 
   private static recuperaMassimaPriorita(): boolean {
     if (this.prenotazioni.length === 0) {
