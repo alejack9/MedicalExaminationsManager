@@ -18,16 +18,16 @@ export default abstract class PrenotazioniController {
     try {
       const descrizionePrenotazione = JSON.parse(prenotazione);
       const p = descrizionePrenotazione._paziente;
-      const patient = new User(p._name, p._surname, p._address, p._birthdate);
-      patient.addRole(new Patient());
+      const user = new User(p._name, p._surname, p._address, p._birthdate);
+      user.addRole(new Patient());
 
-      const visita: Visita = new Visita(
+      const visita = new Visita(
         descrizionePrenotazione._visita._tipoVisita,
         descrizionePrenotazione._visita._effettuata,
         descrizionePrenotazione._visita._priorita,
         descrizionePrenotazione._visita._pagata,
         descrizionePrenotazione._visita._struttura,
-        patient,
+        user.getRuolo(Patient) as Patient,
         new Ricetta(
           descrizionePrenotazione._visita.ricetta._codiceRicetta,
           descrizionePrenotazione._visita.ricetta._tipoVisita
@@ -105,9 +105,7 @@ export default abstract class PrenotazioniController {
 
   private static recuperaMassimaReputazione() {
     this.prenotazioni = _.pairs(
-      _.groupBy(this.prenotazioni, (p) => {
-        p.visita.getReputazionePaziente();
-      })
+      _.groupBy(this.prenotazioni, (p) => p.visita.paziente.reputazione)
     ).sort((e1, e2) => (e1[0] < e2[0] ? 1 : -1))[0][1];
   }
 

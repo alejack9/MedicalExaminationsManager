@@ -1,5 +1,4 @@
 import IRuolo from "./Ruolo";
-import User from "./User";
 
 export default class Patient implements IRuolo {
   private _reputazione: number;

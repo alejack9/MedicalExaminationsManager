@@ -16,7 +16,8 @@ router.post("/annullaVisita", (req, res) => {
   PrenotazioniController.annullaPrenotazione(JSON.stringify(req.body));
   res.send("a");
 });
-
+const u = new User("Miguel", "Cerozzi", "via Dante", new Date("13/3/1997"));
+u.addRole(new Patient());
 logger(
   JSON.stringify(
     new Visita(
@@ -25,7 +26,7 @@ logger(
       2,
       false,
       "ospedale Roma",
-      new User("Miguel", "Cerozzi", "via Dante", new Date("13/3/1997")),
+      u.getRuolo(Patient) as Patient,
       new Ricetta("22222", "OCULISTICA")
     )
   )

@@ -1,7 +1,6 @@
 import Patient from "./Patient";
 import Referto from "./Referto";
 import Ricetta from "./Ricetta";
-import User from "./User";
 
 export default class Visita {
   private _annullata: boolean = false;
@@ -11,7 +10,7 @@ export default class Visita {
     private _priorita: number,
     private _pagata: boolean,
     private _struttura: string,
-    private _paziente: User,
+    private _paziente: Patient,
     private _ricetta: Ricetta,
     private _referto?: Referto | undefined
   ) {
@@ -66,10 +65,10 @@ export default class Visita {
     delete this.ricetta;
     // throw new Error("not implemented method");
   }
-  public getReputazionePaziente(): number {
-    const pat: Patient = this.paziente.getRuolo(Patient) as Patient;
-    return pat.reputazione;
-  }
+  // public getReputazionePaziente(): number {
+  //   const pat: Patient = this.paziente.getRuolo(Patient) as Patient;
+  //   return pat.reputazione;
+  // }
 
   public equals(obj: object): boolean {
     if (obj === null) {
