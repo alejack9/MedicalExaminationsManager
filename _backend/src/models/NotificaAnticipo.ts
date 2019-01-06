@@ -1,4 +1,4 @@
-import INotifica from "./Notifica";
+import INotifica from "./INotifica";
 import Prenotazione from "./Prenotazione";
 import { TipoNotifica } from "./TipoNotifica";
 

@@ -1,5 +1,5 @@
 import { Allegato } from "../models/Allegato";
-import { Notifica } from "../models/Notifica";
+import { Notifica } from "../models/INotifica";
 import { Notificator } from "../models/Notificator";
 import { Referto } from "../models/Referto";
 import { Visita } from "../models/Visita";
@@ -7,7 +7,7 @@ import { ControllerVisite } from "./ControllerVisite";
 
 let notifica: Notifica;
 
-export class RefertoManager {
+export default class RefertoManager {
   public aggiungiReferto(
     nome: string,
     path: string,

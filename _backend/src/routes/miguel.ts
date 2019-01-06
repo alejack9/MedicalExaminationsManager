@@ -1,10 +1,10 @@
 import * as express from "express";
-import { AssenzaController } from "../controllers/AssenzaController";
-import { RefertoManager } from "../controllers/RefertoManager";
-import { Allegato } from "../models/Allegato";
-import { OfficeDoctor } from "../models/OfficeDoctor";
-import { Referto } from "../models/Referto";
-import { Visita } from "../models/Visita";
+import AssenzaController from "../controllers/AssenzaController";
+import RefertoManager from "../controllers/RefertoManager";
+import Allegato from "../models/Allegato";
+import OfficeDoctor from "../models/OfficeDoctor";
+import Referto from "../models/Referto";
+import Visita from "../models/Visita";
 
 const router = express.Router();
 

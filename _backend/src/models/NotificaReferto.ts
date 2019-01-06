@@ -1,14 +1,10 @@
-import { Notifica } from "./Notifica";
-import { Visita } from "./Visita";
+import INotifica from "./INotifica";
+import Prenotazione from "./Prenotazione";
+import { TipoNotifica } from "./TipoNotifica";
 
-export class NotificaReferto extends Notifica {
-  constructor(
-    protected _testo: string,
-    protected _visita: Visita,
-    protected _tipo: string,
-    protected _data: Date,
-    private _visitaAnticipata: Visita
-  ) {
-    super(_testo, _visita, _tipo, _data);
+export default class NotificaReferto implements INotifica {
+  public constructor(private _prenotazione: Prenotazione) {}
+  public getTipo(): TipoNotifica {
+    return TipoNotifica.referto;
   }
 }

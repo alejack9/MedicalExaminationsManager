@@ -1,5 +1,7 @@
-import INotifica from "../models/Notifica";
+import INotifica from "../models/INotifica";
 import NotificaAnticipo from "../models/NotificaAnticipo";
+import { NotificaAssenza } from "../models/NotificaAssenza";
+import NotificaReferto from "../models/NotificaReferto";
 import Prenotazione from "../models/Prenotazione";
 import { TipoNotifica } from "../models/TipoNotifica";
 
@@ -9,20 +11,15 @@ export default abstract class Notificator {
     tipoNotifica: TipoNotifica,
     nuovaData?: Date
   ): INotifica {
-    let notifica: INotifica;
     switch (tipoNotifica) {
       case TipoNotifica.anticipo:
-        notifica = new NotificaAnticipo(prenotazione, nuovaData as Date);
-        break;
+        return new NotificaAnticipo(prenotazione, nuovaData as Date);
       case TipoNotifica.assenza:
-        throw new Error("Method not implemented.");
-        break;
+        return new NotificaAssenza(prenotazione);
       case TipoNotifica.referto:
-        throw new Error("Method not implemented.");
-        break;
+        return new NotificaReferto(prenotazione);
       default:
         throw new Error("Unkown Notification Type");
     }
-    return notifica;
   }
 }

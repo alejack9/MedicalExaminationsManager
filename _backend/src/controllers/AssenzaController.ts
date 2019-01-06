@@ -4,7 +4,7 @@ import { OfficeDoctor } from "../models/OfficeDoctor";
 import { Visita } from "../models/Visita";
 import { VisitaGetter } from "../models/VisitaGetter";
 
-export class AssenzaController {
+export default class AssenzaController {
   public creaAssenza(
     _intervallo: Date[],
     _motivazione: string = "",
