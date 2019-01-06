@@ -1,4 +1,5 @@
 import IRuolo from "./Ruolo";
+import { ERuolo } from "./tipoRuolo";
 
 export default class User {
   private _roles = new Set<IRuolo>();
@@ -18,8 +19,12 @@ export default class User {
     return true;
   }
 
-  public is(role: IRuolo): boolean {
-    throw new Error("Method not implemented.");
+  public getRuolo(role: IRuolo): boolean {
+    if (this._roles.has(role)) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   public get name() {

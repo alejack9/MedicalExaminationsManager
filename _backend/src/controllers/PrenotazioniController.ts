@@ -2,6 +2,7 @@ import * as _ from "underscore";
 import Tools from "../asset/tools";
 import Patient from "../models/Patient";
 import Prenotazione from "../models/Prenotazione";
+import Ricetta from "../models/Ricetta";
 import { TipoNotifica } from "../models/TipoNotifica";
 import User from "../models/User";
 import Visita from "../models/Visita";
@@ -16,13 +17,17 @@ export default abstract class PrenotazioniController {
     try {
       const descrizionePrenotazione = JSON.parse(prenotazione);
       const p = descrizionePrenotazione._paziente;
+      const patient = new User(p._name, p._surname, p._address, p._birthdate);
+      patient.addRole(new Patient());
+
       const visitaDaAnnullare = new Visita(
         descrizionePrenotazione._tipoVisita,
         descrizionePrenotazione._effettuata,
         descrizionePrenotazione._priorita,
         descrizionePrenotazione._pagata,
-        new Date(descrizionePrenotazione._data),
-        new Patient(new User(p._name, p._surname, p._address, p._birthdate))
+        descrizionePrenotazione._struttura,
+        patient,
+        new Ricetta("121212121", descrizionePrenotazione._tipoVisita)
       );
 
       const rep: number = PatientController.abbassaReputazione(

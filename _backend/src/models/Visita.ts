@@ -1,6 +1,7 @@
 import Patient from "./Patient";
 import Referto from "./Referto";
 import Ricetta from "./Ricetta";
+import User from "./User";
 
 export default class Visita {
   private _annullata: boolean = false;
@@ -10,7 +11,7 @@ export default class Visita {
     private _priorita: number,
     private _pagata: boolean,
     private _struttura: string,
-    private _paziente: Patient,
+    private _paziente: User,
     private _ricetta: Ricetta,
     private _referto?: Referto | undefined
   ) {
