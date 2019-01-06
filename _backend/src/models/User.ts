@@ -10,10 +10,12 @@ export default class User {
     private _birthDate: Date
   ) {}
 
-  public addRole(role: IRuolo): void {
-    if (!this._roles.has(role)) {
-      this._roles.add(role);
+  public addRole(role: IRuolo): boolean {
+    if (this._roles.has(role)) {
+      return false;
     }
+    this._roles.add(role);
+    return true;
   }
 
   public getRuolo(role: any): IRuolo | null {
