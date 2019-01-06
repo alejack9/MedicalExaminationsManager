@@ -1,17 +1,23 @@
 import Tools from "../asset/tools";
 import Patient from "../models/Patient";
+import User from "../models/User";
 
 export default class PatientController {
-  public static abbassaReputazione(paziente: Patient, data: Date): number {
-    let newrep: number;
-    newrep = PatientController.calcolaReputazione(paziente.reputazione, data);
-    paziente.reputazione = newrep;
+  public static abbassaReputazione(paziente: User, data: Date): number {
+    if (paziente.getRuolo(Patient) !== null) {
+      const p = paziente.getRuolo(Patient) as Patient;
+      let newrep: number;
+      newrep = PatientController.calcolaReputazione(p.reputazione, data);
+      p.reputazione = newrep;
 
-    Tools.Instance.getLogger("app:visite")(
-      `La nuova reputazione del paziente è ${paziente.reputazione}`
-    );
+      Tools.Instance.getLogger("app:visite")(
+        `La nuova reputazione del paziente è ${p.reputazione}`
+      );
 
-    return paziente.reputazione;
+      return p.reputazione;
+    } else {
+      throw new Error("l'user non è un paziente");
+    }
   }
   private static calcolaReputazione(reputazione: number, data: Date): number {
     const diff = data.valueOf() - new Date(Date.now()).valueOf();

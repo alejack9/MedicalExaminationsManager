@@ -18,12 +18,20 @@ export default class User {
     return true;
   }
 
-  public getRuolo(role: IRuolo): boolean {
-    if (this._roles.has(role)) {
-      return true;
+  public getRuolo(role: any): IRuolo | null {
+    let ruolo: IRuolo | null = null;
+    this._roles.forEach((x) => {
+      if (x instanceof role) {
+        ruolo = x;
+      }
+    });
+    return ruolo;
+
+    /*if (this._roles.has(role)) {
+      return ;
     } else {
       return false;
-    }
+    } */
   }
 
   public get name() {

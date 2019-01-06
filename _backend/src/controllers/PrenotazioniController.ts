@@ -21,19 +21,28 @@ export default abstract class PrenotazioniController {
       const patient = new User(p._name, p._surname, p._address, p._birthdate);
       patient.addRole(new Patient());
 
-      const visitaDaAnnullare = new Visita(
-        descrizionePrenotazione._tipoVisita,
-        descrizionePrenotazione._effettuata,
-        descrizionePrenotazione._priorita,
-        descrizionePrenotazione._pagata,
-        descrizionePrenotazione._struttura,
+      const visita: Visita = new Visita(
+        descrizionePrenotazione._visita._tipoVisita,
+        descrizionePrenotazione._visita._effettuata,
+        descrizionePrenotazione._visita._priorita,
+        descrizionePrenotazione._visita._pagata,
+        descrizionePrenotazione._visita._struttura,
         patient,
-        new Ricetta("121212121", descrizionePrenotazione._tipoVisita)
+        new Ricetta(
+          descrizionePrenotazione._visita.ricetta._codiceRicetta,
+          descrizionePrenotazione._visita.ricetta._tipoVisita
+        )
+      );
+
+      const PrenotazioneDaAnnullare = new Prenotazione(
+        visita,
+        descrizionePrenotazione._data,
+        descrizionePrenotazione._annullata
       );
 
       const rep: number = PatientController.abbassaReputazione(
-        visitaDaAnnullare.paziente,
-        visitaDaAnnullare.data
+        PrenotazioneDaAnnullare.visita.paziente,
+        PrenotazioneDaAnnullare.data
       );
 
       this.associaPrenotazioneAnnullata(visitaDaAnnullare);
