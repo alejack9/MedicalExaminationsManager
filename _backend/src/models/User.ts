@@ -19,12 +19,13 @@ export default class User {
   }
 
   public getRuolo(role: any): IRuolo | null {
+    let ruolo: IRuolo | null = null;
     this._roles.forEach((x) => {
       if (x instanceof role) {
-        return x;
+        ruolo = x;
       }
     });
-    return null;
+    return ruolo;
 
     /*if (this._roles.has(role)) {
       return ;
