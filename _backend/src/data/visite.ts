@@ -1,51 +1,20 @@
 import Ricetta from "../models/Ricetta";
 import Visita from "../models/Visita";
-import pazienti from "./pazienti";
+
+import utenti from "./utenti";
 
 const visite = [
-  new Visita(
-    "oculistica",
-    false,
-    2,
-    false,
-    "",
-    pazienti[0],
-    new Ricetta("", "")
-  ),
-  new Visita(
-    "oculistica",
-    false,
-    1,
-    false,
-    "",
-    pazienti[1],
-    new Ricetta("", "")
-  ),
-  new Visita(
-    "oculistica",
-    false,
-    2,
-    false,
-    "",
-    pazienti[2],
-    new Ricetta("", "")
-  ),
-  new Visita(
-    "oculistica",
-    false,
-    2,
-    false,
-    "",
-    pazienti[3],
-    new Ricetta("", "")
-  ),
+  new Visita("oculistica", false, 2, false, "", utenti[0], new Ricetta("", "")),
+  new Visita("oculistica", false, 1, false, "", utenti[1], new Ricetta("", "")),
+  new Visita("oculistica", false, 2, false, "", utenti[2], new Ricetta("", "")),
+  new Visita("oculistica", false, 2, false, "", utenti[3], new Ricetta("", "")),
   new Visita(
     "odontoriatica",
     false,
     1,
     false,
     "",
-    pazienti[0],
+    utenti[0],
     new Ricetta("", "")
   ),
   new Visita(
@@ -54,7 +23,7 @@ const visite = [
     2,
     false,
     "",
-    pazienti[1],
+    utenti[1],
     new Ricetta("", "")
   ),
   new Visita(
@@ -63,7 +32,7 @@ const visite = [
     2,
     false,
     "",
-    pazienti[2],
+    utenti[2],
     new Ricetta("", "")
   ),
   new Visita(
@@ -72,7 +41,7 @@ const visite = [
     2,
     false,
     "",
-    pazienti[3],
+    utenti[3],
     new Ricetta("", "")
   ),
   new Visita(
@@ -81,7 +50,7 @@ const visite = [
     2,
     false,
     "",
-    pazienti[0],
+    utenti[0],
     new Ricetta("", "")
   ),
   new Visita(
@@ -90,7 +59,7 @@ const visite = [
     1,
     false,
     "",
-    pazienti[1],
+    utenti[1],
     new Ricetta("", "")
   ),
   new Visita(
@@ -99,18 +68,10 @@ const visite = [
     2,
     false,
     "",
-    pazienti[2],
+    utenti[2],
     new Ricetta("", "")
   ),
-  new Visita(
-    "radiologica",
-    false,
-    2,
-    false,
-    "",
-    pazienti[3],
-    new Ricetta("", "")
-  )
+  new Visita("radiologica", false, 2, false, "", utenti[3], new Ricetta("", ""))
 ];
 
 // Tools.Instance.getLogger("app:visite")("Elenco visite:");

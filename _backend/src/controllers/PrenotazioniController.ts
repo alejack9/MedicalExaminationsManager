@@ -45,7 +45,7 @@ export default abstract class PrenotazioniController {
         PrenotazioneDaAnnullare.data
       );
 
-      this.associaPrenotazioneAnnullata(visitaDaAnnullare);
+      this.associaPrenotazioneAnnullata(PrenotazioneDaAnnullare);
     } catch (e) {
       logger(e.message);
     }
@@ -105,7 +105,9 @@ export default abstract class PrenotazioniController {
 
   private static recuperaMassimaReputazione() {
     this.prenotazioni = _.pairs(
-      _.groupBy(this.prenotazioni, (p) => p.visita.paziente.reputazione)
+      _.groupBy(this.prenotazioni, (p) => {
+        p.visita.getReputazionePaziente();
+      })
     ).sort((e1, e2) => (e1[0] < e2[0] ? 1 : -1))[0][1];
   }
 

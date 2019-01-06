@@ -2,6 +2,7 @@ import * as express from "express";
 import Tools from "../asset/tools";
 import PrenotazioniController from "../controllers/PrenotazioniController";
 import Patient from "../models/Patient";
+import Ricetta from "../models/Ricetta";
 import User from "../models/User";
 import Visita from "../models/Visita";
 
@@ -23,10 +24,9 @@ logger(
       false,
       2,
       false,
-      new Date(2019, 5, 6),
-      new Patient(
-        new User("Miguel", "Cerozzi", "via Dante", new Date("13/3/1997"))
-      )
+      "ospedale Roma",
+      new User("Miguel", "Cerozzi", "via Dante", new Date("13/3/1997")),
+      new Ricetta("22222", "OCULISTICA")
     )
   )
 );
