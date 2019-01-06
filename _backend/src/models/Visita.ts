@@ -1,14 +1,17 @@
 import Patient from "./Patient";
 import Referto from "./Referto";
+import Ricetta from "./Ricetta";
 
 export default class Visita {
+  private _annullata: boolean = false;
   constructor(
     private _tipoVisita: string,
     private _effettuata: boolean,
     private _priorita: number,
     private _pagata: boolean,
-    private _data: Date,
+    private _struttura: string,
     private _paziente: Patient,
+    private _ricetta: Ricetta,
     private _referto?: Referto | undefined
   ) {
     if (_priorita < 0) {
@@ -16,6 +19,12 @@ export default class Visita {
     }
   }
 
+  public get annullata() {
+    return this._annullata;
+  }
+  public annulla() {
+    this._annullata = true;
+  }
   public get tipoVisita() {
     return this._tipoVisita;
   }
@@ -28,14 +37,17 @@ export default class Visita {
   public get pagata() {
     return this._pagata;
   }
-  public get data() {
-    return this._data;
+  public get ricetta() {
+    return this._ricetta;
   }
   public get paziente() {
     return this._paziente;
   }
   public get referto() {
     return this._referto;
+  }
+  public get struttura() {
+    return this._struttura;
   }
 
   public equals(obj: object): boolean {
@@ -50,13 +62,14 @@ export default class Visita {
     }
     const visita = obj as Visita;
     if (
-      this._tipoVisita === visita._tipoVisita &&
-      this._effettuata === visita._effettuata &&
-      this._pagata === visita._pagata &&
-      this._data === visita._data &&
-      this._paziente.equals(visita._paziente) &&
-      ((this._referto === undefined && visita._referto === undefined) ||
-        (this._referto as Referto).equals(visita._referto as Referto))
+      this._tipoVisita === visita.tipoVisita &&
+      this._struttura === visita.struttura &&
+      this._effettuata === visita.effettuata &&
+      this._pagata === visita.pagata &&
+      this._ricetta.equals(visita.ricetta) &&
+      this._paziente.equals(visita.paziente) &&
+      ((this._referto === undefined && visita.referto === undefined) ||
+        (this._referto as Referto).equals(visita.referto as Referto))
     ) {
       return true;
     }

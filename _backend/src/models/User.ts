@@ -1,12 +1,26 @@
 import IRuolo from "./Ruolo";
 
 export default class User {
+  private _roles = new Set<IRuolo>();
+
   constructor(
     private _name: string,
     private _surname: string,
     private _address: string,
     private _birthDate: Date
   ) {}
+
+  public addRole(role: IRuolo): boolean {
+    if (this._roles.has(role)) {
+      return false;
+    }
+    this._roles.add(role);
+    return true;
+  }
+
+  public is(role: IRuolo): boolean {
+    throw new Error("Method not implemented.");
+  }
 
   public get name() {
     return this._name;
@@ -35,7 +49,8 @@ export default class User {
       this.name === user.name &&
       this.surname === user.surname &&
       this.address === user.address &&
-      this.birthDate.toISOString() === user.birthDate.toISOString()
+      this.birthDate.toISOString() === user.birthDate.toISOString() &&
+      Array.from(this._roles).every((r) => user.is(r))
     ) {
       return true;
     }

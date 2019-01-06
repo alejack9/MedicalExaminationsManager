@@ -1,9 +1,5 @@
-import Visita from "./Visita";
+import { TipoNotifica } from "./TipoNotifica";
 
-export default class Notifica {
-  constructor(
-    private visita: Visita,
-    private tipo: string,
-    private nuovaData: Date
-  ) {}
+export default interface INotifica {
+  getTipo(): TipoNotifica;
 }

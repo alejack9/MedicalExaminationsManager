@@ -1,3 +1,4 @@
+import Ricetta from "../models/Ricetta";
 import Visita from "../models/Visita";
 import pazienti from "./pazienti";
 
@@ -7,96 +8,108 @@ const visite = [
     false,
     2,
     false,
-    new Date(2019, 3, 10, 9, 0),
-    pazienti[0]
+    "",
+    pazienti[0],
+    new Ricetta("", "")
   ),
   new Visita(
     "oculistica",
     false,
     1,
     false,
-    new Date(2019, 4, 12, 9, 0),
-    pazienti[1]
+    "",
+    pazienti[1],
+    new Ricetta("", "")
   ),
   new Visita(
     "oculistica",
     false,
     2,
     false,
-    new Date(2019, 4, 1, 9, 0),
-    pazienti[2]
+    "",
+    pazienti[2],
+    new Ricetta("", "")
   ),
   new Visita(
     "oculistica",
     false,
     2,
     false,
-    new Date(2019, 4, 1, 10, 0),
-    pazienti[3]
+    "",
+    pazienti[3],
+    new Ricetta("", "")
   ),
   new Visita(
     "odontoriatica",
     false,
     1,
     false,
-    new Date(2019, 3, 10, 9, 0),
-    pazienti[0]
+    "",
+    pazienti[0],
+    new Ricetta("", "")
   ),
   new Visita(
     "odontoriatica",
     false,
     2,
     false,
-    new Date(2019, 4, 12, 9, 0),
-    pazienti[1]
+    "",
+    pazienti[1],
+    new Ricetta("", "")
   ),
   new Visita(
     "odontoriatica",
     false,
     2,
     false,
-    new Date(2019, 4, 1, 9, 0),
-    pazienti[2]
+    "",
+    pazienti[2],
+    new Ricetta("", "")
   ),
   new Visita(
     "odontoriatica",
     false,
     2,
     false,
-    new Date(2019, 4, 1, 10, 0),
-    pazienti[3]
+    "",
+    pazienti[3],
+    new Ricetta("", "")
   ),
   new Visita(
     "radiologica",
     false,
     2,
     false,
-    new Date(2019, 3, 10, 9, 0),
-    pazienti[0]
+    "",
+    pazienti[0],
+    new Ricetta("", "")
   ),
   new Visita(
     "radiologica",
     false,
     1,
     false,
-    new Date(2019, 3, 9, 9, 0),
-    pazienti[1]
+    "",
+    pazienti[1],
+    new Ricetta("", "")
   ),
   new Visita(
     "radiologica",
     false,
     2,
     false,
-    new Date(2019, 4, 1, 9, 0),
-    pazienti[2]
+    "",
+    pazienti[2],
+    new Ricetta("", "")
   ),
   new Visita(
     "radiologica",
     false,
     2,
     false,
-    new Date(2019, 4, 1, 10, 0),
-    pazienti[3]
+    "",
+    pazienti[3],
+    new Ricetta("", "")
   )
 ];
 

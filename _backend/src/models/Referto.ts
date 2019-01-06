@@ -38,25 +38,15 @@ export default class Referto {
       return false;
     }
     const referto = obj as Referto;
-    if (this.nome === referto.nome && this.path === referto.path) {
-      if (
-        this.allegati === referto.allegati ||
-        this.checkAllegati(referto.allegati)
-      ) {
-        return true;
-      }
-    }
-    return false;
-  }
-  private checkAllegati(allegati: Allegato[]) {
-    if (allegati.length !== this.allegati.length) {
-      return false;
-    }
-    for (let i = 0; i < allegati.length; i++) {
-      if (allegati[i].equals(this.allegati[i])) {
-        return false;
-      }
+    if (
+      this.nome === referto.nome &&
+      this.path === referto.path &&
+      (this.allegati === referto.allegati ||
+        (referto.allegati.length === this.allegati.length ||
+          referto.allegati.every((a) => a.equals(this.allegati))))
+    ) {
       return true;
     }
+    return false;
   }
 }
