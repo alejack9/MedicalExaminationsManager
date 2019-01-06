@@ -1,5 +1,4 @@
 import IRuolo from "./Ruolo";
-import { ERuolo } from "./tipoRuolo";
 
 export default class User {
   private _roles = new Set<IRuolo>();
