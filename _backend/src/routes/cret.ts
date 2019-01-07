@@ -1,21 +1,19 @@
 import * as express from "express";
-import { RicettaController } from "../controllers/RicettaController";
+import RicettaController from "../controllers/RicettaController";
+import Tools from "../utils/tools";
+const logger = Tools.Instance.getLogger("app:Ricetta");
 const router = express.Router();
 
 const regioni = ["MA", "LA", "EM"];
 const tipo_visita = ["ortopedia", "analisi", "oculista"];
-const controller = new RicettaController();
 
 router.get("/", (req, res) => {
-  const visita_memorizzata = controller.CheckAll(
+  const visita_memorizzata = RicettaController.checkAll(
     "873648264872888",
-    "MA",
-    regioni,
-    "ortopedia",
-    tipo_visita
+    "ortopedia"
   );
-  console.log("ciao");
-  console.log(visita_memorizzata);
+  logger("ciao");
+  logger(visita_memorizzata);
   res.send(visita_memorizzata);
 });
 

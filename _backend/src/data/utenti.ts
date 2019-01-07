@@ -27,14 +27,9 @@ const utenti = [
     new Date(1999, 7, 15)
   )
 ];
-
-export class Utenti {
-  public static associaRuoli(): void {
-    utenti[0].addRole(pazienti[0]);
-    utenti[1].addRole(pazienti[1]);
-    utenti[2].addRole(pazienti[2]);
-    utenti[3].addRole(pazienti[3]);
-  }
-}
+utenti[0].addRole(pazienti[0]);
+utenti[1].addRole(pazienti[1]);
+utenti[2].addRole(pazienti[2]);
+utenti[3].addRole(pazienti[3]);
 
 export default utenti;

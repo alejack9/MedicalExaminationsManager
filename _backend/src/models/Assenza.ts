@@ -1,6 +1,6 @@
-import { OfficeDoctor } from "./OfficeDoctor";
+import OfficeDoctor from "./OfficeDoctor";
 
-export class Assenza {
+export default class Assenza {
   constructor(
     private _data: Date[],
     private _motivazione: string,

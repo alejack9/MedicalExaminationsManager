@@ -1,4 +1,4 @@
-import Tools from "./asset/tools";
+import Tools from "./utils/tools";
 const config = Tools.Instance.config;
 const path = Tools.Instance.path;
 

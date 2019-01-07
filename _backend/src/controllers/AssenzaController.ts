@@ -1,44 +1,29 @@
-import { Assenza } from "../models/Assenza";
-import { Notificator } from "../models/Notificator";
-import { OfficeDoctor } from "../models/OfficeDoctor";
-import { Visita } from "../models/Visita";
-import { VisitaGetter } from "../models/VisitaGetter";
+import Notificator from "../controllers/Notificator";
+import PrenotazioniGetter from "../controllers/PrenotazioniGetter";
+import Assenza from "../models/Assenza";
+import OfficeDoctor from "../models/OfficeDoctor";
+import { TipoNotifica } from "../models/TipoNotifica";
 
 export default class AssenzaController {
   public creaAssenza(
-    _intervallo: Date[],
-    _motivazione: string = "",
-    _officeDoctor: OfficeDoctor
+    intervallo: Date[],
+    motivazione: string = "",
+    officeDoctor: OfficeDoctor
   ) {
-    if (this.checkIntervallo(_intervallo) === true) {
-      const assenza = new Assenza(_intervallo, _motivazione, _officeDoctor);
-      let visite: Visita[] = [];
+    if (this.checkIntervallo(intervallo)) {
+      const assenza = new Assenza(intervallo, motivazione, officeDoctor);
 
-      for (let i = 0; i < _intervallo.length; i++) {
-        const vGetter = new VisitaGetter();
-        visite = vGetter.getVisite(_intervallo[i], _officeDoctor);
-
-        for (let j = 0; j < visite.length; j++) {
-          const not = new Notificator();
-          not.creaNotifica(
-            "Dottore Assente",
-            visite[j],
-            "Notofica Assenza",
-            assenza
-          );
+      for (const data of intervallo) {
+        for (const prenotazione of PrenotazioniGetter.getPrenotazioniDottore(
+          data,
+          officeDoctor
+        )) {
+          Notificator.creaNotifica(prenotazione, TipoNotifica.assenza);
         }
       }
-
-      return true;
     }
-    return false;
   }
-
   public checkIntervallo(interv: Date[]) {
-    if (interv[0] <= interv[1]) {
-      return true;
-    }
-
-    return false;
+    return interv[0] <= interv[1];
   }
 }

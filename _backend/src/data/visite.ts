@@ -1,77 +1,131 @@
 import Ricetta from "../models/Ricetta";
 import Visita from "../models/Visita";
 
+import OfficeDoctor from "../models/OfficeDoctor";
+import Patient from "../models/Patient";
 import utenti from "./utenti";
 
 const visite = [
-  new Visita("oculistica", false, 2, false, "", utenti[0], new Ricetta("", "")),
-  new Visita("oculistica", false, 1, false, "", utenti[1], new Ricetta("", "")),
-  new Visita("oculistica", false, 2, false, "", utenti[2], new Ricetta("", "")),
-  new Visita("oculistica", false, 2, false, "", utenti[3], new Ricetta("", "")),
   new Visita(
-    "odontoriatica",
+    "oculistica",
     false,
+    false,
+    utenti[0].getRuolo(new Patient()) as Patient,
+    new Ricetta("", ""),
+    "",
+    2,
+    new OfficeDoctor()
+  ),
+  new Visita(
+    "oculistica",
+    false,
+    false,
+    utenti[1].getRuolo(new Patient()) as Patient,
+    new Ricetta("", ""),
+    "",
     1,
+    new OfficeDoctor()
+  ),
+  new Visita(
+    "oculistica",
     false,
+    false,
+    utenti[2].getRuolo(new Patient()) as Patient,
+    new Ricetta("", ""),
     "",
-    utenti[0],
-    new Ricetta("", "")
+    2,
+    new OfficeDoctor()
+  ),
+  new Visita(
+    "oculistica",
+    false,
+    false,
+    utenti[3].getRuolo(new Patient()) as Patient,
+    new Ricetta("", ""),
+    "",
+    2,
+    new OfficeDoctor()
   ),
   new Visita(
     "odontoriatica",
     false,
-    2,
     false,
+    utenti[0].getRuolo(new Patient()) as Patient,
+    new Ricetta("", ""),
     "",
-    utenti[1],
-    new Ricetta("", "")
-  ),
-  new Visita(
-    "odontoriatica",
-    false,
-    2,
-    false,
-    "",
-    utenti[2],
-    new Ricetta("", "")
-  ),
-  new Visita(
-    "odontoriatica",
-    false,
-    2,
-    false,
-    "",
-    utenti[3],
-    new Ricetta("", "")
-  ),
-  new Visita(
-    "radiologica",
-    false,
-    2,
-    false,
-    "",
-    utenti[0],
-    new Ricetta("", "")
-  ),
-  new Visita(
-    "radiologica",
-    false,
     1,
+    new OfficeDoctor()
+  ),
+  new Visita(
+    "odontoriatica",
     false,
+    false,
+    utenti[1].getRuolo(new Patient()) as Patient,
+    new Ricetta("", ""),
     "",
-    utenti[1],
-    new Ricetta("", "")
+    2,
+    new OfficeDoctor()
+  ),
+  new Visita(
+    "odontoriatica",
+    false,
+    false,
+    utenti[2].getRuolo(new Patient()) as Patient,
+    new Ricetta("", ""),
+    "",
+    2,
+    new OfficeDoctor()
+  ),
+  new Visita(
+    "odontoriatica",
+    false,
+    false,
+    utenti[3].getRuolo(new Patient()) as Patient,
+    new Ricetta("", ""),
+    "",
+    2,
+    new OfficeDoctor()
   ),
   new Visita(
     "radiologica",
     false,
-    2,
     false,
+    utenti[0].getRuolo(new Patient()) as Patient,
+    new Ricetta("", ""),
     "",
-    utenti[2],
-    new Ricetta("", "")
+    2,
+    new OfficeDoctor()
   ),
-  new Visita("radiologica", false, 2, false, "", utenti[3], new Ricetta("", ""))
+  new Visita(
+    "radiologica",
+    false,
+    false,
+    utenti[1].getRuolo(new Patient()) as Patient,
+    new Ricetta("", ""),
+    "",
+    1,
+    new OfficeDoctor()
+  ),
+  new Visita(
+    "radiologica",
+    false,
+    false,
+    utenti[2].getRuolo(new Patient()) as Patient,
+    new Ricetta("", ""),
+    "",
+    2,
+    new OfficeDoctor()
+  ),
+  new Visita(
+    "radiologica",
+    false,
+    false,
+    utenti[3].getRuolo(new Patient()) as Patient,
+    new Ricetta("", ""),
+    "",
+    2,
+    new OfficeDoctor()
+  )
 ];
 
 // Tools.Instance.getLogger("app:visite")("Elenco visite:");

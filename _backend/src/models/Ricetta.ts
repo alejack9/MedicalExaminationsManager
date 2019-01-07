@@ -2,7 +2,6 @@ export default class Ricetta {
   constructor(
     private _codiceRicetta: string,
     private _tipoVisita: string,
-    _regione: string
   ) {}
   public get codiceRicetta() {
     return this._codiceRicetta;

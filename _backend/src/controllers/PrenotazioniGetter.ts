@@ -8,7 +8,9 @@ export default abstract class PrenotazioniGetter {
     data: Date,
     officeDoctor: OfficeDoctor
   ): Prenotazione[] {
-    throw new Error("Method not implemented.");
+    return prenotazioni.filter(
+      (p) => p.visita.medico === officeDoctor && p.data === data
+    );
   }
   public static getPrenotazioniPaziente(
     date: Date[],

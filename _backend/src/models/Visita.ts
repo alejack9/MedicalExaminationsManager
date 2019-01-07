@@ -86,7 +86,6 @@ export default class Visita {
   }
   public eliminaRicetta(): void {
     delete this.ricetta;
-    // throw new Error("not implemented method");
   }
   public getReputazionePaziente(): number {
     return this._paziente.reputazione;

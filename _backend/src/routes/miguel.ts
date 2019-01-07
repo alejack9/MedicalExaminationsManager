@@ -1,10 +1,10 @@
 import * as express from "express";
 import AssenzaController from "../controllers/AssenzaController";
 import RefertoManager from "../controllers/RefertoManager";
+import prenotazioni from "../data/prenotazioni";
 import Allegato from "../models/Allegato";
 import OfficeDoctor from "../models/OfficeDoctor";
 import Referto from "../models/Referto";
-import Visita from "../models/Visita";
 
 const router = express.Router();
 
@@ -23,23 +23,20 @@ date.push(d2);
 
 const referto = new Referto("", "", al);
 const officeDoctor = new OfficeDoctor();
-const visita = new Visita(
-  "Cardiologia",
-  false,
-  false,
-  new Date(),
-  officeDoctor,
-  referto
-);
 
 const manager = new RefertoManager();
 const controller = new AssenzaController();
 
 router.put("/", (req, res) => {
-  const notifica = manager.aggiungiReferto("Ref01", "ciao", al, visita);
+  const notifica = manager.aggiungiReferto(
+    "Ref01",
+    "ciao",
+    al,
+    prenotazioni[0]
+  );
 
   if (notifica !== undefined) {
-    res.send(notifica.testo);
+    res.send(notifica);
   }
 
   res.send("Oh no");
@@ -47,12 +44,7 @@ router.put("/", (req, res) => {
 
 router.post("/", (req, res) => {
   const notifica = controller.creaAssenza(date, "malattia", officeDoctor);
-
-  if (notifica !== false) {
-    res.send("done");
-  }
-
-  res.send("Intervallo errato");
+  res.send("done");
 });
 
 router.get("/", (req, res) => res.send("done"));

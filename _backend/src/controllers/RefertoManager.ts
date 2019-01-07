@@ -1,32 +1,21 @@
-import { Allegato } from "../models/Allegato";
-import { Notifica } from "../models/INotifica";
-import { Notificator } from "../models/Notificator";
-import { Referto } from "../models/Referto";
-import { Visita } from "../models/Visita";
-import { ControllerVisite } from "./ControllerVisite";
-
-let notifica: Notifica;
+import Notificator from "../controllers/Notificator";
+import Allegato from "../models/Allegato";
+import Prenotazione from "../models/Prenotazione";
+import Referto from "../models/Referto";
+import { TipoNotifica } from "../models/TipoNotifica";
+import VisiteController from "./VisiteController";
 
 export default class RefertoManager {
   public aggiungiReferto(
     nome: string,
     path: string,
     allegati: Allegato[],
-    visita: Visita
+    prenotazione: Prenotazione
   ) {
     const referto = new Referto(nome, path, allegati);
 
-    const caricato = ControllerVisite.addReferto(visita, referto);
+    VisiteController.addReferto(prenotazione.visita, referto);
 
-    if (caricato === true) {
-      const notificator = new Notificator();
-      notifica = notificator.creaNotifica(
-        "Referto Caricato",
-        visita,
-        "Notifica Referto"
-      );
-    }
-
-    return notifica;
+    return Notificator.creaNotifica(prenotazione, TipoNotifica.referto);
   }
 }

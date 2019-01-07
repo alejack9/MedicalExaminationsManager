@@ -1,7 +1,7 @@
-import IRuolo from "./Ruolo";
+import IRuolo from "./IRuolo";
 
 export default class User {
-  private _roles = new Set<IRuolo>();
+  private _roles = new Map<string, IRuolo>();
 
   constructor(
     private _name: string,
@@ -11,27 +11,26 @@ export default class User {
   ) {}
 
   public addRole(role: IRuolo): boolean {
-    if (this._roles.has(role)) {
+    if (this._roles.has(role.getRole())) {
       return false;
     }
-    this._roles.add(role);
+    this._roles.set(role.getRole(), role);
     return true;
   }
 
-  public getRuolo(role: any): IRuolo | null {
-    let ruolo: IRuolo | null = null;
-    this._roles.forEach((x) => {
-      if (x instanceof role) {
-        ruolo = x;
-      }
-    });
-    return ruolo;
+  public is<T extends IRuolo>(role: T) {
+    return this._roles.has(role.getRole());
+  }
 
-    /*if (this._roles.has(role)) {
-      return ;
-    } else {
-      return false;
-    } */
+  public getRuolo<T extends IRuolo>(role: T): T | null {
+    if (!this.is(role)) {
+      return null;
+    }
+    return this._roles.get(role.getRole()) as T;
+  }
+
+  public rulesCount() {
+    return this._roles.size;
   }
 
   public get name() {
@@ -62,7 +61,12 @@ export default class User {
       this.surname === user.surname &&
       this.address === user.address &&
       this.birthDate.toISOString() === user.birthDate.toISOString() &&
-      Array.from(this._roles).every((r) => user.is(r))
+      this.rulesCount() === user.rulesCount() &&
+      Array.from(this._roles)
+        .map((x) => x[1])
+        .every(
+          (r) => user.getRuolo(r) !== null && r.equals(user.getRuolo(r) as IRuolo)
+        )
     ) {
       return true;
     }

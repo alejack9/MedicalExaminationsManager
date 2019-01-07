@@ -1,12 +1,8 @@
 import * as _ from "underscore";
-import Tools from "../asset/tools";
 import prenotazioni from "../data/prenotazioni";
-import Patient from "../models/Patient";
 import Prenotazione from "../models/Prenotazione";
-import Ricetta from "../models/Ricetta";
 import { TipoNotifica } from "../models/TipoNotifica";
-import User from "../models/User";
-import Visita from "../models/Visita";
+import Tools from "../utils/tools";
 import Notificator from "./Notificator";
 import PatientController from "./PatientController";
 import PrenotazioniGetter from "./PrenotazioniGetter";
@@ -14,41 +10,41 @@ import PrenotazioniGetter from "./PrenotazioniGetter";
 const logger = Tools.Instance.getLogger("app:visite");
 
 export default abstract class PrenotazioniController {
-  public static annullaPrenotazione(prenotazione: string): void {
-    try {
-      const descrizionePrenotazione = JSON.parse(prenotazione);
-      const p = descrizionePrenotazione._paziente;
-      const patient = new User(p._name, p._surname, p._address, p._birthdate);
-      patient.addRole(new Patient());
+  public static annullaPrenotazione(prenotazione: Prenotazione): void {
+    // try {
+    // const descrizionePrenotazione = JSON.parse(prenotazione);
+    // const p = descrizionePrenotazione._paziente;
+    // const patient = new User(p._name, p._surname, p._address, p._birthdate);
+    // patient.addRole(new Patient());
 
-      const visita: Visita = new Visita(
-        descrizionePrenotazione._visita._tipoVisita,
-        descrizionePrenotazione._visita._effettuata,
-        descrizionePrenotazione._visita._priorita,
-        descrizionePrenotazione._visita._pagata,
-        descrizionePrenotazione._visita._struttura,
-        patient,
-        new Ricetta(
-          descrizionePrenotazione._visita.ricetta._codiceRicetta,
-          descrizionePrenotazione._visita.ricetta._tipoVisita
-        )
-      );
+    // const visita: Visita = new Visita(
+    //   descrizionePrenotazione._visita._tipoVisita,
+    //   descrizionePrenotazione._visita._effettuata,
+    //   descrizionePrenotazione._visita._priorita,
+    //   descrizionePrenotazione._visita._pagata,
+    //   descrizionePrenotazione._visita._struttura,
+    //   patient,
+    //   new Ricetta(
+    //     descrizionePrenotazione._visita.ricetta._codiceRicetta,
+    //     descrizionePrenotazione._visita.ricetta._tipoVisita
+    //   )
+    // );
 
-      const PrenotazioneDaAnnullare = new Prenotazione(
-        visita,
-        descrizionePrenotazione._data,
-        descrizionePrenotazione._annullata
-      );
+    // const PrenotazioneDaAnnullare = new Prenotazione(
+    //   visita,
+    //   descrizionePrenotazione._data,
+    //   descrizionePrenotazione._annullata
+    // );
 
-      const rep: number = PatientController.abbassaReputazione(
-        PrenotazioneDaAnnullare.visita.paziente,
-        PrenotazioneDaAnnullare.data
-      );
-
-      this.associaPrenotazioneAnnullata(PrenotazioneDaAnnullare);
-    } catch (e) {
-      logger(e.message);
-    }
+    const rep: number = PatientController.abbassaReputazione(
+      prenotazione.visita.paziente,
+      prenotazione.data
+    );
+    logger(prenotazione);
+    this.associaPrenotazioneAnnullata(prenotazione);
+    // } catch (e) {
+    //   logger(e.message);
+    // }
   }
   public static associaPrenotazioneAnnullata(prenotazione: Prenotazione): void {
     this.printVisita("Annullata", prenotazione);
