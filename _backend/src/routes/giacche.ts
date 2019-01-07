@@ -11,4 +11,4 @@ prenotazioni.forEach((p) =>
   PrenotazioniController.associaPrenotazioneAnnullata(p)
 );
 
-export = router;
+export = router; 
