@@ -35,7 +35,7 @@ Medical Examinations Manager for Software Engineering Project
       - associa prenotazione annullata
       - comunica assenza
       - carica referto
-      - annulla visita
+      - annulla prenotazione
       - carica ricetta
   - Incontro 2: (28/11) 16:45 - 18:00
     - Descrizione dei casi d'uso
@@ -43,14 +43,14 @@ Medical Examinations Manager for Software Engineering Project
       - carica referto
   - Incontro 3: (29/11) 14:30 - 16:40
     - Descrizione dei casi d'uso
-      - annulla visita
+      - annulla prenotazione
       - carica ricetta
   - Incontro 4: (4/12) 11:15 - 12:50
     - CD e SD del caso d'uso
       - carica ricetta
   - Incontro 5: (6/12) 16:30 - 18:30
     - CD e SD del caso d'uso
-      - annulla visita
+      - annulla prenotazione
     - analisi CD del caso d'uso
       - comunica assenza
     - identificazione nuovo caso d'uso "cerca date"
@@ -77,7 +77,7 @@ Medical Examinations Manager for Software Engineering Project
         - carica referto
       - Sottogruppo Boccuto - Giacchè
         - risponde a modifica data
-        - annulla visita
+        - annulla prenotazione
         - associa prenotazione annullata
 
 ---
