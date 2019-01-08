@@ -1,7 +1,7 @@
 import * as express from "express";
 import RicettaController from "../controllers/RicettaController";
 import Tools from "../utils/tools";
-const logger = Tools.Instance.getLogger("app:Ricetta");
+const logger = Tools.Instance.getLogger("app:ricetta");
 const router = express.Router();
 
 const regioni = ["MA", "LA", "EM"];
