@@ -85,7 +85,7 @@ export default class Visita {
     }
   }
   public eliminaRicetta(): void {
-    delete this.ricetta;
+    // TODO
   }
   public getReputazionePaziente(): number {
     return this._paziente.reputazione;
