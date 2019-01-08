@@ -11,40 +11,18 @@ const logger = Tools.Instance.getLogger("app:visite");
 
 export default abstract class PrenotazioniController {
   public static annullaPrenotazione(prenotazione: Prenotazione): void {
-    // try {
-    // const descrizionePrenotazione = JSON.parse(prenotazione);
-    // const p = descrizionePrenotazione._paziente;
-    // const patient = new User(p._name, p._surname, p._address, p._birthdate);
-    // patient.addRole(new Patient());
-
-    // const visita: Visita = new Visita(
-    //   descrizionePrenotazione._visita._tipoVisita,
-    //   descrizionePrenotazione._visita._effettuata,
-    //   descrizionePrenotazione._visita._priorita,
-    //   descrizionePrenotazione._visita._pagata,
-    //   descrizionePrenotazione._visita._struttura,
-    //   patient,
-    //   new Ricetta(
-    //     descrizionePrenotazione._visita.ricetta._codiceRicetta,
-    //     descrizionePrenotazione._visita.ricetta._tipoVisita
-    //   )
-    // );
-
-    // const PrenotazioneDaAnnullare = new Prenotazione(
-    //   visita,
-    //   descrizionePrenotazione._data,
-    //   descrizionePrenotazione._annullata
-    // );
-
-    const rep: number = PatientController.abbassaReputazione(
-      prenotazione.visita.paziente,
-      prenotazione.data
-    );
-    logger(prenotazione);
-    this.associaPrenotazioneAnnullata(prenotazione);
-    // } catch (e) {
-    //   logger(e.message);
-    // }
+    if (!prenotazione.visita.effettuata && !prenotazione.visita.pagata) {
+      const rep: number = PatientController.abbassaReputazione(
+        prenotazione.visita.paziente,
+        prenotazione.data
+      );
+      logger(prenotazione);
+      this.associaPrenotazioneAnnullata(prenotazione);
+    } else {
+      logger(
+        "La prenotazione è stata effettuata o pagata e quindi non può essere annullata"
+      );
+    }
   }
   public static associaPrenotazioneAnnullata(prenotazione: Prenotazione): void {
     this.printVisita("Annullata", prenotazione);
