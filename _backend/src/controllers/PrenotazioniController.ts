@@ -50,7 +50,7 @@ export default abstract class PrenotazioniController {
     this.printVisita("Annullata", prenotazione);
     this.prenotazioni = PrenotazioniGetter.ottieniListaPrenotazioni(
       prenotazione,
-      prenotazione.data
+      new Date(prenotazione.data.getTime() + 1000 * 60 * 60 * 48)
     );
     this.prenotazioni = this.prenotazioni.filter(
       (p) => !p.visita.paziente.equals(prenotazione.visita.paziente)
