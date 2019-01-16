@@ -26,7 +26,7 @@ Medical Examinations Manager for Software Engineering Project
     - Sistemato errori Diagramma dei casi d'uso
   - Incontro 6: (26/11) 14:30 - 17:00
     - Sistemati errori Sequence diagram
-- Iterazione 2: 27/11/'18 - 12/12/'18
+- Iterazione 2: 27/11/'18 - 04/01/'19
   - Incontro 1: (27/11) 15:00 - 17:00
     - Identificazione attori
     - Identificazione casi d'uso
@@ -69,7 +69,7 @@ Medical Examinations Manager for Software Engineering Project
     - CD e SD dei casi d'uso
       - associa prenotazione annullata
       - risponde a modifica data
-  - Incontro 10: (19/12) 15:15 = 16:30
+  - Incontro 10: (19/12) 15:15 - 16:30
     - Divisione in sottogruppi per implementazione prototipi UCs
       - Sottogruppo Celozzi - Cretone
         - carica ricetta
@@ -79,6 +79,13 @@ Medical Examinations Manager for Software Engineering Project
         - risponde a modifica data
         - annulla prenotazione
         - associa prenotazione annullata
+- Iterazione 3: 16/01/'19 - 1/02/'19
+  - Incontro 1: (16/01) 16:00 - 18:00
+    - Identificazione nuovo attore
+      - Tempo
+    - Identificazione casi d'uso
+      - Visualizza Referto
+      - Sposta Notifica
 
 ---
 
