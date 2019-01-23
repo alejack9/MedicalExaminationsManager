@@ -97,6 +97,23 @@ Medical Examinations Manager for Software Engineering Project
       - Annulla Prenotazione
       - Contrassegna Visita Effettuata
       - Associa Prenotazione
+  - Incontro 3: (23/01) 9:10 - 11:15
+    - Revisione casi d'uso
+      - Aggiunge Personale
+      - Visualizza Lista Visite Paziente
+      - Carica Ricetta
+      - Risponde A Modifica Data
+        - Aggiunti 2 casi d'uso
+          - Risponde A Possibilità Anticipo
+          - Risponde Ad Assenza Doctor's Office
+      - Visualizza Notifiche
+      - Effettua Login
+        - Aggiunti 3 casi d'uso
+          - Seleziona Ruolo
+          - Logout
+          - Modifica Password
+      - Carica Referto
+      - Visualizza Lista Prenotazioni
 
 ---
 
