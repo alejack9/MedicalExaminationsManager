@@ -86,6 +86,17 @@ Medical Examinations Manager for Software Engineering Project
     - Identificazione casi d'uso
       - Visualizza Referto
       - Sposta Notifica
+  - Incontro 2: (21/01) 10:30 - 12:45
+    - Revisione casi d'uso
+      - Ottiene lista visite
+      - Filtra Visite
+      - Seleziona Ricetta
+      - Prenota Visita
+      - Visualizza Referto
+      - Risponde a modifica data
+      - Annulla Prenotazione
+      - Contrassegna Visita Effettuata
+      - Associa Prenotazione
 
 ---
 
