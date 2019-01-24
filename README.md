@@ -114,6 +114,15 @@ Medical Examinations Manager for Software Engineering Project
           - Modifica Password
       - Carica Referto
       - Visualizza Lista Prenotazioni
+  - Incontro 4: (24/01) 9:15 - 11:30
+    - Revisione casi d'uso
+      - Logout
+      - Segna Pagamento
+      - Sostituisce Dottore
+      - Ottiene Visite e Prenotazioni Non Pagate
+      - Comunica Assenza
+      - Prenota Visita
+      - Sposta Notifiche
 
 ---
 
