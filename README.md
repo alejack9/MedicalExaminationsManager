@@ -139,6 +139,12 @@ Medical Examinations Manager for Software Engineering Project
       - Risponde a Possibilità Anticipo
       - Risponde ad Assenza Doctor's Office
 
+  - Incontro 7: (31/01) 11:30 - 12:30
+    - Sequence Diagram
+      - Effettua Login (revisione)
+      - Modifica Password (eliminazione)
+      - Seleziona Ruolo
+
 ---
 
 ## Descrizione Progetto
