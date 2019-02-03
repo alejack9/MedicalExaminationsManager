@@ -144,6 +144,12 @@ Medical Examinations Manager for Software Engineering Project
       - Effettua Login (revisione)
       - Modifica Password (eliminazione)
       - Seleziona Ruolo
+      
+  - Incontro 8: (03/02) 13:30 - 15:30
+    - Sequence Diagram
+       - Segna pagamento
+       - Contrassegna visita effettuata
+    - Revisione Class Diagram 
 
 ---
 
