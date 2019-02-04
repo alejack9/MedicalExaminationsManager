@@ -80,7 +80,6 @@ Medical Examinations Manager for Software Engineering Project
         - annulla prenotazione
         - associa prenotazione annullata
 - Iterazione 3: 16/01/'19 - 1/02/'19
-
   - Incontro 1: (16/01) 16:00 - 18:00
     - Identificazione nuovo attore
       - Tempo
@@ -125,25 +124,30 @@ Medical Examinations Manager for Software Engineering Project
       - Prenota Visita
       - Sposta Notifiche
   - Incontro 5: (28/01) 15:00 - 19:00
-
     - Revisione casi d'uso
       - Annulla Prenotazione
       - Associa Prenotazione
       - Carica Referto
       - Carica Ricetta
       - Ottieni Lista Visite
-
   - Incontro 6: (30/01) 9:30 - 11:15
     - Revisione sequence diagrams
       - Prenota Visita
       - Risponde a Possibilità Anticipo
       - Risponde ad Assenza Doctor's Office
-
   - Incontro 7: (31/01) 11:30 - 12:30
     - Sequence Diagram
       - Effettua Login (revisione)
       - Modifica Password (eliminazione)
       - Seleziona Ruolo
+  - Incontro 8: (02/02) 9:00 - 11:45
+    - Sequence Diagram
+      - Visualizza Notifiche
+      - Seleziona Ricetta
+      - Ottieni Visite e Prenotazioni Non Pagate
+      - Sposta Notifiche
+    - Use Case Diagram
+      - Ottieni Visite e Prentoazioni Non Pagate (rinominato)
 
 ---
 
