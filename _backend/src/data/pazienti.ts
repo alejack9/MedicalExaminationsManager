@@ -1,11 +1,10 @@
 import Patient from "../models/Patient";
-import utenti from "./utenti";
 
-const pazienti = [
-  new Patient(utenti[0]),
-  new Patient(utenti[1]),
-  new Patient(utenti[2]),
-  new Patient(utenti[3])
+const pazienti: Patient[] = [
+  new Patient(),
+  new Patient(),
+  new Patient(),
+  new Patient()
 ];
 pazienti[0].reputazione = 20;
 pazienti[1].reputazione = 20;
