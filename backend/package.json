@@ -23,6 +23,8 @@
     "@nestjs/common": "^5.4.0",
     "@nestjs/core": "^5.4.0",
     "@nestjs/mongoose": "^5.2.2",
+    "@types/mongoose": "^5.3.12",
+    "moment": "^2.24.0",
     "mongoose": "^5.4.10",
     "reflect-metadata": "^0.1.12",
     "rimraf": "^2.6.2",
