@@ -4,6 +4,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PrenotazioniModule } from './modules/prenotazioni/prenotazioni.module';
 import { StruttureModule } from './modules/strutture/strutture.module';
+import { RicettaModule } from './modules/ricetta/ricetta.module';
+import { RicettaService } from './modules/ricetta/ricetta.service';
 
 @Module({
   imports: [
@@ -12,8 +14,9 @@ import { StruttureModule } from './modules/strutture/strutture.module';
     }),
     PrenotazioniModule,
     StruttureModule,
+    RicettaModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, RicettaService],
 })
 export class AppModule {}
