@@ -1,4 +1,4 @@
 export class TipoVisita {
-  nome: string;
-  minutiVisita: number;
+  private nome: string;
+  private minutiVisita: number;
 }

@@ -4,12 +4,12 @@ import { RicettaService } from '../../modules/ricetta/ricetta.service';
 import { IRicetta } from '../interfaces/ricetta.interface';
 
 export class Ricetta {
-  codiceRicetta: string;
-  tipoVisita: TipoVisita;
-  paziente: Patient;
-  priorita: number;
-  esenzione: boolean;
-  utilizzabile: boolean;
+  private codiceRicetta: string;
+  private tipoVisita: TipoVisita;
+  private paziente: Patient;
+  private priorita: number;
+  private esenzione: boolean;
+  private utilizzabile: boolean;
 
   /**
    * eliminaRicetta

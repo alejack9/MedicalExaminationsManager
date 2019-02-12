@@ -1,6 +1,6 @@
 export class Struttura {
-  nome: string;
-  indirizzo: string;
-  tipologia: string;
-  orari: [Date];
+  private nome: string;
+  private indirizzo: string;
+  private tipologia: string;
+  private orari: [Date];
 }

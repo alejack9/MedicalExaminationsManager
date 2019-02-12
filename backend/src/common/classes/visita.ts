@@ -5,12 +5,12 @@ import { OfficeDoctor } from './officeDoctor';
 import { IRicetta } from '../interfaces/ricetta.interface';
 
 export class Visita extends Document {
-  pagata: boolean;
-  referto: Referto;
-  ricetta: Ricetta;
-  medico: OfficeDoctor;
-  dataInizio: Date;
-  dataFine: Date;
+  private pagata: boolean;
+  private referto: Referto;
+  private ricetta: Ricetta;
+  private medico: OfficeDoctor;
+  private dataInizio: Date;
+  private dataFine: Date;
 
   /**
    * cancellaRicetta

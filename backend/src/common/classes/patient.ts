@@ -13,4 +13,10 @@ export class Patient {
   public getNome() {
     return this.nome;
   }
+  public getCognome() {
+    return this.cognome;
+  }
+  public getId() {
+    return this.id;
+  }
 }
