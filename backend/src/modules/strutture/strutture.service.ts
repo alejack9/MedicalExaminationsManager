@@ -10,7 +10,13 @@ export class StruttureService {
   ) {}
   async findStrutture(pTipoVisita: string): Promise<Struttura[]> {
     return await this.strutture
-      .find({ tipiVisita: { tipoVisita: pTipoVisita } })
+      .aggregate([
+        {
+          $match: {
+            'tipiVisita.tipoVisita.nome': pTipoVisita,
+          },
+        },
+      ])
       .exec();
     // return null;
     // return Promise.resolve([

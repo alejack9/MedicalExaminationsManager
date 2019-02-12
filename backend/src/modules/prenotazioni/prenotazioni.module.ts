@@ -3,18 +3,17 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { PrenotazioniService } from './prenotazioni.service';
 import { PrenotazioniController } from './prenotazioni.controller';
 import { StrutturaSchema } from '../../common/schemas/struttura.schema';
-import { StruttureService } from './strutture.service';
 import { DottoriService } from './dottori.service';
-import { DottoreSchema } from 'src/common/schemas/dottore.schema';
+import { OfficeDoctorSchema } from 'src/common/schemas/officeDoctor.schema';
 
 @Module({
   imports: [
     MongooseModule.forFeature([
       { name: 'Structure', schema: StrutturaSchema },
-      { name: 'Doctor', schema: DottoreSchema },
+      { name: 'Office-Doctor', schema: OfficeDoctorSchema },
     ]),
   ],
   controllers: [PrenotazioniController],
-  providers: [PrenotazioniService, StruttureService, DottoriService],
+  providers: [PrenotazioniService, DottoriService],
 })
 export class PrenotazioniModule {}
