@@ -26,6 +26,7 @@
     "@types/mongoose": "^5.3.12",
     "moment": "^2.24.0",
     "mongoose": "^5.4.10",
+    "pug": "^2.0.3",
     "reflect-metadata": "^0.1.12",
     "rimraf": "^2.6.2",
     "rxjs": "^6.2.2",
