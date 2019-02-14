@@ -5,5 +5,5 @@ export interface TipoVisita extends Document {
   /**
    * in minuti
    */
-  durataVisita: number;
+  minutiVisita: number;
 }
