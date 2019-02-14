@@ -26,6 +26,7 @@ export class DottoriService {
      * In DB indiceGiornoSettimana parte da 0
      */
     const giornoSettimana = data.weekday();
+    console.log('inizio');
     const toReturn: [OfficeDoctor] = await this.officeDoctorModel
       .aggregate([
         {
@@ -53,10 +54,11 @@ export class DottoriService {
               $push: '$orari',
             },
             assenze: {
-              $push: '$assenze.intervallo',
+              $push: '$assenze',
             },
           },
         },
+        { $project: { assenze: '$assenze.intervallo' } },
         {
           $unwind: {
             path: '$nome',
@@ -74,21 +76,29 @@ export class DottoriService {
         },
       ])
       .exec();
-    const newOrari: Orario[] = new Array();
-    for (const od of toReturn) {
-      for (const orario of od.orari) {
-        console.log(od.assenze);
-        if (od.assenze !== undefined) {
-          for (const assenza of od.assenze) {
-            if (assenza.intervallo.indexOf(orario.inizio) !== -1) {
-              newOrari.push(orario);
-            }
-          }
-        }
-      }
-      od.orari = newOrari;
-      newOrari.splice(0, newOrari.length);
-    }
+    console.log(toReturn);
+    // toReturn.filter(d => {
+    //   console.log(d);
+    //   return d.assenze.some(a => {
+    //     return data.isBetween(a.intervallo.inizio, a.intervallo.fine);
+    //   });
+    // });
+
+    // const newOrari: Orario[] = new Array();
+    // for (const od of toReturn) {
+    //   for (const orario of od.orari) {
+    //     console.log(od.assenze);
+    //     if (od.assenze !== undefined) {
+    //       // for (const assenza of od.assenze) {
+    //       //   if (assenza.indexOf(orario.inizio) !== -1) {
+    //       //     newOrari.push(orario);
+    //       //   }
+    //       // }
+    //     }
+    //   }
+    //   od.orari = newOrari;
+    //   newOrari.splice(0, newOrari.length);
+    // }
     return toReturn;
   }
   async getPrenotazioni(
