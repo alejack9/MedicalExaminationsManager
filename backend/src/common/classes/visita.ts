@@ -2,7 +2,6 @@ import { Document } from 'mongoose';
 import { Referto } from './referto';
 import { Ricetta } from './ricetta';
 import { OfficeDoctor } from './officeDoctor';
-import { IRicetta } from '../interfaces/ricetta.interface';
 
 export class Visita extends Document {
   private pagata: boolean;
@@ -14,7 +13,8 @@ export class Visita extends Document {
 
   /**
    * cancellaRicetta
- :Ricetta  */
+   * :Ricetta
+   */
   public cancellaRicetta(salvaRicetta: boolean) {
     if (salvaRicetta === true) {
       const returnRicetta = this.ricetta.trovaRicetta();
@@ -24,5 +24,13 @@ export class Visita extends Document {
       this.ricetta.eliminaRicetta();
       return null;
     }
+  }
+
+  public getRicetta() {
+    return this.ricetta;
+  }
+
+  public getDataInizio() {
+    return this.dataInizio;
   }
 }

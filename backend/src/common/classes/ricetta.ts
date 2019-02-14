@@ -23,4 +23,12 @@ export class Ricetta {
     const ricettaS: RicettaService = null;
     return ricettaS.trovaRicetta(this.codiceRicetta);
   }
+
+  public getPaziente() {
+    return this.paziente;
+  }
+
+  public getPriorita() {
+    return this.priorita;
+  }
 }

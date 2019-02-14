@@ -12,4 +12,20 @@ export class Prenotazione {
     this.visita.cancellaRicetta(salvaRicetta);
     return this.annullata;
   }
+
+  public getVisita() {
+    return this.visita;
+  }
+
+  public getData() {
+    return this.data;
+  }
+
+  public getAnnulata() {
+    return this.annullata;
+  }
+
+  public getStruttura() {
+    return this.struttura;
+  }
 }
