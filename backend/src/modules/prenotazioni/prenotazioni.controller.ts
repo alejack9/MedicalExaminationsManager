@@ -2,6 +2,8 @@ import { PatientController } from './../patient/patient.controller';
 import { Controller, Post } from '@nestjs/common';
 import { Prenotazione } from '../../common/classes/prenotazione';
 import { PrenotazioniGetterService } from './prenotazioni-getter.service';
+import { NotificatorService } from '../notificator/notificator.service';
+import { TipoNotifica } from 'src/common/enumerations/tipoNotifica.enumeration';
 
 @Controller('prenotazioni')
 export class PrenotazioniController {
@@ -35,6 +37,9 @@ export class PrenotazioniController {
         this.filtraDataPiuLontana(prenotazioni);
       }
     }
+
+    const notificator = new NotificatorService();
+    notificator.creaNotifica(prenotazione, TipoNotifica.anticipo);
   }
 
   // la funzione restituisce un array di prenotazioni con la stessa priorità
@@ -92,30 +97,26 @@ export class PrenotazioniController {
 
   // metodo per filtrare la data più lontana
   filtraDataPiuLontana(prenotazioni: Prenotazione[]): Prenotazione {
-    // TODO
-    const pren: Prenotazione[] = new Array();
+    let pren: Prenotazione = new Prenotazione();
     prenotazioni.forEach((element, index) => {
-      const value = element
-        .getVisita()
-        .getRicetta()
-        .getPaziente()
-        .getReputazione();
+      const value = element.getData().getDate();
       const j = index + 1;
-      pren.push(prenotazioni[0]);
-      while (
-        j >= 0 &&
-        element[j]
-          .getVisita()
-          .getRicetta()
-          .getPaziente()
-          .getReputazione() === value
-      ) {
-        pren.push(element);
-      }
+      const currentDate = new Date();
 
-      index = prenotazioni.length;
+      if (index === prenotazioni.length - 1) {
+        return pren;
+      } else {
+        const diffData1 = value - currentDate.getDate();
+        const diffData2 =
+          element[j].getData().getDate() - currentDate.getDate();
+        if (diffData1 > diffData2) {
+          pren = element;
+        } else {
+          pren = element[j];
+        }
+      }
     });
-    return pren[0];
+    return pren;
   }
 
   riordinaPriorita(prenotazioni: Prenotazione[]) {
