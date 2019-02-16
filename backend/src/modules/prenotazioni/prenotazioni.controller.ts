@@ -1,9 +1,9 @@
-import { PatientController } from './../patient/patient.controller';
 import { Controller, Post } from '@nestjs/common';
 import { Prenotazione } from '../../common/classes/prenotazione';
 import { PrenotazioniGetterService } from './prenotazioni-getter.service';
 import { NotificatorService } from '../notificator/notificator.service';
 import { TipoNotifica } from 'src/common/enumerations/tipoNotifica.enumeration';
+import { PatientService } from '../patient/patient.service';
 
 @Controller('prenotazioni')
 export class PrenotazioniController {
@@ -11,8 +11,8 @@ export class PrenotazioniController {
   @Post()
   cancelBooking(prenotazione: Prenotazione, salvaRicetta: boolean) {
     prenotazione.annulla(salvaRicetta);
-    const patientC: PatientController = null;
-    patientC.abbassaReputazione(
+    const patientS: PatientService = null;
+    patientS.abbassaReputazione(
       prenotazione
         .getVisita()
         .getRicetta()
@@ -24,7 +24,7 @@ export class PrenotazioniController {
   }
 
   associaPrenotazione(prenotazione: Prenotazione) {
-    const prenotazioniG: PrenotazioniGetterService = new PrenotazioniGetterService();
+    const prenotazioniG: PrenotazioniGetterService = null;
     const listaPrenotazioni = prenotazioniG.getListaPrenotazioni(
       prenotazione,
       prenotazione.getVisita().getDataInizio(),

@@ -1,7 +1,8 @@
 export class Patient {
+  private id: number;
   private nome: string;
   private cognome: string;
-  private id: number;
+  private codiceFiscale: string;
   private reputazione: number;
 
   public getReputazione() {
@@ -18,5 +19,8 @@ export class Patient {
   }
   public getId() {
     return this.id;
+  }
+  public getCodiceFiscale() {
+    return this.codiceFiscale;
   }
 }

@@ -9,7 +9,7 @@ import { RicettaService } from './modules/ricetta/ricetta.service';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://localhost/medical-examination-manager', {
+    MongooseModule.forRoot('mongodb://admin:IdS2019@ds135335.mlab.com:35335/medical-examination-manager', {
       useNewUrlParser: true,
     }),
     PrenotazioniModule,

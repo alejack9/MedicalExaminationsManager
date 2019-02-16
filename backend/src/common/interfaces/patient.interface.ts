@@ -1,8 +1,9 @@
 import { Document } from 'mongoose';
 
-export interface Patient extends Document {
+export interface IPatient extends Document {
+  id: number;
   nome: string;
   cognome: string;
-  id: number;
+  codiceFiscale: string;
   reputazione: number;
 }
