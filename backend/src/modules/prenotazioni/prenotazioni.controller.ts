@@ -1,6 +1,5 @@
 import { Controller, Get, Body, Render, Param } from '@nestjs/common';
 import { DottoriService } from './dottori.service';
-import { TipoVisita } from 'src/common/interfaces/tipoVisita.interface';
 import * as moment from 'moment';
 import { Types } from 'mongoose';
 
@@ -9,12 +8,20 @@ export class PrenotazioniController {
   constructor(private readonly dottoriService: DottoriService) {}
 
   @Get('prenota/:id')
-  async prenota(@Body() tipo: TipoVisita, @Param('id') hospitalId: string) {
-    const date = new Array<Date>();
-    const durata = tipo.minutiVisita;
+  @Render('date')
+  async prenota(
+    @Body() dettagliVisita: { tipo: string; minuti: number },
+    @Param('id') hospitalId: string,
+  ) {
+    const toReturn = new Array<Date>();
+    const durata = dettagliVisita.minuti;
     let data = moment(Date.now()).add(1, 'day');
-    while (date.length < 7) {
-      const docs = await this.dottoriService.getDottori(hospitalId, tipo, data);
+    while (toReturn.length < 7) {
+      const docs = await this.dottoriService.getDottori(
+        hospitalId,
+        dettagliVisita.tipo,
+        data,
+      );
       for (const doc of docs) {
         for (const orario of doc.orari.filter(
           o =>
@@ -25,7 +32,7 @@ export class PrenotazioniController {
             moment(orario.inizio),
             'minutes',
           );
-          // 8 = minuti che intercorrono tra 2 visite consecutive secondo buru
+          // 8 = minuti che intercorrono tra 2 visite consecutive per far contenta buru (doveva essere 10)
           const visiteEffettuabili = Math.floor(minutesOfWork / (8 + durata));
           const prenotazioni = await this.dottoriService.getPrenotazioni(
             doc._id,
@@ -33,9 +40,12 @@ export class PrenotazioniController {
             orario.fine,
           );
           if (prenotazioni.length < visiteEffettuabili) {
-            date.push(
+            toReturn.push(
               data
-                .add(prenotazioni.length * tipo.minutiVisita, 'minutes')
+                .startOf('day')
+                .add(orario.inizio.getHours(), 'hours')
+                .add(orario.inizio.getMinutes(), 'minutes')
+                .add(prenotazioni.length * dettagliVisita.minuti, 'minutes')
                 .toDate(),
             );
           }
@@ -43,6 +53,8 @@ export class PrenotazioniController {
       }
       data = moment(data).add(1, 'days');
     }
-    return date;
+    return {
+      date: toReturn,
+    };
   }
 }

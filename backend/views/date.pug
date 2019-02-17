@@ -1,0 +1,10 @@
+html
+  head
+    title Medical Examinations Manager
+  body
+    div
+      each data in date
+        //- a(href=`localhost:3000/prenotazioni/creaPrenotazione/${val._id}`) #{val.nome} - #{val.tipiVisita[0].prezzo} €
+        p #{data}
+        |
+        br

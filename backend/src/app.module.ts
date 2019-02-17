@@ -7,7 +7,7 @@ import { StruttureModule } from './modules/strutture/strutture.module';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://localhost/medical-examination-manager', {
+    MongooseModule.forRoot(process.env.DB, {
       useNewUrlParser: true,
     }),
     PrenotazioniModule,
