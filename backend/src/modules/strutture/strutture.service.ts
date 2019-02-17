@@ -18,6 +18,6 @@ class A implements Struttura {
     public nome: string,
     public indirizzo: string,
     public tipologia: string,
-    public orari: [Date],
-  ) {}
+//     public orari: [Date],
+//   ) {}
 }

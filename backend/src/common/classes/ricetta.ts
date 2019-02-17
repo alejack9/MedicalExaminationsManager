@@ -31,4 +31,7 @@ export class Ricetta {
   public getPriorita() {
     return this.priorita;
   }
+  public getTipoVisita() {
+    return this.tipoVisita;
+  }
 }
