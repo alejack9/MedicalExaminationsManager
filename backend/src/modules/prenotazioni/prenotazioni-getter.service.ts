@@ -11,16 +11,26 @@ export class PrenotazioniGetterService {
     private readonly prenotazioneModel: Model<IPrenotazione>,
   ) {}
 
-  getListaPrenotazioni(prenotazione: Prenotazione): Promise<IPrenotazione[]> {
-    return this.prenotazioneModel
-      .find({
-        visita: prenotazione
-          .getVisita()
-          .getRicetta()
-          .getTipoVisita(),
-        struttura: prenotazione.getStruttura(),
-        data: prenotazione.getData().getDate() + 2,
+  async getListaPrenotazioni(
+    prenotazione: IPrenotazione,
+  ): Promise<IPrenotazione[]> {
+    const p = this.prenotazioneModel
+      .find()
+      .populate({
+        path: 'Visita',
+        populate: { path: ' Ricetta' },
       })
       .exec();
+    console.log(p);
+    return await p;
   }
+}
+
+{
+  // visita: prenotazione
+  //   .getVisita()
+  //   .getRicetta()
+  //   .getTipoVisita(),
+  // struttura: prenotazione.getStruttura(),
+  // data: prenotazione.getData().getDate() + 2,
 }
