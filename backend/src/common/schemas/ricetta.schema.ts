@@ -1,6 +1,6 @@
 import { Schema } from 'mongoose';
 
-const VisitaSchema = new Schema({
+const RicettaSchema = new Schema({
   codiceRicetta: { type: Schema.Types.String, required: true },
   tipoVisita: { type: Schema.Types.String, required: true },
   paziente: { type: Schema.Types.ObjectId, ref: 'Patient', required: true },
@@ -9,4 +9,4 @@ const VisitaSchema = new Schema({
   utilizzabile: { type: Schema.Types.Boolean, required: true },
 });
 
-export { VisitaSchema };
+export { RicettaSchema };

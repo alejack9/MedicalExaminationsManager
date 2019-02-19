@@ -1,0 +1,14 @@
+html
+  head
+    title Medical Examinations Manager
+  body
+    div
+      each prenotazioneEData in pED
+        p Tipo ricetta: #{prenotazioneEData[0]} data: #{prenotazioneEData[1]}
+        |
+        br
+    //- div
+    //-   each visita in visite
+    //-    p ID ricetta: #{visita.ricetta._id} data: #{visita.dataInizio}
+    //-    |
+    //-    br

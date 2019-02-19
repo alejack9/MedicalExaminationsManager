@@ -2,11 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Schema, Types } from 'mongoose';
 import { OfficeDoctor } from 'src/common/interfaces/office-doctor.interface';
-import { TipoVisita } from 'src/common/interfaces/tipoVisita.interface';
 import { Struttura } from 'src/common/interfaces/struttura.interface';
 import { Prenotazione } from 'src/common/interfaces/prenotazione.interface';
 import { Moment } from 'moment';
-import { Orario } from 'src/common/interfaces/orario.interface';
 
 @Injectable()
 export class DottoriService {
@@ -14,7 +12,7 @@ export class DottoriService {
     @InjectModel('Structure') private readonly struttureModel: Model<Struttura>,
     @InjectModel('Office-Doctor')
     private readonly officeDoctorModel: Model<OfficeDoctor>,
-    @InjectModel('Reservations')
+    @InjectModel('Reservation')
     private readonly prenotazioneModel: Model<Prenotazione>,
   ) {}
   async getDottori(

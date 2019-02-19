@@ -4,6 +4,6 @@ html
   body
     div
       each val in strutture
-        a(href=`localhost:3000/prenotazioni/prenota/${val._id}`) #{val.nome} - #{val.tipiVisita[0].prezzo} €
+        a(href=`/prenotazioni/prenota/${val._id}?tipoVisita=${dettagli.tipoVisita}&durataVisita=${dettagli.durataVisita}`) #{val.nome} - #{val.tipiVisita.prezzo} €
         |
         br

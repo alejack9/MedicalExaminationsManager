@@ -1,22 +1,22 @@
-import { Controller, Get, Param, Render, Body } from '@nestjs/common';
+import { Controller, Get, Render, Query } from '@nestjs/common';
 import { StruttureService } from './strutture.service';
-import { TipoVisita } from 'src/common/interfaces/tipoVisita.interface';
 
 @Controller('strutture')
 export class StruttureController {
   constructor(private readonly struttureService: StruttureService) {}
   @Get()
   @Render('strutture')
-  async getStrutture(@Body() tipoVisita: TipoVisita) {
+  async getStrutture(
+    @Query('tipoVisita') pTipoVisita: string,
+    @Query('durataVisita') durataVisita: any,
+  ) {
+    durataVisita = Number.parseInt(durataVisita, 10);
     return {
-      strutture: await this.struttureService.findStrutture(tipoVisita.nome),
+      strutture: await this.struttureService.findStrutture(pTipoVisita),
+      dettagli: {
+        tipoVisita: pTipoVisita,
+        durataVisita,
+      },
     };
-    // return {
-    //   strutture: [
-    //     { id: 1, nome: 'a', prezzo: 1.4 },
-    //     { id: 2, nome: 'b', prezzo: 2.1 },
-    //     { id: 3, nome: 'c', prezzo: 3.5 },
-    //   ],
-    // };
   }
 }
