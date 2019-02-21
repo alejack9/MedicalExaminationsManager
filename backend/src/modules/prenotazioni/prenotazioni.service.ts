@@ -66,6 +66,19 @@ export class PrenotazioniService {
           },
         },
         {
+          $lookup: {
+            from: 'structures',
+            localField: 'struttura',
+            foreignField: '_id',
+            as: 'struttura',
+          },
+        },
+        {
+          $unwind: {
+            path: '$struttura',
+          },
+        },
+        {
           $unwind: {
             path: '$visita',
           },

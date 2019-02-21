@@ -106,6 +106,7 @@ export class PrenotazioniController {
     return {
       pED: p.map(v => [
         v.ricetta.tipoVisita,
+        v.struttura.nome,
         moment(v.visita.dataInizio).format('DD/MM/YYYY HH:mm'),
       ]),
     };

@@ -4,11 +4,6 @@ html
   body
     div
       each prenotazioneEData in pED
-        p Tipo ricetta: #{prenotazioneEData[0]} data: #{prenotazioneEData[1]}
+        p Tipo ricetta: #{prenotazioneEData[0]}, struttura: #{prenotazioneEData[1]}, data: #{prenotazioneEData[2]}
         |
         br
-    //- div
-    //-   each visita in visite
-    //-    p ID ricetta: #{visita.ricetta._id} data: #{visita.dataInizio}
-    //-    |
-    //-    br
