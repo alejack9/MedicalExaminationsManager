@@ -3,6 +3,7 @@ import { TipoVisitaSchema } from './tipoVisita.schema';
 import { PatientSchema } from './patient.schema';
 
 const RicettaSchema = new Schema({
+  _id: { type: Schema.Types.ObjectId, required: true },
   codiceRicetta: { type: Schema.Types.String, required: true },
   tipoVisita: { type: TipoVisitaSchema, required: true },
   paziente: { type: PatientSchema, required: true },

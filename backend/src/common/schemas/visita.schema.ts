@@ -4,6 +4,7 @@ import { RicettaSchema } from './ricetta.schema';
 import { OfficeDoctorSchema } from './officeDoctor.schema';
 
 const VisitaSchema = new Schema({
+  _id: { type: Schema.Types.ObjectId, required: true },
   pagata: { type: Schema.Types.Boolean, required: true },
   referto: { type: RefertoSchema, required: true },
   ricetta: { type: RicettaSchema, required: true },

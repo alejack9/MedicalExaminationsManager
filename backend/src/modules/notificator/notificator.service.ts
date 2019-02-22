@@ -9,12 +9,12 @@ export class NotificatorService {
   creaNotifica(prenotazione: Prenotazione, tipo: TipoNotifica): Notifica {
     if (tipo === TipoNotifica.anticipo) {
       const notificaAnticipo: NotificaAnticipo = null;
-      const notifica = notificaAnticipo.crea(
-        prenotazione.getVisita(),
-        prenotazione.getData(),
-      );
-
-      return notifica;
+      // const notifica = notificaAnticipo.crea(
+      //   prenotazione.getVisita(),
+      //   prenotazione.getData(),
+      // );
+      return null;
+      // return notifica;
     }
   }
 }

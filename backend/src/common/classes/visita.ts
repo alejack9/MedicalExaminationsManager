@@ -1,36 +1,34 @@
-import { Document } from 'mongoose';
+import { Document, Model } from 'mongoose';
 import { Referto } from './referto';
 import { Ricetta } from './ricetta';
 import { OfficeDoctor } from './officeDoctor';
+import { InjectModel } from '@nestjs/mongoose';
+import { IVisita } from '../interfaces/visita.interface';
+import { ObjectId } from 'bson';
 
-export class Visita extends Document {
-  private pagata: boolean;
-  private referto: Referto;
-  private ricetta: Ricetta;
-  private medico: OfficeDoctor;
-  private dataInizio: Date;
-  private dataFine: Date;
+export class Visita {
+  pagata: boolean;
+  referto: Referto;
+  ricetta: Ricetta;
+  medico: OfficeDoctor;
+  dataInizio: Date;
+  dataFine: Date;
 
-  /**
-   * cancellaRicetta
-   * :Ricetta
-   */
-  public cancellaRicetta(salvaRicetta: boolean) {
-    if (salvaRicetta === true) {
-      const returnRicetta = this.ricetta.trovaRicetta();
-      this.ricetta.eliminaRicetta();
-      return returnRicetta;
-    } else {
-      this.ricetta.eliminaRicetta();
-      return null;
+  constructor(
+    @InjectModel('Examination') private readonly visitaModel: Model<IVisita>,
+  ) {}
+
+  public cancellaRicetta(ricettaId: ObjectId, salvaRicetta: boolean) {
+    if (salvaRicetta === false) {
+      this.ricetta.eliminaRicetta(ricettaId);
     }
   }
 
-  public getRicetta() {
-    return this.ricetta;
-  }
+  // public getRicetta() {
+  //   return this.ricetta;
+  // }
 
-  public getDataInizio() {
-    return this.dataInizio;
-  }
+  // public getDataInizio() {
+  //   return this.dataInizio;
+  // }
 }
