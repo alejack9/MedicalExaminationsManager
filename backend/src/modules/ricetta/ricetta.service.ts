@@ -12,6 +12,6 @@ export class RicettaService {
   ) {}
 
   async eliminaRicetta(ricettaId: ObjectId) {
-    await this.ricettaModel.findOneAndDelete({ _id: ricettaId });
+    await this.ricettaModel.findOneAndDelete({ _id: ricettaId }).exec();
   }
 }

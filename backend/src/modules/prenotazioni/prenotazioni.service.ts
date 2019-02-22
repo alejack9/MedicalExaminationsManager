@@ -51,14 +51,21 @@ export class PrenotazioniService {
             as: 'visita.ricetta',
           },
         },
+        {
+          $unwind: {
+            path: '$visita.ricetta',
+          },
+        },
       ])
       .exec();
 
-    console.log(pren.visita.dataInizio);
+    console.log(
+      '\n\n\nSta ricetta è ' + JSON.stringify(pren[0].visita.ricetta.paziente),
+    );
 
     this.patientService.abbassaReputazione(
-      pren.visita.ricetta.paziente,
-      pren.visita.dataInizio,
+      pren[0].visita.ricetta.paziente,
+      pren[0].visita.dataInizio,
     );
 
     this.associaPrenotazione(pren);
@@ -68,45 +75,47 @@ export class PrenotazioniService {
     const listaPrenotazioni = await this.getListaPrenotazioni(prenotazione);
     let prenotazioni = await this.filtraMaxPriorita(listaPrenotazioni);
 
-    const patient = await this.prenotazioneModel.aggregate([
-      {
-        $lookup: {
-          from: 'examinations',
-          localField: 'visita',
-          foreignField: '_id',
-          as: 'visita',
-        },
-      },
-      {
-        $unwind: {
-          path: '$visita',
-        },
-      },
-      {
-        $lookup: {
-          from: 'prescriptions',
-          localField: 'visita.ricetta',
-          foreignField: '_id',
-          as: 'visita.ricetta',
-        },
-      },
-      {
-        $unwind: {
-          path: '$visita.ricetta',
-        },
-      },
-      {
-        $lookup: {
-          from: 'patients',
-          localField: 'visita.ricetta.paziente',
-          foreignField: '_id',
-          as: 'visita.ricetta.paziente',
-        },
-      },
-    ]);
+    // const patient = await this.prenotazioneModel
+    //   .aggregate([
+    //     {
+    //       $lookup: {
+    //         from: 'examinations',
+    //         localField: 'visita',
+    //         foreignField: '_id',
+    //         as: 'visita',
+    //       },
+    //     },
+    //     {
+    //       $unwind: {
+    //         path: '$visita',
+    //       },
+    //     },
+    //     {
+    //       $lookup: {
+    //         from: 'prescriptions',
+    //         localField: 'visita.ricetta',
+    //         foreignField: '_id',
+    //         as: 'visita.ricetta',
+    //       },
+    //     },
+    //     {
+    //       $unwind: {
+    //         path: '$visita.ricetta',
+    //       },
+    //     },
+    //     {
+    //       $lookup: {
+    //         from: 'patients',
+    //         localField: 'visita.ricetta.paziente',
+    //         foreignField: '_id',
+    //         as: 'visita.ricetta.paziente',
+    //       },
+    //     },
+    //   ])
+    //   .exec();
 
     if (prenotazioni.length > 1) {
-      prenotazioni = await this.filtraMaxReputazione(patient, prenotazioni);
+      prenotazioni = await this.filtraMaxReputazione(prenotazioni);
       if (prenotazioni.length > 1) {
         this.filtraDataPiuLontana(prenotazioni);
       }
@@ -134,8 +143,8 @@ export class PrenotazioniService {
     return pren;
   }
 
-  async filtraMaxReputazione(paziente: any, prenotazioni: any) {
-    this.riordinaReputazione(paziente, prenotazioni);
+  async filtraMaxReputazione(prenotazioni: any) {
+    this.riordinaReputazione(prenotazioni);
 
     const pren: any = new Array();
     prenotazioni.forEach((element, index) => {
@@ -191,7 +200,7 @@ export class PrenotazioniService {
     });
   }
 
-  riordinaReputazione(paziente: any, prenotazioni: Prenotazione[]) {
+  riordinaReputazione(prenotazioni: Prenotazione[]) {
     prenotazioni.forEach((element, index) => {
       const value = element.visita.ricetta.paziente.reputazione;
       let j = index - 1;
@@ -206,38 +215,40 @@ export class PrenotazioniService {
   async getListaPrenotazioni(prenotazione: any) {
     const prenotazioni: Prenotazione[] = new Array();
 
-    const tipoVisita = prenotazione.visita.ricetta.tipoVisita;
-    const struttura = prenotazione.struttura;
-    const data = prenotazione.visita.dataInizio;
+    const tipoVisita = prenotazione[0].visita.ricetta.tipoVisita;
+    const struttura = prenotazione[0].struttura;
+    const data = prenotazione[0].visita.dataInizio;
 
-    const pren = await this.prenotazioneModel.aggregate([
-      {
-        $lookup: {
-          from: 'examinations',
-          localField: 'visita',
-          foreignField: '_id',
-          as: 'visita',
+    const pren = await this.prenotazioneModel
+      .aggregate([
+        {
+          $lookup: {
+            from: 'examinations',
+            localField: 'visita',
+            foreignField: '_id',
+            as: 'visita',
+          },
         },
-      },
-      {
-        $unwind: {
-          path: '$visita',
+        {
+          $unwind: {
+            path: '$visita',
+          },
         },
-      },
-      {
-        $lookup: {
-          from: 'prescriptions',
-          localField: 'visita.ricetta',
-          foreignField: '_id',
-          as: 'visita.ricetta',
+        {
+          $lookup: {
+            from: 'prescriptions',
+            localField: 'visita.ricetta',
+            foreignField: '_id',
+            as: 'visita.ricetta',
+          },
         },
-      },
-      {
-        $unwind: {
-          path: '$visita.ricetta',
+        {
+          $unwind: {
+            path: '$visita.ricetta',
+          },
         },
-      },
-    ]);
+      ])
+      .exec();
 
     pren.forEach(element => {
       if (element.visita.ricetta.tipoVisita === tipoVisita) {

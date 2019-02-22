@@ -18,6 +18,7 @@ export class VisitaService {
       .findOneAndUpdate({ _id: prenotazioneId }, { annullata: true })
       .exec();
 
+    console.log('LA PRENOTAZIONE E ' + prenotazioneId);
     const pren = await this.prenotazioniModel
       .aggregate([
         {
@@ -40,7 +41,9 @@ export class VisitaService {
         },
       ])
       .exec();
-
-    this.ricettaService.eliminaRicetta(pren.visita.ricetta);
+    console.log(
+      'I believe wanna die, i believe wanna ' + JSON.stringify(pren[0]),
+    );
+    this.ricettaService.eliminaRicetta(pren[0].visita.ricetta);
   }
 }

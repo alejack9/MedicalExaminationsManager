@@ -6,7 +6,7 @@ import { ObjectId } from 'bson';
 export class PrenotazioniController {
   constructor(private readonly prenotazioneService: PrenotazioniService) {}
 
-  @Post(' :id')
+  @Post(':id')
   cancelReservation(@Param('id') id) {
     const prenotazioneId: ObjectId = new ObjectId(id);
     this.prenotazioneService.cancelBooking(prenotazioneId);
