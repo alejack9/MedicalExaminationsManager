@@ -8,6 +8,8 @@ import { VisitaService } from 'src/modules/visita/visita.service';
 import { PatientService } from '../patient/patient.service';
 import { RicettaService } from '../ricetta/ricetta.service';
 import { RicettaSchema } from 'src/common/schemas/ricetta.schema';
+import { NotificatorService } from '../notificator/notificator.service';
+import { NotificatorModule } from '../notificator/notificator.module';
 
 @Module({
   imports: [
@@ -16,6 +18,7 @@ import { RicettaSchema } from 'src/common/schemas/ricetta.schema';
       { name: 'Prescription', schema: RicettaSchema },
     ]),
     PatientModule,
+    NotificatorModule,
   ],
   controllers: [PrenotazioniController],
   providers: [
@@ -23,6 +26,7 @@ import { RicettaSchema } from 'src/common/schemas/ricetta.schema';
     VisitaService,
     PatientService,
     RicettaService,
+    NotificatorService,
   ],
 })
 export class PrenotazioniModule {}

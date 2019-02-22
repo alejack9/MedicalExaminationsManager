@@ -16,6 +16,7 @@ export class PrenotazioniService {
     private readonly prenotazioneModel: Model<IPrenotazione>,
     private readonly visitaService: VisitaService,
     private readonly patientService: PatientService,
+    private readonly notificator: NotificatorService,
   ) {}
 
   // tslint:disable-next-line:no-empty
@@ -60,149 +61,197 @@ export class PrenotazioniService {
       pren.visita.dataInizio,
     );
 
-    // this.associaPrenotazione(pren);
+    this.associaPrenotazione(pren);
   }
 
-  // associaPrenotazione(prenotazione: any) {
-  //   const listaPrenotazioni = this.getListaPrenotazioni(prenotazione);
-  //   // let prenotazioni = this.filtraMaxPriorita(listaPrenotazioni);
+  async associaPrenotazione(prenotazione: any) {
+    const listaPrenotazioni = await this.getListaPrenotazioni(prenotazione);
+    let prenotazioni = await this.filtraMaxPriorita(listaPrenotazioni);
 
-  //   // if (prenotazioni.length > 1) {
-  //   //   prenotazioni = this.filtraMaxReputazione(prenotazioni);
-  //   //   if (prenotazioni.length > 1) {
-  //   //     this.filtraDataPiuLontana(prenotazioni);
-  //   //   }
-  //   // }
+    const patient = await this.prenotazioneModel.aggregate([
+      {
+        $lookup: {
+          from: 'examinations',
+          localField: 'visita',
+          foreignField: '_id',
+          as: 'visita',
+        },
+      },
+      {
+        $unwind: {
+          path: '$visita',
+        },
+      },
+      {
+        $lookup: {
+          from: 'prescriptions',
+          localField: 'visita.ricetta',
+          foreignField: '_id',
+          as: 'visita.ricetta',
+        },
+      },
+      {
+        $unwind: {
+          path: '$visita.ricetta',
+        },
+      },
+      {
+        $lookup: {
+          from: 'patients',
+          localField: 'visita.ricetta.paziente',
+          foreignField: '_id',
+          as: 'visita.ricetta.paziente',
+        },
+      },
+    ]);
 
-  //   const notificator = new NotificatorService();
-  //   notificator.creaNotifica(prenotazione, TipoNotifica.anticipo);
-  // }
+    if (prenotazioni.length > 1) {
+      prenotazioni = await this.filtraMaxReputazione(patient, prenotazioni);
+      if (prenotazioni.length > 1) {
+        this.filtraDataPiuLontana(prenotazioni);
+      }
+    }
 
-  // // la funzione restituisce un array di prenotazioni con la stessa priorità
-  // filtraMaxPriorita(prenotazioni: Prenotazione[]): Prenotazione[] {
-  //   this.riordinaPriorita(prenotazioni);
-  //   const pren: Prenotazione[] = new Array();
-  //   prenotazioni.forEach((element, index) => {
-  //     const value = element
-  //       .getVisita()
-  //       .getRicetta()
-  //       .getPriorita();
-  //     const j = index + 1;
-  //     pren.push(prenotazioni[0]);
-  //     while (
-  //       j >= 0 &&
-  //       element[j]
-  //         .getVisita()
-  //         .getRicetta()
-  //         .getPriorita() === value
-  //     ) {
-  //       pren.push(element);
-  //     }
+    this.notificator.creaNotifica(prenotazione, TipoNotifica.anticipo);
+  }
 
-  //     index = prenotazioni.length;
-  //   });
-  //   return pren;
-  // }
+  // la funzione restituisce un array di prenotazioni con la stessa priorità
+  async filtraMaxPriorita(prenotazioni: Prenotazione[]) {
+    const pren: Prenotazione[] = new Array();
 
-  // filtraMaxReputazione(prenotazioni: Prenotazione[]): Prenotazione[] {
-  //   this.riordinaReputazione(prenotazioni);
-  //   const pren: Prenotazione[] = new Array();
-  //   prenotazioni.forEach((element, index) => {
-  //     const value = element
-  //       .getVisita()
-  //       .getRicetta()
-  //       .getPaziente()
-  //       .getReputazione();
-  //     const j = index + 1;
-  //     pren.push(prenotazioni[0]);
-  //     while (
-  //       j >= 0 &&
-  //       element[j]
-  //         .getVisita()
-  //         .getRicetta()
-  //         .getPaziente()
-  //         .getReputazione() === value
-  //     ) {
-  //       pren.push(element);
-  //     }
+    this.riordinaPriorita(prenotazioni);
 
-  //     index = prenotazioni.length;
-  //   });
-  //   return pren;
-  // }
+    prenotazioni.forEach((element, index) => {
+      const value = element.visita.ricetta.priorita;
+      const j = index + 1;
+      pren.push(prenotazioni[0]);
+      while (j >= 0 && element[j].visita.ricetta.priorita === value) {
+        pren.push(element);
+      }
 
-  // // metodo per filtrare la data più lontana
-  // // filtraDataPiuLontana(prenotazioni: Prenotazione[]): Prenotazione {
-  // //   let pren: Prenotazione = new Prenotazione();
-  // //   prenotazioni.forEach((element, index) => {
-  // //     const value = element.getData().getDate();
-  // //     const j = index + 1;
-  // //     const currentDate = new Date();
+      index = prenotazioni.length;
+    });
+    return pren;
+  }
 
-  // //     if (index === prenotazioni.length - 1) {
-  // //       return pren;
-  // //     } else {
-  // //       const diffData1 = value - currentDate.getDate();
-  // //       const diffData2 =
-  // //         element[j].getData().getDate() - currentDate.getDate();
-  // //       if (diffData1 > diffData2) {
-  // //         pren = element;
-  // //       } else {
-  // //         pren = element[j];
-  // //       }
-  // //     }
-  // //   });
-  // //   return pren;
-  // // }
+  async filtraMaxReputazione(paziente: any, prenotazioni: any) {
+    this.riordinaReputazione(paziente, prenotazioni);
 
-  // riordinaPriorita(prenotazioni: Prenotazione[]) {
-  //   prenotazioni.forEach((element, index) => {
-  //     const value = element
-  //       .getVisita()
-  //       .getRicetta()
-  //       .getPriorita();
-  //     let j = index - 1;
-  //     while (
-  //       j >= 0 &&
-  //       element[j].getVisita().getRicetta().getPriorita > value
-  //     ) {
-  //       element[j + 1] = element[j];
-  //       j -= 1;
-  //       element[j + 1] = value;
-  //     }
-  //   });
-  // }
+    const pren: any = new Array();
+    prenotazioni.forEach((element, index) => {
+      const value = element.visita.ricetta.paziente.reputazione;
+      const j = index + 1;
+      pren.push(prenotazioni[0]);
+      while (
+        j >= 0 &&
+        element[j].visita.ricetta.paziente.reputazione === value
+      ) {
+        pren.push(element);
+      }
 
-  // riordinaReputazione(prenotazioni: Prenotazione[]) {
-  //   prenotazioni.forEach((element, index) => {
-  //     const value = element
-  //       .getVisita()
-  //       .getRicetta()
-  //       .getPaziente()
-  //       .getReputazione();
-  //     let j = index - 1;
-  //     while (
-  //       j >= 0 &&
-  //       element[j]
-  //         .getVisita()
-  //         .getRicetta()
-  //         .getPaziente()
-  //         .getReputazione() > value
-  //     ) {
-  //       element[j + 1] = element[j];
-  //       j -= 1;
-  //       element[j + 1] = value;
-  //     }
-  //   });
-  // }
+      index = prenotazioni.length;
+    });
+    return pren;
+  }
 
-  // async getListaPrenotazioni(prenotazione: any) {
-  //   const tipoVisita = prenotazione.visita.ricetta.tipoVisita;
-  //   const struttura = prenotazione.struttura;
-  //   const data = prenotazione.visita.dataInizio;
+  // metodo per filtrare la data più lontana
+  filtraDataPiuLontana(prenotazioni: Prenotazione[]): Prenotazione {
+    let pren: Prenotazione = new Prenotazione();
+    prenotazioni.forEach((element, index) => {
+      const value = element.data.getDate();
+      const j = index + 1;
+      const currentDate = new Date(Date.now());
 
-  //   console.log(tipoVisita);
-  //   console.log(struttura);
-  //   console.log(data);
-  // }
+      if (index === prenotazioni.length - 1) {
+        return pren;
+      } else {
+        const diffData1 = value - currentDate.getDate();
+        const diffData2 = element[j].data.getDate() - currentDate.getDate();
+        if (diffData1 > diffData2) {
+          pren = element;
+        } else {
+          pren = element[j];
+        }
+      }
+    });
+    return pren;
+  }
+
+  async riordinaPriorita(prenotazioni: Prenotazione[]) {
+    prenotazioni.forEach((element, index) => {
+      const value = element.visita.ricetta.priorita;
+
+      let j = index - 1;
+
+      while (j >= 0 && element[j].visita.ricetta.priorita > value) {
+        element[j + 1] = element[j];
+        j -= 1;
+        element[j + 1] = value;
+      }
+    });
+  }
+
+  riordinaReputazione(paziente: any, prenotazioni: Prenotazione[]) {
+    prenotazioni.forEach((element, index) => {
+      const value = element.visita.ricetta.paziente.reputazione;
+      let j = index - 1;
+      while (j >= 0 && element[j].visita.ricetta.paziente.reputazione > value) {
+        element[j + 1] = element[j];
+        j -= 1;
+        element[j + 1] = value;
+      }
+    });
+  }
+
+  async getListaPrenotazioni(prenotazione: any) {
+    const prenotazioni: Prenotazione[] = new Array();
+
+    const tipoVisita = prenotazione.visita.ricetta.tipoVisita;
+    const struttura = prenotazione.struttura;
+    const data = prenotazione.visita.dataInizio;
+
+    const pren = await this.prenotazioneModel.aggregate([
+      {
+        $lookup: {
+          from: 'examinations',
+          localField: 'visita',
+          foreignField: '_id',
+          as: 'visita',
+        },
+      },
+      {
+        $unwind: {
+          path: '$visita',
+        },
+      },
+      {
+        $lookup: {
+          from: 'prescriptions',
+          localField: 'visita.ricetta',
+          foreignField: '_id',
+          as: 'visita.ricetta',
+        },
+      },
+      {
+        $unwind: {
+          path: '$visita.ricetta',
+        },
+      },
+    ]);
+
+    pren.forEach(element => {
+      if (element.visita.ricetta.tipoVisita === tipoVisita) {
+        if (element.struttura === struttura) {
+          if (element.visita.dataInizio === data) {
+            prenotazioni.push(element);
+          }
+        }
+      }
+    });
+
+    return prenotazioni;
+    // console.log(tipoVisita);
+    // console.log(struttura);
+    // console.log(data);
+  }
 }
