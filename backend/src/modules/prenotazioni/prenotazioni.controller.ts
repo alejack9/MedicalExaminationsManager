@@ -92,7 +92,7 @@ export class PrenotazioniController {
 
   @Get('getPrenotazioni/:idPaziente')
   @Render('prenotazioniVisite')
-  async getPrenotazioniAndVisitePaziente(
+  async getPrenotazioniPaziente(
     @Param('idPaziente') patientId: string,
     @Query('dataInizio') dataInizio: string,
     @Query('dataFine') dataFine: string,
