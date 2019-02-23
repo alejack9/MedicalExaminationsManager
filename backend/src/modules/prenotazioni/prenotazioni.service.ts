@@ -19,7 +19,6 @@ export class PrenotazioniService {
     private readonly notificator: NotificatorService,
   ) {}
 
-  // tslint:disable-next-line:no-empty
   async cancelBooking(prenotazioneId: ObjectId) {
     this.visitaService.annulla(prenotazioneId, false);
 
@@ -60,7 +59,7 @@ export class PrenotazioniService {
       .exec();
 
     console.log(
-      '\n\n\nSta ricetta è ' + JSON.stringify(pren[0].visita.ricetta.paziente),
+      '\n\n La ricetta è ' + JSON.stringify(pren[0].visita.ricetta.paziente),
     );
 
     this.patientService.abbassaReputazione(
