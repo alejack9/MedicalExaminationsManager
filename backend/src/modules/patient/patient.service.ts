@@ -15,12 +15,10 @@ export class PatientService {
 
   async abbassaReputazione(pazienteId: ObjectId, dataInizio: Date) {
     const p = await this.patientModel.findById({ _id: pazienteId }).exec();
-    console.log('Sta reputazione è ' + p.reputazione);
     const reputazioneAbbassata = this.calcolaReputazione(
       p.reputazione,
       dataInizio,
     );
-    console.log('Rep abbassattah ' + reputazioneAbbassata);
 
     const a = await this.patientModel
       .findOneAndUpdate(
@@ -28,13 +26,13 @@ export class PatientService {
         { reputazione: reputazioneAbbassata },
       )
       .exec();
-
-    console.log('Pazienteeeee ' + a._id);
   }
 
   public calcolaReputazione(reputazione: number, data: Date): number {
-    const differenzaData = this.dataCorrente.getDay() - data.getDay();
-    reputazione -= data.getDay() / (differenzaData / 10);
-    return reputazione;
+    const differenzaData = data.getTime() - this.dataCorrente.getTime();
+    const days = Math.round(Math.abs(differenzaData / (1000 * 60 * 60 * 24)));
+    const repSub = Math.abs(1 / days);
+    const reputazioneAbbassata = reputazione - repSub;
+    return reputazioneAbbassata;
   }
 }

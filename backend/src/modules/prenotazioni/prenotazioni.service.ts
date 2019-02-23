@@ -21,8 +21,6 @@ export class PrenotazioniService {
 
   // tslint:disable-next-line:no-empty
   async cancelBooking(prenotazioneId: ObjectId) {
-    this.visitaService.annulla(prenotazioneId, false);
-
     const pren = await this.prenotazioneModel
       .aggregate([
         {
@@ -59,21 +57,20 @@ export class PrenotazioniService {
       ])
       .exec();
 
-    console.log(
-      '\n\n\nSta ricetta è ' + JSON.stringify(pren[0].visita.ricetta.paziente),
-    );
-
     this.patientService.abbassaReputazione(
       pren[0].visita.ricetta.paziente,
       pren[0].visita.dataInizio,
     );
 
-    this.associaPrenotazione(pren);
+    this.associaPrenotazione(pren[0]);
+
+    // this.visitaService.annulla(prenotazioneId, false);
   }
 
   async associaPrenotazione(prenotazione: any) {
     const listaPrenotazioni = await this.getListaPrenotazioni(prenotazione);
-    let prenotazioni = await this.filtraMaxPriorita(listaPrenotazioni);
+    let prenotazioni;
+    let pren;
 
     // const patient = await this.prenotazioneModel
     //   .aggregate([
@@ -114,39 +111,56 @@ export class PrenotazioniService {
     //   ])
     //   .exec();
 
-    if (prenotazioni.length > 1) {
-      prenotazioni = await this.filtraMaxReputazione(prenotazioni);
+    if (listaPrenotazioni.length > 1) {
+      prenotazioni = this.filtraMaxPriorita(listaPrenotazioni);
       if (prenotazioni.length > 1) {
-        this.filtraDataPiuLontana(prenotazioni);
+        prenotazioni = this.filtraMaxReputazione(prenotazioni);
+        if (prenotazioni.length > 1) {
+          pren = this.filtraDataPiuLontana(prenotazioni);
+        } else {
+          pren = prenotazioni[0];
+        }
+      } else {
+        pren = prenotazioni[0];
       }
+    } else {
+      pren = listaPrenotazioni[0];
     }
 
-    this.notificator.creaNotifica(prenotazione, TipoNotifica.anticipo);
+    console.log('prenotazione ' + pren);
+    this.notificator.creaNotifica(
+      pren,
+      pren.visita.dataInizio,
+      TipoNotifica.anticipo,
+    );
   }
 
   // la funzione restituisce un array di prenotazioni con la stessa priorità
-  async filtraMaxPriorita(prenotazioni: Prenotazione[]) {
-    const pren: Prenotazione[] = new Array();
+  filtraMaxPriorita(prenotazioni: any) {
+    const pren = new Array();
 
     this.riordinaPriorita(prenotazioni);
 
     prenotazioni.forEach((element, index) => {
       const value = element.visita.ricetta.priorita;
+
       const j = index + 1;
+
       pren.push(prenotazioni[0]);
       while (j >= 0 && element[j].visita.ricetta.priorita === value) {
         pren.push(element);
       }
 
-      index = prenotazioni.length;
+      // index = prenotazioni.length;
+      // console.log('index: ' + index);
+      return pren;
     });
-    return pren;
   }
 
-  async filtraMaxReputazione(prenotazioni: any) {
+  filtraMaxReputazione(prenotazioni: any) {
     this.riordinaReputazione(prenotazioni);
 
-    const pren: any = new Array();
+    const pren: IPrenotazione[] = new Array();
     prenotazioni.forEach((element, index) => {
       const value = element.visita.ricetta.paziente.reputazione;
       const j = index + 1;
@@ -159,13 +173,14 @@ export class PrenotazioniService {
       }
 
       index = prenotazioni.length;
+      console.log('index: ' + index);
     });
     return pren;
   }
 
   // metodo per filtrare la data più lontana
-  filtraDataPiuLontana(prenotazioni: Prenotazione[]): Prenotazione {
-    let pren: Prenotazione = new Prenotazione();
+  filtraDataPiuLontana(prenotazioni: IPrenotazione[]): IPrenotazione {
+    let pren: IPrenotazione;
     prenotazioni.forEach((element, index) => {
       const value = element.data.getDate();
       const j = index + 1;
@@ -186,7 +201,7 @@ export class PrenotazioniService {
     return pren;
   }
 
-  async riordinaPriorita(prenotazioni: Prenotazione[]) {
+  riordinaPriorita(prenotazioni: any) {
     prenotazioni.forEach((element, index) => {
       const value = element.visita.ricetta.priorita;
 
@@ -200,7 +215,7 @@ export class PrenotazioniService {
     });
   }
 
-  riordinaReputazione(prenotazioni: Prenotazione[]) {
+  riordinaReputazione(prenotazioni: IPrenotazione[]) {
     prenotazioni.forEach((element, index) => {
       const value = element.visita.ricetta.paziente.reputazione;
       let j = index - 1;
@@ -213,11 +228,11 @@ export class PrenotazioniService {
   }
 
   async getListaPrenotazioni(prenotazione: any) {
-    const prenotazioni: Prenotazione[] = new Array();
+    const prenotazioni = new Array();
 
-    const tipoVisita = prenotazione[0].visita.ricetta.tipoVisita;
-    const struttura = prenotazione[0].struttura;
-    const data = prenotazione[0].visita.dataInizio;
+    const tipoVisita = prenotazione.visita.ricetta.tipoVisita;
+    const struttura = prenotazione.struttura;
+    const data = prenotazione.visita.dataInizio;
 
     const pren = await this.prenotazioneModel
       .aggregate([
@@ -251,9 +266,15 @@ export class PrenotazioniService {
       .exec();
 
     pren.forEach(element => {
-      if (element.visita.ricetta.tipoVisita === tipoVisita) {
-        if (element.struttura === struttura) {
-          if (element.visita.dataInizio === data) {
+      if (
+        element.visita.ricetta.tipoVisita === tipoVisita &&
+        !element._id.equals(prenotazione._id)
+      ) {
+        if (element.struttura.equals(struttura)) {
+          if (
+            element.visita.dataInizio.getDate() === data.getDate() &&
+            element.visita.dataInizio.getMonth() === data.getMonth()
+          ) {
             prenotazioni.push(element);
           }
         }
