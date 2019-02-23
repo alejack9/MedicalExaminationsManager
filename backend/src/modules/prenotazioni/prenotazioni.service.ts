@@ -56,13 +56,10 @@ export class PrenotazioniService {
       ])
       .exec();
 
-<<<<<<< HEAD
-=======
     console.log(
       '\n\n La ricetta è ' + JSON.stringify(pren[0].visita.ricetta.paziente),
     );
 
->>>>>>> c1f7f29aad64b58905ad0c74459ada4dbc159362
     this.patientService.abbassaReputazione(
       pren[0].visita.ricetta.paziente,
       pren[0].visita.dataInizio,
