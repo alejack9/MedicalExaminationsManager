@@ -13,14 +13,16 @@ export class PatientService {
 
   private dataCorrente: Date = new Date(Date.now());
 
-  async abbassaReputazione(pazienteId: ObjectId, dataInizio: Date) {
-    const p = await this.patientModel.findById({ _id: pazienteId }).exec();
+  async abbassaReputazione(pazienteId: ObjectId, data: Date) {
+    const patient = await this.patientModel
+      .findById({ _id: pazienteId })
+      .exec();
     const reputazioneAbbassata = this.calcolaReputazione(
-      p.reputazione,
-      dataInizio,
+      patient.reputazione,
+      data,
     );
 
-    const a = await this.patientModel
+    await this.patientModel
       .findOneAndUpdate(
         { _id: pazienteId },
         { reputazione: reputazioneAbbassata },

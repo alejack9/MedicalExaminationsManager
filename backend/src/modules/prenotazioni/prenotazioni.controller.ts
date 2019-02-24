@@ -8,7 +8,6 @@ export class PrenotazioniController {
 
   @Post(':id')
   cancelReservation(@Param('id') id) {
-    const prenotazioneId: ObjectId = new ObjectId(id);
-    this.prenotazioneService.cancelBooking(prenotazioneId);
+    this.prenotazioneService.cancelBooking(new ObjectId(id));
   }
 }

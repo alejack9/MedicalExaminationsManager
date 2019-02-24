@@ -4,12 +4,12 @@ import { PrenotazioniController } from './prenotazioni.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { PrenotazioneSchema } from 'src/common/schemas/prenotazione.schema';
 import { PatientModule } from '../patient/patient.module';
-import { VisitaService } from 'src/modules/visita/visita.service';
 import { PatientService } from '../patient/patient.service';
 import { RicettaService } from '../ricetta/ricetta.service';
 import { RicettaSchema } from 'src/common/schemas/ricetta.schema';
 import { NotificatorService } from '../notificator/notificator.service';
 import { NotificatorModule } from '../notificator/notificator.module';
+import { VisitaService } from '../visita/visita.service';
 
 @Module({
   imports: [

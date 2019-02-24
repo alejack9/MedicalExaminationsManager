@@ -1,5 +1,5 @@
-import { Injectable, Post } from '@nestjs/common';
-import { Prenotazione } from '../../common/classes/prenotazione';
+import { Injectable } from '@nestjs/common';
+import { _ } from 'underscore';
 import { NotificatorService } from '../notificator/notificator.service';
 import { TipoNotifica } from 'src/common/enumerations/tipoNotifica.enumeration';
 import { PatientService } from '../patient/patient.service';
@@ -7,7 +7,7 @@ import { IPrenotazione } from 'src/common/interfaces/prenotazione.interface';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { ObjectId } from 'bson';
-import { VisitaService } from 'src/modules/visita/visita.service';
+import { VisitaService } from '../visita/visita.service';
 
 @Injectable()
 export class PrenotazioniService {
@@ -20,7 +20,7 @@ export class PrenotazioniService {
   ) {}
 
   async cancelBooking(prenotazioneId: ObjectId) {
-    const pren = await this.prenotazioneModel
+    const pren = (await this.prenotazioneModel
       .aggregate([
         {
           $match: {
@@ -54,188 +54,86 @@ export class PrenotazioniService {
           },
         },
       ])
-      .exec();
+      .exec())[0];
 
-    console.log(
-      '\n\n La ricetta è ' + JSON.stringify(pren[0].visita.ricetta.paziente),
-    );
+    if (!pren.visita.pagata) {
+      this.patientService.abbassaReputazione(
+        pren.visita.ricetta.paziente,
+        pren.data,
+      );
 
-    this.patientService.abbassaReputazione(
-      pren[0].visita.ricetta.paziente,
-      pren[0].visita.dataInizio,
-    );
+      this.visitaService.annulla(pren, false);
 
-    this.associaPrenotazione(pren[0]);
-
-    // this.visitaService.annulla(prenotazioneId, false);
+      this.associaPrenotazione(pren);
+    }
   }
 
   async associaPrenotazione(prenotazione: any) {
-    const listaPrenotazioni = await this.getListaPrenotazioni(prenotazione);
-    let prenotazioni;
-    let pren;
+    let listaPrenotazioni = await this.getListaPrenotazioni(
+      new Date(prenotazione.data.getTime() + 1000 * 60 * 60 * 48),
+      prenotazione,
+    );
 
-    // const patient = await this.prenotazioneModel
-    //   .aggregate([
-    //     {
-    //       $lookup: {
-    //         from: 'examinations',
-    //         localField: 'visita',
-    //         foreignField: '_id',
-    //         as: 'visita',
-    //       },
-    //     },
-    //     {
-    //       $unwind: {
-    //         path: '$visita',
-    //       },
-    //     },
-    //     {
-    //       $lookup: {
-    //         from: 'prescriptions',
-    //         localField: 'visita.ricetta',
-    //         foreignField: '_id',
-    //         as: 'visita.ricetta',
-    //       },
-    //     },
-    //     {
-    //       $unwind: {
-    //         path: '$visita.ricetta',
-    //       },
-    //     },
-    //     {
-    //       $lookup: {
-    //         from: 'patients',
-    //         localField: 'visita.ricetta.paziente',
-    //         foreignField: '_id',
-    //         as: 'visita.ricetta.paziente',
-    //       },
-    //     },
-    //   ])
-    //   .exec();
+    listaPrenotazioni = this.filtraMaxPriorita(listaPrenotazioni);
 
-    if (listaPrenotazioni.length > 1) {
-      prenotazioni = this.filtraMaxPriorita(listaPrenotazioni);
-      if (prenotazioni.length > 1) {
-        prenotazioni = this.filtraMaxReputazione(prenotazioni);
-        if (prenotazioni.length > 1) {
-          pren = this.filtraDataPiuLontana(prenotazioni);
-        } else {
-          pren = prenotazioni[0];
-        }
-      } else {
-        pren = prenotazioni[0];
-      }
-    } else {
-      pren = listaPrenotazioni[0];
+    if (listaPrenotazioni === null) {
+      return;
     }
 
-    console.log('prenotazione ' + pren);
+    if (listaPrenotazioni.length > 1) {
+      listaPrenotazioni = this.filtraMaxReputazione(listaPrenotazioni);
+      console.log(listaPrenotazioni);
+      if (listaPrenotazioni.length > 1) {
+        listaPrenotazioni = this.filtraDataPiuLontana(listaPrenotazioni);
+      }
+    }
+
     this.notificator.creaNotifica(
-      pren,
-      pren.visita.dataInizio,
+      listaPrenotazioni[0],
+      listaPrenotazioni[0].data,
       TipoNotifica.anticipo,
     );
   }
 
-  // la funzione restituisce un array di prenotazioni con la stessa priorità
+  // la funzione restituisce un array di prenotazioni con la massima priorità
   filtraMaxPriorita(prenotazioni: any) {
-    const pren = new Array();
+    if (prenotazioni.length === 0) {
+      return null;
+    }
 
-    this.riordinaPriorita(prenotazioni);
+    prenotazioni = _.pairs(
+      _.groupBy(prenotazioni, p => p.visita.ricetta.priorita),
+    ).sort((e1, e2) => {
+      // tslint:disable-next-line: no-unused-expression
+      e1[0] < e2[0] ? 1 : -1;
+    })[0][1];
 
-    prenotazioni.forEach((element, index) => {
-      const value = element.visita.ricetta.priorita;
-
-      const j = index + 1;
-
-      pren.push(prenotazioni[0]);
-      while (j >= 0 && element[j].visita.ricetta.priorita === value) {
-        pren.push(element);
-      }
-
-      // index = prenotazioni.length;
-      // console.log('index: ' + index);
-      return pren;
-    });
+    return prenotazioni;
   }
 
+  // il metodo restituisce un array di prenotazioni con la massima reputazione
   filtraMaxReputazione(prenotazioni: any) {
-    this.riordinaReputazione(prenotazioni);
-
-    const pren: IPrenotazione[] = new Array();
-    prenotazioni.forEach((element, index) => {
-      const value = element.visita.ricetta.paziente.reputazione;
-      const j = index + 1;
-      pren.push(prenotazioni[0]);
-      while (
-        j >= 0 &&
-        element[j].visita.ricetta.paziente.reputazione === value
-      ) {
-        pren.push(element);
-      }
-
-      index = prenotazioni.length;
-      console.log('index: ' + index);
-    });
-    return pren;
+    prenotazioni = _.pairs(
+      _.groupBy(prenotazioni, p => p.visita.ricetta.paziente.reputazione),
+    ).sort((e1, e2) => (e1[0] < e2[0] ? 1 : -1))[0][1];
+    return prenotazioni;
   }
 
-  // metodo per filtrare la data più lontana
-  filtraDataPiuLontana(prenotazioni: IPrenotazione[]): IPrenotazione {
-    let pren: IPrenotazione;
-    prenotazioni.forEach((element, index) => {
-      const value = element.data.getDate();
-      const j = index + 1;
-      const currentDate = new Date(Date.now());
-
-      if (index === prenotazioni.length - 1) {
-        return pren;
-      } else {
-        const diffData1 = value - currentDate.getDate();
-        const diffData2 = element[j].data.getDate() - currentDate.getDate();
-        if (diffData1 > diffData2) {
-          pren = element;
-        } else {
-          pren = element[j];
-        }
-      }
-    });
-    return pren;
+  // il metodo restituisce la prenotazione con la data più lontana rispeto alla prenotazione annullata
+  filtraDataPiuLontana(prenotazioni: any) {
+    prenotazioni = _.pairs(_.groupBy(prenotazioni, p => p.data)).sort(
+      (e1, e2) => (e1[0] < e2[0] ? 1 : -1),
+    )[0][1];
+    return prenotazioni;
   }
 
-  riordinaPriorita(prenotazioni: any) {
-    prenotazioni.forEach((element, index) => {
-      const value = element.visita.ricetta.priorita;
-
-      let j = index - 1;
-
-      while (j >= 0 && element[j].visita.ricetta.priorita > value) {
-        element[j + 1] = element[j];
-        j -= 1;
-        element[j + 1] = value;
-      }
-    });
-  }
-
-  riordinaReputazione(prenotazioni: IPrenotazione[]) {
-    prenotazioni.forEach((element, index) => {
-      const value = element.visita.ricetta.paziente.reputazione;
-      let j = index - 1;
-      while (j >= 0 && element[j].visita.ricetta.paziente.reputazione > value) {
-        element[j + 1] = element[j];
-        j -= 1;
-        element[j + 1] = value;
-      }
-    });
-  }
-
-  async getListaPrenotazioni(prenotazione: any) {
+  // restituisce un array di prenotazioni dello stesso tipo di visita, nella stessa struttura,
+  // la cui data è maggiore o uguale alla data della prenotazione annullata incrementata di due giorni
+  async getListaPrenotazioni(data: Date, prenotazione: any) {
     const prenotazioni = new Array();
 
     const tipoVisita = prenotazione.visita.ricetta.tipoVisita;
     const struttura = prenotazione.struttura;
-    const data = prenotazione.visita.dataInizio;
 
     const pren = await this.prenotazioneModel
       .aggregate([
@@ -265,6 +163,19 @@ export class PrenotazioniService {
             path: '$visita.ricetta',
           },
         },
+        {
+          $lookup: {
+            from: 'patients',
+            localField: 'visita.ricetta.paziente',
+            foreignField: '_id',
+            as: 'visita.ricetta.paziente',
+          },
+        },
+        {
+          $unwind: {
+            path: '$visita.ricetta.paziente',
+          },
+        },
       ])
       .exec();
 
@@ -274,10 +185,7 @@ export class PrenotazioniService {
         !element._id.equals(prenotazione._id)
       ) {
         if (element.struttura.equals(struttura)) {
-          if (
-            element.visita.dataInizio.getDate() === data.getDate() &&
-            element.visita.dataInizio.getMonth() === data.getMonth()
-          ) {
+          if (element.data >= data) {
             prenotazioni.push(element);
           }
         }
@@ -285,8 +193,5 @@ export class PrenotazioniService {
     });
 
     return prenotazioni;
-    // console.log(tipoVisita);
-    // console.log(struttura);
-    // console.log(data);
   }
 }

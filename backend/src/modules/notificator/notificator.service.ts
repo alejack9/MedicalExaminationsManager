@@ -12,16 +12,16 @@ export class NotificatorService {
     private readonly notificheModel: Model<INotifica>,
   ) {}
 
-  async creaNotifica(prenotazione: any, dataInizio: Date, tipo: TipoNotifica) {
+  async creaNotifica(prenotazione: any, data: Date, tipo: TipoNotifica) {
     if (tipo === TipoNotifica.anticipo) {
       // await this.notificheModel.create({
       //   prenotazione: prenotazione._id,
       //   date: prenotazione.visita.dataInizio,
       // });
-      const notifica = new this.notificheModel({
+      const notifica = await new this.notificheModel({
         _id: new ObjectId(),
         prenotazione,
-        data: dataInizio,
+        data,
       });
       notifica.save();
     }
