@@ -57,12 +57,11 @@ export class PrenotazioniService {
       .exec())[0];
 
     if (!pren.visita.pagata) {
+      this.visitaService.annulla(pren, false);
       this.patientService.abbassaReputazione(
         pren.visita.ricetta.paziente,
         pren.data,
       );
-
-      this.visitaService.annulla(pren, false);
 
       this.associaPrenotazione(pren);
     }
