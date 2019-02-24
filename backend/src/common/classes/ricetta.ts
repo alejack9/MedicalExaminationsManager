@@ -1,7 +1,10 @@
 import { TipoVisita } from './tipoVisita';
 import { Patient } from './patient';
-import { RicettaService } from '../../modules/ricetta/ricetta.service';
 import { IRicetta } from '../interfaces/ricetta.interface';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { IVisita } from '../interfaces/visita.interface';
+import { ObjectId } from 'bson';
 
 export class Ricetta {
   private codiceRicetta: string;
@@ -11,18 +14,7 @@ export class Ricetta {
   private esenzione: boolean;
   private utilizzabile: boolean;
 
-  /**
-   * eliminaRicetta
-   */
-  public eliminaRicetta() {
-    const rs: RicettaService = null;
-    rs.eliminaRicetta(this.codiceRicetta);
-  }
-
-  public trovaRicetta(): Promise<IRicetta[]> {
-    const ricettaS: RicettaService = null;
-    return ricettaS.trovaRicetta(this.codiceRicetta);
-  }
+  constructor() {}
 
   public getPaziente() {
     return this.paziente;

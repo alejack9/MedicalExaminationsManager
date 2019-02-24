@@ -2,38 +2,39 @@ import { Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { IPatient } from 'src/common/interfaces/patient.interface';
-import { Patient } from 'src/common/classes/patient';
+import { ObjectId } from 'bson';
 
 @Injectable()
 export class PatientService {
   constructor(
-    @InjectModel('Patient') private readonly patientModel: Model<IPatient>,
-    private dataCorrente: Date,
+    @InjectModel('Patient')
+    private readonly patientModel: Model<IPatient>,
   ) {}
 
-  public abbassaReputazione(paziente: Patient, dataPrenotazione: Date) {
+  private dataCorrente: Date = new Date(Date.now());
+
+  async abbassaReputazione(pazienteId: ObjectId, data: Date) {
+    const patient = await this.patientModel
+      .findById({ _id: pazienteId })
+      .exec();
     const reputazioneAbbassata = this.calcolaReputazione(
-      paziente.getReputazione(),
-      dataPrenotazione,
+      patient.reputazione,
+      data,
     );
-    paziente.setReputazione(reputazioneAbbassata);
-    this.patientModel
-      .updateOne(
-        { codiceFiscale: paziente.getCodiceFiscale() },
-        { $set: { reputazione: reputazioneAbbassata } },
+
+    await this.patientModel
+      .findOneAndUpdate(
+        { _id: pazienteId },
+        { reputazione: reputazioneAbbassata },
       )
       .exec();
-    console.log(
-      'reputazione abbassata del paziente: ' +
-        paziente.getNome() +
-        '\n con reputazione: ' +
-        paziente.getReputazione(),
-    );
   }
 
   public calcolaReputazione(reputazione: number, data: Date): number {
-    const differenzaData = data.getDate() - this.dataCorrente.getDate();
-    reputazione -= data.getDay() / differenzaData / 10;
-    return reputazione;
+    const differenzaData = data.getTime() - this.dataCorrente.getTime();
+    const days = Math.round(Math.abs(differenzaData / (1000 * 60 * 60 * 24)));
+    const repSub = Math.abs(1 / days);
+    const reputazioneAbbassata = reputazione - repSub;
+    return reputazioneAbbassata;
   }
 }

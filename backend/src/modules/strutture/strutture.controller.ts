@@ -5,8 +5,8 @@ import { StruttureService } from './strutture.service';
 export class StruttureController {
   constructor(private readonly struttureService: StruttureService) {}
 
-  @Get(':tipoVisita')
-  async getStrutture(@Param('tipoVisita') tipoVisita) {
-    return await this.struttureService.findStrutture(tipoVisita);
-  }
+  // @Get(':tipoVisita')
+  // async getStrutture(@Param('tipoVisita') tipoVisita) {
+  //   return await this.struttureService.findStrutture(tipoVisita);
+  // }
 }

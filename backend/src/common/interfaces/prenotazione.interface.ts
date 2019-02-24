@@ -1,14 +1,12 @@
 import { Document } from 'mongoose';
-import { Struttura } from './struttura.interface';
-import { Visita } from './visita.interface';
+import { IStruttura } from './struttura.interface';
+import { IVisita } from './visita.interface';
+import { ObjectId } from 'bson';
 
 export interface IPrenotazione extends Document {
-  readonly visita: Visita;
-  readonly data: Date;
-  readonly annullata: boolean;
-  readonly struttura: Struttura;
+  _id: ObjectId;
+  visita: IVisita;
+  data: Date;
+  annullata: boolean;
+  struttura: IStruttura;
 }
-
-// this.annullata = true;
-//     this .visita.cancellaRicetta(salvaRicetta);
-//     return this .annullata;

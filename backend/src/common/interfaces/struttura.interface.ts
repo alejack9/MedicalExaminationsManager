@@ -1,6 +1,8 @@
 import { Document } from 'mongoose';
+import { ObjectId } from 'bson';
 
-export interface Struttura extends Document {
+export interface IStruttura extends Document {
+  _id: ObjectId;
   nome: string;
   indirizzo: string;
   tipologia: string;

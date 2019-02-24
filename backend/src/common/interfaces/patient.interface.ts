@@ -1,9 +1,7 @@
 import { Document } from 'mongoose';
+import { ObjectId } from 'bson';
 
 export interface IPatient extends Document {
-  id: number;
-  nome: string;
-  cognome: string;
-  codiceFiscale: string;
+  _id: ObjectId;
   reputazione: number;
 }

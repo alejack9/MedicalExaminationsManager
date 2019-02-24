@@ -1,17 +1,13 @@
-import { Struttura } from './struttura';
-import { Visita } from './visita';
+import { IVisita } from '../interfaces/visita.interface';
+import { IStruttura } from '../interfaces/struttura.interface';
 
 export class Prenotazione {
-  private visita: Visita;
-  private data: Date;
-  private annullata: boolean;
-  private struttura: Struttura;
+  visita: IVisita;
+  data: Date;
+  annullata: boolean;
+  struttura: IStruttura;
 
-  public annulla(salvaRicetta: boolean): boolean {
-    this.annullata = true;
-    this.visita.cancellaRicetta(salvaRicetta);
-    return this.annullata;
-  }
+  constructor() {}
 
   public getVisita() {
     return this.visita;
