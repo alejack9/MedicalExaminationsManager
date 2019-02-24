@@ -3,7 +3,7 @@ import { DottoriService } from './dottori.service';
 import * as moment from 'moment';
 import { Types } from 'mongoose';
 import { PrenotazioniService } from './prenotazioni.service';
-import { RicetteService } from './ricette.service';
+import { RicetteService } from '../ricette/ricette.service';
 
 @Controller('prenotazioni')
 export class PrenotazioniController {

@@ -20,4 +20,10 @@ export class RicetteService {
       )
       .exec();
   }
+  async getLista(idPaziente: Types.ObjectId) {
+    const v = await this.prescriptionModel
+      .find({ paziente: idPaziente })
+      .exec();
+    return await v;
+  }
 }

@@ -1,0 +1,11 @@
+html
+  head
+    title Medical Examinations Manager
+  body
+    div
+      each ricetta in ricette
+        //- a(href=`/prenotazioni/creaPrenotazione/${val._id}`) #{val.nome} - #{val.tipiVisita[0].prezzo} €
+        a(href=`/strutture?tipoVisita=${ricetta.tipoVisita}&durataVisita=60`) #{ricetta.codiceRicetta}
+        p tipo visita : #{ricetta.tipoVisita}
+        |
+        br

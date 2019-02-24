@@ -7,8 +7,9 @@ import { DottoriService } from './dottori.service';
 import { OfficeDoctorSchema } from 'src/common/schemas/officeDoctor.schema';
 import { PrenotazioneSchema } from 'src/common/schemas/prenotazione.schema';
 import { VisitaSchema } from 'src/common/schemas/visita.schema';
-import { RicetteService } from 'src/modules/prenotazioni/ricette.service';
+import { RicetteService } from 'src/modules/ricette/ricette.service';
 import { RicettaSchema } from 'src/common/schemas/ricetta.schema';
+import { RicetteModule } from '../ricette/ricette.module';
 
 @Module({
   imports: [
@@ -19,8 +20,9 @@ import { RicettaSchema } from 'src/common/schemas/ricetta.schema';
       { name: 'Examination', schema: VisitaSchema },
       { name: 'Prescription', schema: RicettaSchema },
     ]),
+    RicetteModule,
   ],
   controllers: [PrenotazioniController],
-  providers: [PrenotazioniService, DottoriService, RicetteService],
+  providers: [PrenotazioniService, DottoriService],
 })
 export class PrenotazioniModule {}
