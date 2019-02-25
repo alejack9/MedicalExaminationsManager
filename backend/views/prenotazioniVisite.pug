@@ -1,0 +1,9 @@
+html
+  head
+    title Medical Examinations Manager
+  body
+    div
+      each prenotazioneEData in pED
+        p Tipo ricetta: #{prenotazioneEData[0]}, struttura: #{prenotazioneEData[1]}, data: #{prenotazioneEData[2]}
+        |
+        br
