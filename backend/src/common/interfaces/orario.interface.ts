@@ -1,5 +1,5 @@
 import { Document, Types } from 'mongoose';
-import { TipoVisita } from './tipoVisita.interface';
+import { TipoVisita } from './tipo-visita.interface';
 
 export interface Orario extends Document {
   inizio: Date;

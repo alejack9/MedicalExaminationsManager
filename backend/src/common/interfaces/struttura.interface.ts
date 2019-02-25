@@ -1,5 +1,5 @@
 import { Document } from 'mongoose';
-import { TipoVisita } from './tipoVisita.interface';
+import { TipoVisita } from './tipo-visita.interface';
 
 export interface Struttura extends Document {
   nome: string;

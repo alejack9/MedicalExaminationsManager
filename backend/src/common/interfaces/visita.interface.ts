@@ -1,6 +1,13 @@
 import { Document } from 'mongoose';
-import { Struttura } from './struttura.interface';
+import { Referto } from './referto.interface';
+import { Ricetta } from './ricetta.interface';
+import { OfficeDoctor } from './office-doctor.interface';
 
 export interface Visita extends Document {
-  // TODO
+  pagata: boolean;
+  referto: Referto;
+  ricetta: Ricetta;
+  medico: OfficeDoctor;
+  dataInizio: Date;
+  dataFine: Date;
 }

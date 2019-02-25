@@ -5,6 +5,6 @@ html
     div
       each docEData in docEDate
         //- a(href=`/prenotazioni/creaPrenotazione/${val._id}`) #{val.nome} - #{val.tipiVisita[0].prezzo} €
-        a(href=`/prenotazioni/creaPrenotazione/${ospedale}?paziente=5c62fadea1d30f2e24820c54&ricetta=5c62f676560e8e2e248c2ac0&data=${docEData[1].toISOString()}&medico=${docEData[0]}`) #{docEData[2]}
+        a(href=`/prenotazioni/crea/${ospedale}?paziente=${docEData[4]}&ricetta=${docEData[3]}&data=${docEData[1].toISOString()}&medico=${docEData[0]}`) #{docEData[2]}
         |
         br

@@ -4,8 +4,6 @@ html
   body
     div
       each ricetta in ricette
-        //- a(href=`/prenotazioni/creaPrenotazione/${val._id}`) #{val.nome} - #{val.tipiVisita[0].prezzo} €
-        a(href=`/strutture?tipoVisita=${ricetta.tipoVisita}&durataVisita=60`) #{ricetta.codiceRicetta}
-        p tipo visita : #{ricetta.tipoVisita}
+        a(href=`/strutture?paziente=${ricetta.paziente}&ricetta=${ricetta._id}&tipoVisita=${ricetta.tipoVisita._id}`) #{ricetta.codiceRicetta} #{ricetta.tipoVisita.nome}
         |
         br

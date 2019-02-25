@@ -1,5 +1,5 @@
 import { Schema } from 'mongoose';
-import { TipoVisitaSchema } from './tipoVisita.schema';
+import { TipoVisitaSchema } from './tipo-visita.schema';
 
 const StrutturaSchema = new Schema({
   nome: { type: Schema.Types.String, required: true },

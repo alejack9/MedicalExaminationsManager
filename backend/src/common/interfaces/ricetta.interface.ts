@@ -1,9 +1,11 @@
-import { Document, Types } from 'mongoose';
+import { Document } from 'mongoose';
+import { Patient } from './patient.interface';
+import { TipoVisita } from './tipo-visita.interface';
 
 export interface Ricetta extends Document {
   codiceRicetta: string;
-  tipoVisita: string;
-  paziente: Types.ObjectId;
+  tipoVisita: TipoVisita;
+  paziente: Patient;
   priorita: number;
   esenzione: boolean;
   utilizzabile: boolean;

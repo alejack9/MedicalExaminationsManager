@@ -4,7 +4,10 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PrenotazioniModule } from './modules/prenotazioni/prenotazioni.module';
 import { StruttureModule } from './modules/strutture/strutture.module';
-import { RicetteModule } from './modules/ricette/ricette.module';
+import { RicettaModule } from './modules/ricetta/ricetta.module';
+import { VisitaModule } from './modules/visita/visita.module';
+import { PatientModule } from './modules/patient/patient.module';
+
 @Module({
   imports: [
     MongooseModule.forRoot(process.env.DB, {
@@ -12,7 +15,9 @@ import { RicetteModule } from './modules/ricette/ricette.module';
     }),
     PrenotazioniModule,
     StruttureModule,
-    RicetteModule,
+    RicettaModule,
+    VisitaModule,
+    PatientModule,
   ],
   controllers: [AppController],
   providers: [AppService],

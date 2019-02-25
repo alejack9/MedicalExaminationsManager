@@ -1,5 +1,6 @@
 import { Controller, Get, Render, Query } from '@nestjs/common';
 import { StruttureService } from './strutture.service';
+import { Types } from 'mongoose';
 
 @Controller('strutture')
 export class StruttureController {
@@ -7,15 +8,19 @@ export class StruttureController {
   @Get()
   @Render('strutture')
   async getStrutture(
-    @Query('tipoVisita') pTipoVisita: string,
-    @Query('durataVisita') durataVisita: any,
+    @Query('tipoVisita') tipoVisita: string,
+    @Query('paziente') paziente: any,
+    @Query('ricetta') ricetta: any,
   ) {
-    durataVisita = Number.parseInt(durataVisita, 10);
+    const strutture = await this.struttureService.findStrutture(
+      Types.ObjectId(tipoVisita),
+    );
     return {
-      strutture: await this.struttureService.findStrutture(pTipoVisita),
+      strutture,
       dettagli: {
-        tipoVisita: pTipoVisita,
-        durataVisita,
+        tipoVisita,
+        paziente,
+        ricetta,
       },
     };
   }

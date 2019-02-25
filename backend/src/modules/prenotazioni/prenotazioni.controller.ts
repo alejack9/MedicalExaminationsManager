@@ -1,34 +1,43 @@
-import { Controller, Get, Body, Render, Param, Query } from '@nestjs/common';
+import { Controller, Get, Render, Param, Query } from '@nestjs/common';
 import { DottoriService } from './dottori.service';
 import * as moment from 'moment';
 import { Types } from 'mongoose';
 import { PrenotazioniService } from './prenotazioni.service';
-import { RicetteService } from '../ricette/ricette.service';
+import { RicettaService } from '../ricetta/ricetta.service';
+import { ObjectId } from 'bson';
+import { TipoVisitaService } from './tipoVisita.service';
 
 @Controller('prenotazioni')
 export class PrenotazioniController {
   constructor(
     private readonly dottoriService: DottoriService,
     private readonly prenotazioniService: PrenotazioniService,
-    private readonly ricetteService: RicetteService,
+    private readonly ricettaService: RicettaService,
+    private readonly tipoVisitaService: TipoVisitaService,
   ) {}
 
   @Get('prenota/:id')
   @Render('date')
   async prenota(
-    @Query('tipoVisita') tipoVisita: string,
-    @Query('durataVisita') durataVisita: any,
     @Param('id') hospitalId: string,
+    @Query('paziente') paziente: string,
+    @Query('ricetta') ricetta: string,
+    @Query('tipoVisita') tipoVisita: string,
   ) {
-    durataVisita = Number.parseInt(durataVisita, 10);
+    const tipoVisitaObj = await this.tipoVisitaService.getTipoVisita(
+      Types.ObjectId(tipoVisita),
+    );
+    console.log(tipoVisitaObj);
     const toReturn = new Array<{ data: Date; dottore: Types.ObjectId }>();
     let data = moment(Date.now()).add(1, 'day');
     while (toReturn.length < 7) {
       const docs = await this.dottoriService.getDottori(
         hospitalId,
-        tipoVisita,
+        Types.ObjectId(tipoVisita),
         data,
       );
+      console.log(data);
+      console.log(docs);
       for (const doc of docs) {
         for (const orario of doc.orari.filter(
           o =>
@@ -41,23 +50,28 @@ export class PrenotazioniController {
           );
           // 8 = minuti che intercorrono tra 2 visite consecutive per far contenta buru (doveva essere 10)
           const visiteEffettuabili = Math.floor(
-            minutesOfWork / (8 + durataVisita),
+            minutesOfWork / (8 + tipoVisitaObj.minutiVisita),
           );
           const prenotazioni = await this.dottoriService.getPrenotazioni(
             doc._id,
             orario.inizio,
             orario.fine,
           );
+          console.log(prenotazioni);
           if (prenotazioni.length < visiteEffettuabili) {
             toReturn.push({
               data: data
                 .startOf('day')
                 .add(orario.inizio.getHours(), 'hours')
                 .add(orario.inizio.getMinutes(), 'minutes')
-                .add(prenotazioni.length * durataVisita, 'minutes')
+                .add(
+                  prenotazioni.length * tipoVisitaObj.minutiVisita,
+                  'minutes',
+                )
                 .toDate(),
               dottore: doc._id,
             });
+            toReturn.forEach(console.log);
           }
         }
       }
@@ -69,12 +83,14 @@ export class PrenotazioniController {
         d.dottore,
         d.data,
         moment(d.data).format('DD/MM/YYYY HH:mm'),
+        ricetta,
+        paziente,
       ]),
     };
   }
 
-  @Get('creaPrenotazione/:id')
-  async sendHelp(
+  @Get('crea/:id')
+  async creaPrenotazione(
     @Param('id') hospitalId: string,
     @Query('ricetta') ricettaId: string,
     @Query('data') data: string,
@@ -86,8 +102,13 @@ export class PrenotazioniController {
       new Date(data),
       Types.ObjectId(medicoId),
     );
-    this.ricetteService.disabilitaRicetta(Types.ObjectId(ricettaId));
+    this.ricettaService.disabilitaRicetta(Types.ObjectId(ricettaId));
     return toReturn;
+  }
+
+  @Get('cancella/:id')
+  cancelReservation(@Param('id') id: string) {
+    this.prenotazioniService.cancelBooking(new ObjectId(id));
   }
 
   @Get('getPrenotazioni/:idPaziente')

@@ -3,13 +3,19 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { PrenotazioniService } from './prenotazioni.service';
 import { PrenotazioniController } from './prenotazioni.controller';
 import { StrutturaSchema } from '../../common/schemas/struttura.schema';
-import { DottoriService } from './dottori.service';
-import { OfficeDoctorSchema } from 'src/common/schemas/officeDoctor.schema';
+import { OfficeDoctorSchema } from 'src/common/schemas/office-doctor.schema';
 import { PrenotazioneSchema } from 'src/common/schemas/prenotazione.schema';
 import { VisitaSchema } from 'src/common/schemas/visita.schema';
-import { RicetteService } from 'src/modules/ricette/ricette.service';
+import { RicettaModule } from '../ricetta/ricetta.module';
+import { DottoriService } from './dottori.service';
+import { PatientModule } from '../patient/patient.module';
+import { PatientService } from '../patient/patient.service';
+import { RicettaService } from '../ricetta/ricetta.service';
 import { RicettaSchema } from 'src/common/schemas/ricetta.schema';
-import { RicetteModule } from '../ricette/ricette.module';
+import { NotificatorService } from '../notificator/notificator.service';
+import { NotificatorModule } from '../notificator/notificator.module';
+import { VisitaService } from '../visita/visita.service';
+import { TipoVisitaService } from './tipoVisita.service';
 
 @Module({
   imports: [
@@ -20,9 +26,19 @@ import { RicetteModule } from '../ricette/ricette.module';
       { name: 'Examination', schema: VisitaSchema },
       { name: 'Prescription', schema: RicettaSchema },
     ]),
-    RicetteModule,
+    RicettaModule,
+    PatientModule,
+    NotificatorModule,
   ],
   controllers: [PrenotazioniController],
-  providers: [PrenotazioniService, DottoriService],
+  providers: [
+    DottoriService,
+    NotificatorService,
+    PatientService,
+    PrenotazioniService,
+    RicettaService,
+    VisitaService,
+    TipoVisitaService,
+  ],
 })
 export class PrenotazioniModule {}

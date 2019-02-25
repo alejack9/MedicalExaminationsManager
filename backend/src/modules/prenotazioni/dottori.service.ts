@@ -1,15 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, Schema, Types } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { OfficeDoctor } from 'src/common/interfaces/office-doctor.interface';
-import { Struttura } from 'src/common/interfaces/struttura.interface';
 import { Prenotazione } from 'src/common/interfaces/prenotazione.interface';
 import { Moment } from 'moment';
+import { ObjectID } from 'bson';
 
 @Injectable()
 export class DottoriService {
   constructor(
-    @InjectModel('Structure') private readonly struttureModel: Model<Struttura>,
     @InjectModel('Office-Doctor')
     private readonly officeDoctorModel: Model<OfficeDoctor>,
     @InjectModel('Reservation')
@@ -17,26 +16,28 @@ export class DottoriService {
   ) {}
   async getDottori(
     idStruttura: string,
-    tipoVisita: string,
+    tipoVisita: ObjectID,
     data: Moment,
   ): Promise<[OfficeDoctor]> {
     const giornoSettimana = data.weekday();
     const query = [
       {
         $match: {
-          'orari.struttura': new Types.ObjectId(idStruttura),
-          'orari.tipo.nome': tipoVisita,
+          'orari.struttura': Types.ObjectId(idStruttura),
+          'orari.tipo': tipoVisita,
           'orari.indiceGiornoSettimana': giornoSettimana,
         },
       },
       {
         $unwind: {
           path: '$assenze',
+          preserveNullAndEmptyArrays: true,
         },
       },
       {
         $unwind: {
           path: '$assenze.intervallo',
+          preserveNullAndEmptyArrays: true,
         },
       },
       {
@@ -44,7 +45,7 @@ export class DottoriService {
           $or: [
             {
               'assenze.struttura': {
-                $ne: new Types.ObjectId(idStruttura),
+                $ne: Types.ObjectId(idStruttura),
               },
             },
             {
