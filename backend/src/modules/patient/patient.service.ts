@@ -31,9 +31,16 @@ export class PatientService {
   }
 
   public calcolaReputazione(reputazione: number, data: Date): number {
-    const differenzaData = data.getTime() - this.dataCorrente.getTime();
-    const days = Math.round(Math.abs(differenzaData / (1000 * 60 * 60 * 24)));
-    const repSub = Math.abs(1 / days);
+    const differenzaData = Math.abs(
+      data.getTime() - this.dataCorrente.getTime(),
+    );
+    const days = Math.ceil(differenzaData / (1000 * 3600 * 24));
+    let repSub;
+    if (days === 0) {
+      repSub = 1;
+    } else {
+      repSub = 1 / days;
+    }
     const reputazioneAbbassata = reputazione - repSub;
     return reputazioneAbbassata;
   }
