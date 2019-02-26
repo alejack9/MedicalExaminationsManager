@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { VisitaService } from './visita.service';
-import { VisitaController } from './visita.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { PrenotazioneSchema } from 'src/common/schemas/prenotazione.schema';
 import { RicettaModule } from '../ricetta/ricetta.module';
@@ -15,6 +14,6 @@ import { VisitaSchema } from 'src/common/schemas/visita.schema';
     RicettaModule,
   ],
   providers: [VisitaService],
-  controllers: [VisitaController],
+  controllers: [],
 })
 export class VisitaModule {}
