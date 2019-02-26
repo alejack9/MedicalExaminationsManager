@@ -4,7 +4,6 @@ import * as moment from 'moment';
 import { Types } from 'mongoose';
 import { PrenotazioniService } from './prenotazioni.service';
 import { RicettaService } from '../ricetta/ricetta.service';
-import { ObjectId } from 'bson';
 import { TipoVisitaService } from './tipoVisita.service';
 
 @Controller('prenotazioni')
@@ -98,16 +97,29 @@ export class PrenotazioniController {
   }
 
   @Get('cancella/:id')
-  cancelReservation(@Param('id') id: string) {
-    this.prenotazioniService.cancelBooking(new ObjectId(id));
+  @Render('redirecter')
+  cancelReservation(
+    @Param('id') id: string,
+    @Query('idPaziente') patientId: string,
+  ) {
+    this.prenotazioniService.cancelBooking(Types.ObjectId(id));
+    return {
+      patientId,
+    };
   }
 
-  @Get('getPrenotazioni/:idPaziente')
+  @Get('get/:idPaziente')
   @Render('prenotazioniVisite')
   async getPrenotazioniPaziente(
     @Param('idPaziente') patientId: string,
-    @Query('dataInizio') dataInizio: string,
-    @Query('dataFine') dataFine: string,
+    @Query('dataInizio')
+    dataInizio: string = moment(Date.now())
+      .startOf('year')
+      .toISOString(),
+    @Query('dataFine')
+    dataFine: string = moment(Date.now())
+      .endOf('year')
+      .toISOString(),
   ) {
     const p = await this.prenotazioniService.getPrenotazioniPaziente(
       patientId,
@@ -116,11 +128,16 @@ export class PrenotazioniController {
     );
 
     return {
-      pED: p.map(v => [
-        v.ricetta.tipoVisita,
-        v.struttura.nome,
-        moment(v.visita.dataInizio).format('DD/MM/YYYY HH:mm'),
-      ]),
+      pED: p.map(
+        v => [
+          v.ricetta.tipoVisita.nome,
+          v.struttura.nome,
+          moment(v.visita.dataInizio).format('DD/MM/YYYY HH:mm'),
+          v._id,
+          v.referto ? v._id : undefined,
+        ],
+        patientId,
+      ),
     };
   }
 }

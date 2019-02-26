@@ -6,7 +6,7 @@ import { Types } from 'mongoose';
 export class RicettaController {
   constructor(private readonly ricettaService: RicettaService) {}
 
-  @Get('listaRicette/:idPaziente')
+  @Get(':idPaziente')
   @Render('ricette')
   async getLista(@Param('idPaziente') idPaziente: string) {
     const r = await this.ricettaService.getLista(

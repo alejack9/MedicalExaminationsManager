@@ -54,8 +54,8 @@ export class PrenotazioniService {
     patientID: string,
     dataIniziop: Date,
     dataFinep: Date,
-  ): Promise<[any]> {
-    const p = this.reservationModel
+  ) {
+    return await this.reservationModel
       .aggregate([
         {
           $lookup: {
@@ -114,9 +114,21 @@ export class PrenotazioniService {
             },
           },
         },
+        {
+          $lookup: {
+            from: 'reservation-types',
+            localField: 'ricetta.tipoVisita',
+            foreignField: '_id',
+            as: 'ricetta.tipoVisita',
+          },
+        },
+        {
+          $unwind: {
+            path: '$ricetta.tipoVisita',
+          },
+        },
       ])
       .exec();
-    return await p;
   }
   async cancelBooking(prenotazioneId: ObjectId) {
     const pren = (await this.reservationModel

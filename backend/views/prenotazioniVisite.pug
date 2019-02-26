@@ -4,6 +4,19 @@ html
   body
     div
       each prenotazioneEData in pED
-        p Tipo ricetta: #{prenotazioneEData[0].nome}, struttura: #{prenotazioneEData[1]}, data: #{prenotazioneEData[2]}
+        p Tipo ricetta: #{prenotazioneEData[0]}, struttura: #{prenotazioneEData[1]}, data: #{prenotazioneEData[2]}        
+          input(
+            type="button"
+            onclick=` if (confirm("Confermi di voler ANNULLARE la prenotazione?\\n(La ricetta NON SARA\` PIU\` UTILIZZABILE)")) location.href='/prenotazioni/cancella/${prenotazioneEData[3]}?idPaziente=${patientId}';`
+            value="Annulla Prenotazione"
+          )        
+          if prenotazioneEData[4]
+            input(
+              type="button"
+              onclick=`location.href='/referto/visuallizza/${prenotazioneEData[4]}'`
+              value="Visualizza Referto"
+            )
         |
         br
+    unless pED.length
+      h3 Nessuna Prenotazione o Visita Effettuata.

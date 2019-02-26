@@ -1,0 +1,10 @@
+html
+  head
+    title Medical Examinations Manager
+  body
+    div
+      h2 Stai per essere rindirizzato alla lista delle prenotazioni.
+      h4
+        a(href=`/prenotazioni/get/${patientId}`) (se non vieni reinderizzato entro 5 secondi, clicca qui)
+    script(type="text/javascript").
+      setTimeout(() => location.href=`/prenotazioni/get/${patientId}`, 3500);
