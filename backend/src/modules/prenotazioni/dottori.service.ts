@@ -82,6 +82,10 @@ export class DottoriService {
       },
       {
         $project: {
+          _id: 1,
+          nome: 1,
+          cognome: 1,
+          orari: 1,
           valido: {
             $allElementsTrue: ['$valido'],
           },
@@ -127,9 +131,7 @@ export class DottoriService {
         },
       },
     ];
-    const toReturn = await this.officeDoctorModel.aggregate(query).exec();
-    console.log(toReturn);
-    return toReturn;
+    return await this.officeDoctorModel.aggregate(query).exec();
   }
   async getPrenotazioni(
     idDottore: Types.ObjectId,

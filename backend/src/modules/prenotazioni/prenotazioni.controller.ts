@@ -63,7 +63,6 @@ export class PrenotazioniController {
                 .toDate(),
               dottore: doc._id,
             });
-            toReturn.forEach(console.log);
           }
         }
       }
