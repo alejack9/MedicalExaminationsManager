@@ -3,8 +3,13 @@ html
     title Medical Examinations Manager
   body
     div
-      h2 Stai per essere rindirizzato alla lista delle prenotazioni.
-      h4
-        a(href=`/prenotazioni/get/${patientId}`) (se non vieni reinderizzato entro 5 secondi, clicca qui)
-    script(type="text/javascript").
-      setTimeout(() => location.href=`/prenotazioni/get/${patientId}`, 3500);
+      if error
+        h1 #{error}
+        a(href=`/prenotazioni/get/${patientId}`) Torna alla lista delle prenotazioni e delle visite.
+      else
+        h1 Prenotazione cancellata correttamente
+        h2 Stai per essere rindirizzato alla lista delle prenotazioni e delle visite.
+        h3
+          a(href=`/prenotazioni/get/${patientId}`) (se non vieni reinderizzato entro 5 secondi, clicca qui)
+        script(type="text/javascript").
+          setTimeout(() => location.href=`/prenotazioni/get/${patientId}`, 5000);

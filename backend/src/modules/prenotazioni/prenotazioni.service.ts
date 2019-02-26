@@ -24,6 +24,14 @@ export class PrenotazioniService {
     private readonly patientService: PatientService,
     private readonly notificator: NotificatorService,
   ) {}
+
+  async isPaid(reservationId: Types.ObjectId): Promise<boolean> {
+    return (await this.reservationModel
+      .findById(reservationId)
+      .populate('visita')
+      .exec()).visita.pagata;
+  }
+
   async creaPrenotazione(
     ricettaId: Types.ObjectId,
     pStruttura: Types.ObjectId,

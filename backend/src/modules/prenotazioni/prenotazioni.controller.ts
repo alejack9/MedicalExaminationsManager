@@ -102,6 +102,13 @@ export class PrenotazioniController {
     @Param('id') id: string,
     @Query('idPaziente') patientId: string,
   ) {
+    if (this.prenotazioniService.isPaid(Types.ObjectId(id))) {
+      return {
+        error:
+          'La visita è già stata pagata e non può, perciò, essere annullata.',
+        patientId,
+      };
+    }
     this.prenotazioniService.cancelBooking(Types.ObjectId(id));
     return {
       patientId,
@@ -128,16 +135,14 @@ export class PrenotazioniController {
     );
 
     return {
-      pED: p.map(
-        v => [
-          v.ricetta.tipoVisita.nome,
-          v.struttura.nome,
-          moment(v.visita.dataInizio).format('DD/MM/YYYY HH:mm'),
-          v._id,
-          v.referto ? v._id : undefined,
-        ],
-        patientId,
-      ),
+      pED: p.map(v => [
+        v.ricetta.tipoVisita.nome,
+        v.struttura.nome,
+        moment(v.visita.dataInizio).format('DD/MM/YYYY HH:mm'),
+        v._id,
+        v.referto ? v._id : undefined,
+      ]),
+      patientId,
     };
   }
 }
