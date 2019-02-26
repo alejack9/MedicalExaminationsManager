@@ -41,41 +41,55 @@ export class DottoriService {
         },
       },
       {
-        $match: {
-          $or: [
-            {
-              'assenze.struttura': {
-                $ne: Types.ObjectId(idStruttura),
+        $addFields: {
+          valido: {
+            $cond: {
+              if: {
+                $or: [
+                  {
+                    $ne: ['$assenze.struttura', Types.ObjectId(idStruttura)],
+                  },
+                  {
+                    $gt: ['$assenze.intervallo.inizio', data.toDate()],
+                  },
+                  {
+                    $lt: ['$assenze.intervallo.fine', data.toDate()],
+                  },
+                ],
               },
+              then: true,
+              else: false,
             },
-            {
-              'assenze.intervallo.inizio': {
-                $gt: data.toDate(),
-              },
-            },
-            {
-              'assenze.intervallo.fine': {
-                $lt: data.toDate(),
-              },
-            },
-          ],
+          },
         },
       },
       {
         $group: {
           _id: '$_id',
           nome: {
-            $push: '$nome',
+            $max: '$nome',
           },
           cognome: {
-            $push: '$cognome',
+            $max: '$cognome',
           },
           orari: {
-            $push: '$orari',
+            $max: '$orari',
           },
-          ains: {
-            $sum: 1,
+          valido: {
+            $push: '$valido',
           },
+        },
+      },
+      {
+        $project: {
+          valido: {
+            $allElementsTrue: ['$valido'],
+          },
+        },
+      },
+      {
+        $match: {
+          valido: true,
         },
       },
       {
@@ -88,21 +102,34 @@ export class DottoriService {
       },
       {
         $unwind: {
-          path: '$nome',
-        },
-      },
-      {
-        $unwind: {
-          path: '$cognome',
-        },
-      },
-      {
-        $unwind: {
           path: '$orari',
         },
       },
+      {
+        $match: {
+          'orari.struttura': Types.ObjectId(idStruttura),
+          'orari.tipo': tipoVisita,
+          'orari.indiceGiornoSettimana': giornoSettimana,
+        },
+      },
+      {
+        $group: {
+          _id: '$_id',
+          nome: {
+            $max: '$nome',
+          },
+          cognome: {
+            $max: '$cognome',
+          },
+          orari: {
+            $push: '$orari',
+          },
+        },
+      },
     ];
-    return await this.officeDoctorModel.aggregate(query).exec();
+    const toReturn = await this.officeDoctorModel.aggregate(query).exec();
+    console.log(toReturn);
+    return toReturn;
   }
   async getPrenotazioni(
     idDottore: Types.ObjectId,

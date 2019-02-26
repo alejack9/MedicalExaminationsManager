@@ -27,7 +27,6 @@ export class PrenotazioniController {
     const tipoVisitaObj = await this.tipoVisitaService.getTipoVisita(
       Types.ObjectId(tipoVisita),
     );
-    console.log(tipoVisitaObj);
     const toReturn = new Array<{ data: Date; dottore: Types.ObjectId }>();
     let data = moment(Date.now()).add(1, 'day');
     while (toReturn.length < 7) {
@@ -36,14 +35,8 @@ export class PrenotazioniController {
         Types.ObjectId(tipoVisita),
         data,
       );
-      console.log(data);
-      console.log(docs);
       for (const doc of docs) {
-        for (const orario of doc.orari.filter(
-          o =>
-            o.struttura.equals(Types.ObjectId(hospitalId)) &&
-            o.indiceGiornoSettimana === data.weekday(),
-        )) {
+        for (const orario of doc.orari) {
           const minutesOfWork = moment(orario.fine).diff(
             moment(orario.inizio),
             'minutes',
@@ -57,7 +50,6 @@ export class PrenotazioniController {
             orario.inizio,
             orario.fine,
           );
-          console.log(prenotazioni);
           if (prenotazioni.length < visiteEffettuabili) {
             toReturn.push({
               data: data
