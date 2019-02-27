@@ -12,23 +12,28 @@ export class NotificationService {
     private readonly notificheModel: Model<Notifica>,
   ) {}
 
-  async creaNotifica(prenotazione: any, data: Date, tipo: TipoNotifica, prenotazioneAnticipata?: Types.ObjectId) {
+  async creaNotifica(
+    prenotazioneTarget: any,
+    tipo: TipoNotifica,
+    prenotazioneOfferta?: Types.ObjectId,
+  ) {
     switch (tipo) {
-      case TipoNotifica.anticipo:
+      case 'anticipo':
         return await new this.notificheModel({
-          prenotazione,
-          data,
-          prenotazioneAnticipata,
+          prenotazione: prenotazioneTarget,
+          data: Date.now(),
+          prenotazioneAnticipata: prenotazioneOfferta,
           tipo,
         }).save();
         break;
-      case TipoNotifica.assenza:
+      case 'assenza':
         throw new Error('TODO');
         break;
-      case TipoNotifica.refertoCaricato:
+      case 'refertoCaricato':
         throw new Error('TODO');
         break;
-      default: throw new Error('Tipo notifica sconosciuto');
+      default:
+        throw new Error('Tipo notifica sconosciuto');
     }
   }
 

@@ -7,7 +7,6 @@ import { RicettaService } from '../ricetta/ricetta.service';
 import { TipoVisitaService } from './tipoVisita.service';
 import { PatientService } from '../patient/patient.service';
 import { NotificationService } from '../notificator/notification.service';
-import { TipoNotifica } from 'src/common/enumerations/tipoNotifica.enumeration';
 
 @Controller('prenotazioni')
 export class PrenotazioniController {
@@ -147,14 +146,13 @@ export class PrenotazioniController {
   }
 
   private async associaPrenotazioneAnnullata(prenotazione) {
-    const daAssociare = await this.prenotazioniService.getPrenotazioneDaAssociare(
+    const daAssociare = await this.prenotazioniService.getPrenotazioneDaNotificare(
       prenotazione,
     );
     if (daAssociare) {
       this.notificationService.creaNotifica(
         daAssociare,
-        daAssociare.data,
-        TipoNotifica.anticipo,
+        'anticipo',
         prenotazione._id,
       );
     }

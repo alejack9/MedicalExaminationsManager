@@ -10,6 +10,7 @@ import { TipoNotifica } from 'src/common/enumerations/tipoNotifica.enumeration';
 import { PatientService } from '../patient/patient.service';
 import { ObjectId } from 'bson';
 import { VisitaService } from '../visita/visita.service';
+import * as moment from 'moment';
 
 @Injectable()
 export class PrenotazioniService {
@@ -191,9 +192,12 @@ export class PrenotazioniService {
     }
   }
 
-  async getPrenotazioneDaAssociare(prenotazione: any) {
+  async getPrenotazioneDaNotificare(prenotazione: any) {
     let listaPrenotazioni = await this.getListaPrenotazioni(
-      new Date(prenotazione.data.getTime() + 1000 * 60 * 60 * 48),
+      moment(prenotazione.visita.dataInizio)
+        .startOf('day')
+        .add(2, 'days')
+        .toDate(),
       prenotazione,
     );
 
@@ -246,69 +250,63 @@ export class PrenotazioniService {
   }
 
   // restituisce un array di prenotazioni dello stesso tipo di visita, nella stessa struttura,
-  // la cui data è maggiore o uguale alla data della prenotazione annullata incrementata di due giorni
+  // la cui data è maggiore o uguale alla data della visita annullata incrementata di due giorni
   async getListaPrenotazioni(data: Date, prenotazione: any) {
-    const toReturn = new Array();
+    const query = [
+      {
+        $lookup: {
+          from: 'examinations',
+          localField: 'visita',
+          foreignField: '_id',
+          as: 'visita',
+        },
+      },
+      {
+        $unwind: {
+          path: '$visita',
+        },
+      },
+      {
+        $lookup: {
+          from: 'prescriptions',
+          localField: 'visita.ricetta',
+          foreignField: '_id',
+          as: 'visita.ricetta',
+        },
+      },
+      {
+        $unwind: {
+          path: '$visita.ricetta',
+        },
+      },
+      {
+        $match: {
+          "struttura": prenotazione.struttura,
+          'visita.ricetta.tipoVisita': prenotazione.visita.ricetta.tipoVisita,
+        },
+      },
+      {
+        $match: {
+          'visita.dataInizio': {
+            $gte: data,
+          },
+        },
+      },
+      {
+        $lookup: {
+          from: 'patients',
+          localField: 'visita.ricetta.paziente',
+          foreignField: '_id',
+          as: 'visita.ricetta.paziente',
+        },
+      },
+      {
+        $unwind: {
+          path: '$visita.ricetta.paziente',
+        },
+      },
+    ];
 
-    const prenotazioni = await this.reservationModel
-      .aggregate([
-        {
-          $lookup: {
-            from: 'examinations',
-            localField: 'visita',
-            foreignField: '_id',
-            as: 'visita',
-          },
-        },
-        {
-          $unwind: {
-            path: '$visita',
-          },
-        },
-        {
-          $lookup: {
-            from: 'prescriptions',
-            localField: 'visita.ricetta',
-            foreignField: '_id',
-            as: 'visita.ricetta',
-          },
-        },
-        {
-          $unwind: {
-            path: '$visita.ricetta',
-          },
-        },
-        {
-          $lookup: {
-            from: 'patients',
-            localField: 'visita.ricetta.paziente',
-            foreignField: '_id',
-            as: 'visita.ricetta.paziente',
-          },
-        },
-        {
-          $unwind: {
-            path: '$visita.ricetta.paziente',
-          },
-        },
-      ])
-      .exec();
-
-    prenotazioni.forEach(element => {
-      if (
-        element.visita.ricetta.tipoVisita.equals(
-          prenotazione.visita.ricetta.tipoVisita,
-        ) &&
-        !element._id.equals(prenotazione._id)
-      ) {
-        if (element.struttura.equals(prenotazione.struttura)) {
-          if (element.data >= data) {
-            toReturn.push(element);
-          }
-        }
-      }
-    });
-
-    return toReturn;
+    return await this.reservationModel.aggregate(query).exec();
   }
 }

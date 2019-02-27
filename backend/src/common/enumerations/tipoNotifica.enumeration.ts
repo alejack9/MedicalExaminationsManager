@@ -1,5 +1,12 @@
-export enum TipoNotifica {
-  anticipo,
-  assenza,
-  refertoCaricato,
-}
+export type TipoNotifica =
+  | 'anticipo'
+  | 'assenza'
+  | 'refertoCaricato'
+  | 'ricetta';
+
+export const tipiNotifica = [
+  'anticipo',
+  'assenza',
+  'refertoCaricato',
+  'ricetta',
+];

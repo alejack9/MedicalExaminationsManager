@@ -1,5 +1,5 @@
 import { Schema } from 'mongoose';
-import { TipoNotifica } from '../enumerations/tipoNotifica.enumeration';
+import { tipiNotifica } from '../enumerations/tipoNotifica.enumeration';
 
 export const NotificaSchema = new Schema({
   prenotazione: {
@@ -8,7 +8,7 @@ export const NotificaSchema = new Schema({
     required: true,
   },
   letta: { type: Schema.Types.Boolean, default: false, required: true },
-  tipo: { type: TipoNotifica, required: true},
+  tipo: { type: Schema.Types.String, enum: tipiNotifica, required: true },
   prenotazioneAnticipata: {
     type: Schema.Types.ObjectId,
     ref: 'Reservation',
