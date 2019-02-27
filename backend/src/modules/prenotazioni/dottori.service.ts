@@ -5,14 +5,17 @@ import { OfficeDoctor } from 'src/common/interfaces/office-doctor.interface';
 import { Prenotazione } from 'src/common/interfaces/prenotazione.interface';
 import { Moment } from 'moment';
 import { ObjectID } from 'bson';
+import { Visita } from 'src/common/interfaces/visita.interface';
 
 @Injectable()
 export class DottoriService {
   constructor(
     @InjectModel('Office-Doctor')
     private readonly officeDoctorModel: Model<OfficeDoctor>,
-    @InjectModel('Reservation')
-    private readonly prenotazioneModel: Model<Prenotazione>,
+    // @InjectModel('Reservation')
+    // private readonly prenotazioneModel: Model<Prenotazione>,
+    @InjectModel('Examination')
+    private readonly examinationModel: Model<Visita>,
   ) {}
   async getDottori(
     idStruttura: string,
@@ -145,15 +148,11 @@ export class DottoriService {
             $gte: inizio,
             $lt: fine,
           },
-        },
-      },
-      {
-        $match: {
           medico: idDottore,
         },
       },
     ];
 
-    return await this.prenotazioneModel.aggregate(query).exec();
+    return await this.examinationModel.aggregate(query).exec();
   }
 }

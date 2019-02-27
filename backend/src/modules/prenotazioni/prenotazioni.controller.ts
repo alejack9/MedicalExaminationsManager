@@ -11,6 +11,8 @@ import { TipoNotifica } from 'src/common/enumerations/tipoNotifica.enumeration';
 
 @Controller('prenotazioni')
 export class PrenotazioniController {
+  // 8 = minuti che intercorrono tra 2 visite consecutive per far contenta buru (doveva essere 10)
+  private readonly MINUTI_TRA_VISITE = 8;
   constructor(
     private readonly dottoriService: DottoriService,
     private readonly prenotazioniService: PrenotazioniService,
@@ -41,18 +43,22 @@ export class PrenotazioniController {
       );
       for (const doc of docs) {
         for (const orario of doc.orari) {
-          const minutesOfWork = moment(orario.fine).diff(
-            moment(orario.inizio),
-            'minutes',
-          );
-          // 8 = minuti che intercorrono tra 2 visite consecutive per far contenta buru (doveva essere 10)
-          const visiteEffettuabili = Math.floor(
-            minutesOfWork / (8 + tipoVisitaObj.minutiVisita),
+          const visiteEffettuabili = await this.calcolaMaxVisiteEffettuabili(
+            orario,
+            tipoVisitaObj,
           );
           const prenotazioni = await this.dottoriService.getPrenotazioni(
             doc._id,
-            orario.inizio,
-            orario.fine,
+            data
+              .startOf('day')
+              .add(orario.inizio.getHours(), 'hours')
+              .add(orario.inizio.getMinutes(), 'minutes')
+              .toDate(),
+            data
+              .startOf('day')
+              .add(orario.fine.getHours(), 'hours')
+              .add(orario.fine.getMinutes(), 'minutes')
+              .toDate(),
           );
           if (prenotazioni.length < visiteEffettuabili) {
             toReturn.push({
@@ -61,7 +67,8 @@ export class PrenotazioniController {
                 .add(orario.inizio.getHours(), 'hours')
                 .add(orario.inizio.getMinutes(), 'minutes')
                 .add(
-                  prenotazioni.length * tipoVisitaObj.minutiVisita,
+                  prenotazioni.length *
+                    (this.MINUTI_TRA_VISITE + tipoVisitaObj.minutiVisita),
                   'minutes',
                 )
                 .toDate(),
@@ -82,6 +89,16 @@ export class PrenotazioniController {
         paziente,
       ]),
     };
+  }
+
+  async calcolaMaxVisiteEffettuabili(orario, tipoVisitaObj) {
+    const minutesOfWork = moment(orario.fine).diff(
+      moment(orario.inizio),
+      'minutes',
+    );
+    return Math.floor(
+      minutesOfWork / (this.MINUTI_TRA_VISITE + tipoVisitaObj.minutiVisita),
+    );
   }
 
   @Get('crea/:id')
@@ -107,7 +124,9 @@ export class PrenotazioniController {
     @Param('idPrenotazione') idPrenotazione: string,
     @Query('idPaziente') patientId: string,
   ) {
-    const prenotazione = await this.prenotazioniService.getPrenotazione(Types.ObjectId(idPrenotazione));
+    const prenotazione = await this.prenotazioniService.getPrenotazione(
+      Types.ObjectId(idPrenotazione),
+    );
     if (prenotazione.visita.pagata) {
       return {
         error:
@@ -128,7 +147,9 @@ export class PrenotazioniController {
   }
 
   private async associaPrenotazioneAnnullata(prenotazione) {
-    const daAssociare = await this.prenotazioniService.getPrenotazioneDaAssociare(prenotazione);
+    const daAssociare = await this.prenotazioniService.getPrenotazioneDaAssociare(
+      prenotazione,
+    );
     if (daAssociare) {
       this.notificationService.creaNotifica(
         daAssociare,
