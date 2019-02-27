@@ -5,7 +5,7 @@ import { Visita } from 'src/common/interfaces/visita.interface';
 import { Prenotazione } from 'src/common/interfaces/prenotazione.interface';
 // import { Ricetta } from 'src/common/interfaces/ricetta.interface';
 import { _ } from 'underscore';
-import { NotificatorService } from '../notificator/notificator.service';
+import { NotificationService } from '../notificator/notification.service';
 import { TipoNotifica } from 'src/common/enumerations/tipoNotifica.enumeration';
 import { PatientService } from '../patient/patient.service';
 import { ObjectId } from 'bson';
@@ -18,12 +18,19 @@ export class PrenotazioniService {
     private readonly examinationModel: Model<Visita>,
     @InjectModel('Reservation')
     private readonly reservationModel: Model<Prenotazione>,
-    // @InjectModel('Prescription')
-    // private readonly prescriptionModel: Model<Ricetta>,
     private readonly visitaService: VisitaService,
     private readonly patientService: PatientService,
-    private readonly notificator: NotificatorService,
+    private readonly notificator: NotificationService,
   ) {}
+
+  async getPrenotazione(id: Types.ObjectId) {
+    return await this.reservationModel.findById(id)
+      .populate({
+        path: 'visita',
+        populate: { path: 'ricetta' },
+      })
+      .exec();
+  }
 
   async isPaid(reservationId: Types.ObjectId): Promise<boolean> {
     return (await this.reservationModel
@@ -138,8 +145,8 @@ export class PrenotazioniService {
       ])
       .exec();
   }
-  async cancelBooking(prenotazioneId: ObjectId) {
-    const pren = (await this.reservationModel
+  async annullaPrenotazione(prenotazioneId: ObjectId) {
+    const prenotazione = (await this.reservationModel
       .aggregate([
         {
           $match: {
@@ -169,18 +176,16 @@ export class PrenotazioniService {
         },
       ])
       .exec())[0];
-    if (!pren.visita.pagata) {
-      this.visitaService.annulla(pren, false);
-      this.patientService.abbassaReputazione(
-        pren.visita.ricetta.paziente,
-        pren.data,
-      );
-
-      this.associaPrenotazione(pren);
+    if (!prenotazione.visita.pagata) {
+      await this.reservationModel
+      .findOneAndUpdate({ _id: prenotazione._id }, { annullata: true })
+      .exec();
+      
+      this.visitaService.annulla(prenotazione.visita, false);
     }
   }
 
-  async associaPrenotazione(prenotazione: any) {
+  async getPrenotazioneDaAssociare(prenotazione: any) {
     let listaPrenotazioni = await this.getListaPrenotazioni(
       new Date(prenotazione.data.getTime() + 1000 * 60 * 60 * 48),
       prenotazione,
@@ -199,11 +204,7 @@ export class PrenotazioniService {
       }
     }
 
-    this.notificator.creaNotifica(
-      listaPrenotazioni[0],
-      listaPrenotazioni[0].data,
-      TipoNotifica.anticipo,
-    );
+    return listaPrenotazioni[0];
   }
 
   // la funzione restituisce un array di prenotazioni con la massima priorità
@@ -241,9 +242,9 @@ export class PrenotazioniService {
   // restituisce un array di prenotazioni dello stesso tipo di visita, nella stessa struttura,
   // la cui data è maggiore o uguale alla data della prenotazione annullata incrementata di due giorni
   async getListaPrenotazioni(data: Date, prenotazione: any) {
-    const prenotazioni = new Array();
+    const toReturn = new Array();
 
-    const pren = await this.reservationModel
+    const prenotazioni = await this.reservationModel
       .aggregate([
         {
           $lookup: {
@@ -287,7 +288,7 @@ export class PrenotazioniService {
       ])
       .exec();
 
-    pren.forEach(element => {
+    prenotazioni.forEach(element => {
       if (
         element.visita.ricetta.tipoVisita.equals(
           prenotazione.visita.ricetta.tipoVisita,
@@ -296,12 +297,12 @@ export class PrenotazioniService {
       ) {
         if (element.struttura.equals(prenotazione.struttura)) {
           if (element.data >= data) {
-            prenotazioni.push(element);
+            toReturn.push(element);
           }
         }
       }
     });
 
-    return prenotazioni;
+    return toReturn;
   }
 }

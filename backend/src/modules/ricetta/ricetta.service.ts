@@ -11,8 +11,9 @@ export class RicettaService {
     private readonly ricettaModel: Model<Ricetta>,
   ) {}
 
-  async eliminaRicetta(ricettaId: ObjectId) {
+  async eliminaRicetta(ricettaId: ObjectId): Promise<null> {
     await this.ricettaModel.findOneAndDelete({ _id: ricettaId }).exec();
+    return null;
   }
 
   async trovaRicetta(ricettaId: ObjectId) {

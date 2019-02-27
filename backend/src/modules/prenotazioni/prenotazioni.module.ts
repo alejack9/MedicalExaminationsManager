@@ -12,7 +12,7 @@ import { PatientModule } from '../patient/patient.module';
 import { PatientService } from '../patient/patient.service';
 import { RicettaService } from '../ricetta/ricetta.service';
 import { RicettaSchema } from 'src/common/schemas/ricetta.schema';
-import { NotificatorService } from '../notificator/notificator.service';
+import { NotificationService } from '../notificator/notification.service';
 import { NotificatorModule } from '../notificator/notificator.module';
 import { VisitaService } from '../visita/visita.service';
 import { TipoVisitaService } from './tipoVisita.service';
@@ -33,7 +33,7 @@ import { TipoVisitaService } from './tipoVisita.service';
   controllers: [PrenotazioniController],
   providers: [
     DottoriService,
-    NotificatorService,
+    NotificationService,
     PatientService,
     PrenotazioniService,
     RicettaService,

@@ -5,6 +5,9 @@ import { Types } from 'mongoose';
 import { PrenotazioniService } from './prenotazioni.service';
 import { RicettaService } from '../ricetta/ricetta.service';
 import { TipoVisitaService } from './tipoVisita.service';
+import { PatientService } from '../patient/patient.service';
+import { NotificationService } from '../notificator/notification.service';
+import { TipoNotifica } from 'src/common/enumerations/tipoNotifica.enumeration';
 
 @Controller('prenotazioni')
 export class PrenotazioniController {
@@ -13,6 +16,8 @@ export class PrenotazioniController {
     private readonly prenotazioniService: PrenotazioniService,
     private readonly ricettaService: RicettaService,
     private readonly tipoVisitaService: TipoVisitaService,
+    private readonly notificationService: NotificationService,
+    private readonly patientService: PatientService,
   ) {}
 
   @Get('prenota/:id')
@@ -96,23 +101,42 @@ export class PrenotazioniController {
     return toReturn;
   }
 
-  @Get('cancella/:id')
+  @Get('cancella/:idPrenotazione')
   @Render('redirecter')
-  cancelReservation(
-    @Param('id') id: string,
+  async cancelReservation(
+    @Param('idPrenotazione') idPrenotazione: string,
     @Query('idPaziente') patientId: string,
   ) {
-    if (this.prenotazioniService.isPaid(Types.ObjectId(id))) {
+    const prenotazione = await this.prenotazioniService.getPrenotazione(Types.ObjectId(idPrenotazione));
+    if (prenotazione.visita.pagata) {
       return {
         error:
           'La visita è già stata pagata e non può, perciò, essere annullata.',
         patientId,
       };
     }
-    this.prenotazioniService.cancelBooking(Types.ObjectId(id));
+    await this.prenotazioniService.annullaPrenotazione(prenotazione._id);
+    await this.patientService.abbassaReputazione(
+      prenotazione.visita.ricetta.paziente._id,
+      prenotazione.data,
+    );
+
+    await this.associaPrenotazioneAnnullata(prenotazione);
     return {
       patientId,
     };
+  }
+
+  private async associaPrenotazioneAnnullata(prenotazione) {
+    const daAssociare = await this.prenotazioniService.getPrenotazioneDaAssociare(prenotazione);
+    if (daAssociare) {
+      this.notificationService.creaNotifica(
+        daAssociare,
+        daAssociare.data,
+        TipoNotifica.anticipo,
+        prenotazione._id,
+      );
+    }
   }
 
   @Get('get/:idPaziente')

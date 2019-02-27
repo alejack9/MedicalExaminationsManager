@@ -15,31 +15,16 @@ export class VisitaService {
     private readonly ricettaService: RicettaService,
   ) {}
 
-  async annulla(prenotazione: any, salvaRicetta: boolean) {
-    await this.prenotazioneModel
-      .findOneAndUpdate({ _id: prenotazione._id }, { annullata: true })
-      .exec();
-
+  async annulla(visita: any, salvaRicetta: boolean) {
     await this.visitaModel
       .findOneAndUpdate(
         {
-          _id: (await this.prenotazioneModel.findById(prenotazione._id).exec())
-            .visita,
+          _id: visita._id,
         },
         { ricetta: null },
       )
       .exec();
 
-    if (!salvaRicetta) {
-      this.ricettaService.eliminaRicetta(prenotazione.visita.ricetta);
-      return null;
-    } else {
-      const ricetta = await this.ricettaService.trovaRicetta(
-        prenotazione.visita.ricetta,
-      );
-
-      this.ricettaService.eliminaRicetta(prenotazione.visita.ricetta);
-      return ricetta;
-    }
+    return salvaRicetta ? visita.ricetta : await this.ricettaService.eliminaRicetta(visita.ricetta._id);
   }
 }

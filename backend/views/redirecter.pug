@@ -8,8 +8,5 @@ html
         a(href=`/prenotazioni/get/${patientId}`) Torna alla lista delle prenotazioni e delle visite.
       else
         h1 Prenotazione cancellata correttamente
-        h2 Stai per essere rindirizzato alla lista delle prenotazioni e delle visite.
-        h3
-          a(href=`/prenotazioni/get/${patientId}`) (se non vieni reinderizzato entro 5 secondi, clicca qui)
-        script(type="text/javascript").
-          setTimeout(() => location.href=`/prenotazioni/get/${patientId}`, 5000);
+        a(href=`/prenotazioni/get/${patientId}`)
+          h2 Clicca qui per tornare alla lista delle prenotazioni e delle visite.
