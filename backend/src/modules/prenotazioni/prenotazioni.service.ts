@@ -6,7 +6,6 @@ import { Prenotazione } from 'src/common/interfaces/prenotazione.interface';
 // import { Ricetta } from 'src/common/interfaces/ricetta.interface';
 import { _ } from 'underscore';
 import { NotificationService } from '../notificator/notification.service';
-import { TipoNotifica } from 'src/common/enumerations/tipoNotifica.enumeration';
 import { PatientService } from '../patient/patient.service';
 import { ObjectId } from 'bson';
 import { VisitaService } from '../visita/visita.service';

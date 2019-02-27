@@ -37,17 +37,54 @@ export class NotificationService {
     }
   }
 
-  // TODO
   async getNotifications(idPaziente: ObjectId) {
-    this.notificheModel.aggregate([
-      {
-        $lookup: {
-          from: 'examinations',
-          localField: 'visita',
-          foreignField: '_id',
-          as: 'visita',
+    return await this.notificheModel
+      .aggregate([
+        {
+          $lookup: {
+            from: 'reservations',
+            localField: 'prenotazione',
+            foreignField: '_id',
+            as: 'prenotazione',
+          },
         },
-      },
-    ]);
+        {
+          $unwind: {
+            path: '$prenotazione',
+          },
+        },
+        {
+          $lookup: {
+            from: 'examinations',
+            localField: 'prenotazione.visita',
+            foreignField: '_id',
+            as: 'prenotazione.visita',
+          },
+        },
+        {
+          $unwind: {
+            path: '$prenotazione.visita',
+          },
+        },
+        {
+          $lookup: {
+            from: 'prescriptions',
+            localField: 'prenotazione.visita.ricetta',
+            foreignField: '_id',
+            as: 'prenotazione.visita.ricetta',
+          },
+        },
+        {
+          $unwind: {
+            path: '$prenotazione.visita.ricetta',
+          },
+        },
+        {
+          $match: {
+            'prenotazione.visita.ricetta.paziente': idPaziente,
+          },
+        },
+      ])
+      .exec();
   }
 }

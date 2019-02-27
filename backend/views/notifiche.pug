@@ -1,0 +1,28 @@
+html
+  head
+    title Medical Examinations Manager
+  body
+    div
+      ul
+        each notificaEData in notificheEDate
+          li #{notificaEData[1]} - #{notificaEData[0].tipo} - #{notificaEData[0].letta}
+          if notificaEData[0].tipo === 'anticipo'
+            input(
+                  type="button"
+                  value="Rispondi"
+                )
+          else if notificaEData[0].tipo === 'assenza'
+            input(
+                  type="button"
+                  value="Rispondi"
+                )
+          else if notificaEData[0].tipo === 'refertoCaricato'
+                input(
+                  type="button"
+                  value="Visualizza"
+                )
+          else if notificaEData[0].tipo === 'ricetta'
+                input(
+                  type="button"
+                  value="Visualizza"
+                )
