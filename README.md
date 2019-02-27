@@ -162,7 +162,7 @@ Medical Examinations Manager for Software Engineering Project
   - Incontro 10: (4/02) 14:30 - 15:45
     - Rifinitura class diagram
     - Assegnamento ruoli per implementazione casi d'uso
-      - Prenota Visita, Ottieni Lista Visite e Prenotazioni (Boccuto , Giacchè)
+      - Prenota Visita, Ottieni Lista Visite e Prenotazioni, Seleziona Ricetta (Boccuto , Giacchè)
       - Associa Prenotazione Annullata, Annulla Prenotazione (Celozzi , Cretone)
 
 ---
