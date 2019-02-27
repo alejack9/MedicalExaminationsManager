@@ -149,6 +149,7 @@ export class DottoriService {
             $lt: fine,
           },
           medico: idDottore,
+          ricetta: { $ne: null },
         },
       },
     ];

@@ -25,6 +25,8 @@ export class VisitaService {
       )
       .exec();
 
-    return salvaRicetta ? visita.ricetta : await this.ricettaService.eliminaRicetta(visita.ricetta._id);
+    return salvaRicetta
+      ? visita.ricetta
+      : await this.ricettaService.eliminaRicetta(visita.ricetta._id);
   }
 }

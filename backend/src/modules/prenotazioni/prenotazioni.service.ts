@@ -24,7 +24,8 @@ export class PrenotazioniService {
   ) {}
 
   async getPrenotazione(id: Types.ObjectId) {
-    return await this.reservationModel.findById(id)
+    return await this.reservationModel
+      .findById(id)
       .populate({
         path: 'visita',
         populate: { path: 'ricetta' },
@@ -162,6 +163,11 @@ export class PrenotazioniService {
           },
         },
         {
+          $unwind: {
+            path: '$visita',
+          },
+        },
+        {
           $lookup: {
             from: 'prescriptions',
             localField: 'visita.ricetta',
@@ -178,9 +184,9 @@ export class PrenotazioniService {
       .exec())[0];
     if (!prenotazione.visita.pagata) {
       await this.reservationModel
-      .findOneAndUpdate({ _id: prenotazione._id }, { annullata: true })
-      .exec();
-      
+        .findOneAndUpdate({ _id: prenotazione._id }, { annullata: true })
+        .exec();
+
       this.visitaService.annulla(prenotazione.visita, false);
     }
   }
