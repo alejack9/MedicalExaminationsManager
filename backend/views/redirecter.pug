@@ -1,0 +1,12 @@
+html
+  head
+    title Medical Examinations Manager
+  body
+    div
+      if error
+        h1 #{error}
+        a(href=`/prenotazioni/get/${patientId}`) Torna alla lista delle prenotazioni e delle visite.
+      else
+        h1 Prenotazione cancellata correttamente
+        a(href=`/prenotazioni/get/${patientId}`)
+          h2 Clicca qui per tornare alla lista delle prenotazioni e delle visite.

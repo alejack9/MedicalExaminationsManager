@@ -1,0 +1,10 @@
+html
+  head
+    title Medical Examinations Manager
+  body
+    div
+      each docEData in docEDate
+        //- a(href=`/prenotazioni/creaPrenotazione/${val._id}`) #{val.nome} - #{val.tipiVisita[0].prezzo} €
+        a(href=`/prenotazioni/crea/${ospedale}?paziente=${docEData[4]}&ricetta=${docEData[3]}&data=${docEData[1].toISOString()}&medico=${docEData[0]}`) #{docEData[2]}
+        |
+        br

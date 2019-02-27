@@ -1,0 +1,9 @@
+html
+  head
+    title Medical Examinations Manager
+  body
+    div
+      each val in strutture
+        a(href=`/prenotazioni/prenota/${val._id}?paziente=${dettagli.paziente}&ricetta=${dettagli.ricetta}&tipoVisita=${dettagli.tipoVisita}`) #{val.nome} - #{val.tipiVisita.prezzo} €
+        |
+        br
