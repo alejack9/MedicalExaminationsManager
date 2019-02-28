@@ -2,6 +2,18 @@ html
   head
     title Medical Examinations Manager
   body
+    form
+      table
+        tr
+          td
+            label(for="dataInizio") Inizio Intervallo: 
+            input(type="date",id="dataInizio",name="dataInizio",value=`${dataInizio}`,required)
+          td
+            label(for="dataFine") Fine Intervallo:
+            input(type="date",id="dataFine",name="dataFine",value=`${dataFine}`,required)
+        tr
+          td(style="text-align:right;",colspan=2)
+            input(type="submit")
     div
       each prenotazioneEData in pED
         p Tipo ricetta: #{prenotazioneEData[0]}, struttura: #{prenotazioneEData[1]}, data: #{prenotazioneEData[2]}        
@@ -9,7 +21,7 @@ html
             type="button"
             onclick=` if (confirm("Confermi di voler ANNULLARE la prenotazione?\\n(La ricetta NON SARA\` PIU\` UTILIZZABILE)")) location.href='/prenotazioni/cancella/${prenotazioneEData[3]}?idPaziente=${patientId}';`
             value="Annulla Prenotazione"
-          )        
+          )
           if prenotazioneEData[4]
             input(
               type="button"
